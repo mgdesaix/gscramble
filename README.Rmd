@@ -1,0 +1,23 @@
+---
+title: "gscramble"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+This is an R package under development.
+
+You can install in from GitHub:
+
+```{r, eval=FALSE}
+devtools::install_github("eriqande/gscramble", build_opts = c("--no-resave-data"))
+```
+
+Once that is installed you can read the vignettes:
+
+```{r, eval=FALSE}
+vignette("gscramble-tutorial")  # information on input data objects
+vignette("gscramble-data-in-out")  # not yet written (reading/writing to PLINK, etc.)
+```
