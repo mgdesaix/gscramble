@@ -1,0 +1,162 @@
+---
+title: "A first tutorial for `gscramble`"
+output: 
+  rmarkdown::html_vignette:
+    toc: true
+vignette: >
+  %\VignetteIndexEntry{A first tutorial for `gscramble`}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(gscramble)
+```
+
+## Input Data
+
+`gscramble` operates only for diploid species.  The main functions in `gscramble` require that genetic data
+be provided in R objects (matrices/tibbles/etc.) with particular formatting.  We describe the formats of
+those objects here.  Later we describe functions for reading data from PLINK format (and perhaps others,
+in the future) into these necessary objects for `gscramble`.
+
+The main required objects are:
+
+1. A matrix of genotype data. (`Geno`)
+2. A tibble of meta data about the individuals in the genotype data (`I_meta`)
+3. A tibble of meta data about the markers in the genotype data (`M_meta`)
+4. A tibble that describes the rates of genetic recombination along the chromosomes. (`RecRates`)
+
+On top of those, if you want to simulate hybrid individuals according to a pedigree, you might
+also need to provide
+
+5. A tibble that describes a pedigree for gene dropping chromosome chunks, which we call
+a "genome simulation pedigree" (`GSP`)
+6. A tibble that matches the population specifiers in the pedigree with those in the
+genetic data (`GP_match`)
+
+
+
+Examples of these objects from a data set of feral pigs (CITATION) are included as data objects with the 
+package. The following sections discuss each of these data inputs in detail.
+
+### Matrix of genotype data.  `Geno`
+
+The genotype data must be provided in a matrix.  If there are $N$ individuals and
+$L$ loci in the diploid species, this matrix has $N$ rows and $2L$ columns.  Each
+locus gets two adjacent columns and each individual gets one row.  So, for example,
+in the first row and first column is the allelic type of the first of two gene copies in 
+the first individual at the first locus. In the first row and second column is the second
+of two gene copies in the first individual and first locus.  In the first row and third column
+is the first gene copy at the second locus in the first individual, and so on.  
+
+Here is an example of data on the first 6 loci in the first 4 individuals from the
+package data `Geno`:
+```{r}
+Geno[1:4, 1:12]
+```
+
+These data must be stored as a **characters**.  Don't pass in a matrix of integers.
+The alleles can be any characters whatsoever.  This allows the data to be microsatellites,
+(`"112"`, `"116"`, etc), or microhaplotypes (`"ACCGA"`, `"ACCTC"`, etc.), or SNPs 
+(`"A"`, `"C"`, `"G"`, `"T"`), etc.  If you do have a matrix of integers, named, for example
+`IntMat` you can coerce all the elements of that matrix to be characters, without losing the
+matrix shape of the data, by doing this:
+```{r, eval=FALSE}
+storage.mode(IntMat) <- "character"
+```
+
+Missing genotype data must be denoted by the standard R missing data
+specifier, `NA`.  Don't go around calling missing data `"-1"` and expect
+it to work properly!  Change those `"-1"`'s to `NA`s, or they will be 
+regarded as an allelic type, rather than as missing data.
+
+
+### Individual meta data. `I_meta`
+
+This is a tibble that gives information about the individuals whose genotypes
+are in `Geno`.  This can have many different columns if you want to have them,
+but there must be at least two columns:
+
+* `group`: a column that gives the character name of the group/cluster/population
+that each individual is considered to be a part of.
+* `indiv`: a column that gives the character ID of each individual.
+
+The number of rows of this tibble should be exactly equal to the number
+of rows on `Geno` _and_ the order of individuals in `I_meta` must correspond
+exactly to the order of individuals in `Geno`.
+
+Here is what the first few rows of the example data's `I_meta` look like:
+```{r}
+head(I_meta)
+```
+
+
+### Marker meta data. `M_meta`
+
+This input is a tibble of information about the markers in the `Geno` matrix.
+It can have a variety of columns in it, but it is required to have three:
+
+* `chrom`: the character name of the chromosome upon which the marker occurs.  For example, 
+`"1"` or `"X"` of `"Omy28"`.  **Importantly**, if you are simulating physical linkage with 
+recombination, then the names of the chromosomes in this file _must_ correspond _exactly_ to
+the names of the chromosomes in `RecRates` (see next section).
+* `pos`: a numeric (integer or double) column giving the position of the marker
+(typically in base pairs, but it could be in arbitrary units that correspond to position 
+units in `RecRates`), along the chromosome. These position values must be greater than 0.
+* `variant_id`: a character vector of unique ID names for the markers.
+
+There must be exactly as many rows in `M_meta` as there are columns in `Geno` and the 
+order of markers in `M_meta` must correspond exactly to the order of markers in the columns
+in `Geno`.
+
+Here are the first few rows of the example data `M_meta`:
+```{r}
+head(M_meta)
+```
+  
+
+### Recombination rates. `RecRates`
+
+This is a tibble that gives information about the rate of recombinations
+in the genome.  This is necessary if simulating linked markers.  It is not required
+in `gscramble` to know a crossover rate nor a recombination rate between every pair
+of markers.  Rather, the rate of recombination can be specified in terms of the 
+per-meiosis probability of recombination in a number of (preferably relatively short---for
+example, 1 Mb or less) bins. `RecRates` is a tibble which is required to have four columns:
+
+* `chrom`: the chromosome on which the bin occurs. Note that the chromosome nomenclature
+must match exactly that used in `M_meta`.
+* `chrom_len`: the length of the chromosome. Yes, the value for each chromosome will typically
+be duplicated on each 
+row occupied by that `chrom`.
+* `start_pos`: the starting position of the bin.  This will typically be a position along the
+chromosome in base pairs, though this position can be in some other units, so long as it corresponds
+to the position used in `M_meta`.
+* `end_pos`: the ending position of the bin.
+* `rec_prob`: the per-meiosis probability of a recombination occurring in the bin.
+  
+
+There are some important notes:
+
+i. The start point of a bin should be 1 greater than the end point of the preceding bin.
+ii. The positions of all the markers (in `M_meta`) should be included amongst the bin
+intervals defined by `start_pos` and `end_pos`.  Most crucially in this regard, the
+smallest `start_pos` should be less than the smallest `pos` in `M_meta` and the greatest
+`end_pos` should be greater than the largest `pos` in `M_meta`. Otherwise, recombination
+might never be possible between some pairs of markers in the data set.
+iii. The chromosome length in `chrom_len` **must** exceed the position of every marker
+on the chromosome in `M_meta`.  If this is not the case
+then it would be possible that some markers would be dropped from the data set, possibly
+with unexpected or bad results.
+
+**YO ERIC!  Include something that checks chrom_len > max(position) and check it at the 
+outset of the experiment. **
+

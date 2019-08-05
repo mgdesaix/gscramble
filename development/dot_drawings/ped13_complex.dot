@@ -1,0 +1,67 @@
+digraph xxx {
+label = "  "
+ranksep = 1
+nodesep = 1
+compress = false
+"1a" [shape=invtriangle, regular=1, height=0.56, fixedsize=true, label=A, style=filled, fillcolor=lightblue];
+"2a" [shape=invtriangle, regular=1, height=0.56, fixedsize=true, label=A, style=filled, fillcolor=lightblue];
+"3a" [shape=invtriangle, regular=1, height=0.56, fixedsize=true, label=B, style=filled, fillcolor=orange];
+"4a" [shape=invtriangle, regular=1, height=0.56, fixedsize=true, label=A, style=filled, fillcolor=lightblue];
+"5a" [shape=invtriangle, regular=1, height=0.56, fixedsize=true, label=B, style=filled, fillcolor=orange];
+"6a" [shape=invtriangle, regular=1, height=0.56, fixedsize=true, label=B, style=filled, fillcolor=orange];
+"1b" [shape=invtriangle, regular=1, height=0.56, fixedsize=true, label=A, style=filled, fillcolor=lightblue];
+"2b" [shape=invtriangle, regular=1, height=0.56, fixedsize=true, label=A, style=filled, fillcolor=lightblue];
+"3b" [shape=invtriangle, regular=1, height=0.56, fixedsize=true, label=B, style=filled, fillcolor=orange];
+"4b" [shape=invtriangle, regular=1, height=0.56, fixedsize=true, label=A, style=filled, fillcolor=lightblue];
+"5b" [shape=invtriangle, regular=1, height=0.56, fixedsize=true, label=B, style=filled, fillcolor=orange];
+"6b" [shape=invtriangle, regular=1, height=0.56, fixedsize=true, label=B, style=filled, fillcolor=orange];
+"1" [shape=box, regular=1, height=0.86, fixedsize=true, label=1];
+"2" [shape=box, regular=1, height=0.86, fixedsize=true, label=2];
+"3" [shape=box, regular=1, height=0.86, fixedsize=true, label=3];
+"4" [shape=box, regular=1, height=0.86, fixedsize=true, label=4];
+"5" [shape=box, regular=1, height=0.86, fixedsize=true, label=5];
+"6" [shape=box, regular=1, height=0.86, fixedsize=true, label=6];
+"7" [shape=box, regular=1, height=0.86, fixedsize=true, label=7];
+"8" [shape=box, regular=1, height=0.86, fixedsize=true, label=8];
+"9" [shape=box, regular=1, height=0.86, fixedsize=true, label=9];
+"10" [shape=box, regular=1, height=0.86, fixedsize=true, label=10];
+"11" [shape=box, regular=1, height=0.86, fixedsize=true, label=11];
+"12" [shape=box, regular=1, height=0.86, fixedsize=true, label=12];
+"13" [shape=box, regular=1, height=0.86, fixedsize=true, label=13];
+"s7" [shape=hexagon, regular=1, height=0.86, fixedsize=true, style=filled, fillcolor=violet, label=s7];
+"s8" [shape=hexagon, regular=1, height=0.86, fixedsize=true, style=filled, fillcolor=violet, label=s8];
+"s10" [shape=hexagon, regular=1, height=0.86, fixedsize=true, style=filled, fillcolor=violet, label=s10];
+"s12" [shape=hexagon, regular=1, height=0.86, fixedsize=true, style=filled, fillcolor=violet, label=s12];
+"s13" [shape=hexagon, regular=1, height=0.86, fixedsize=true, style=filled, fillcolor=violet, label=s13];
+"1a" -> "1" [dir=none, style=solid];
+"1b" -> "1" [dir=none, style=solid];
+"2a" -> "2" [dir=none, style=solid];
+"2b" -> "2" [dir=none, style=solid];
+"3a" -> "3" [dir=none, style=solid];
+"3b" -> "3" [dir=none, style=solid];
+"4a" -> "4" [dir=none, style=solid];
+"4b" -> "4" [dir=none, style=solid];
+"5a" -> "5" [dir=none, style=solid];
+"5b" -> "5" [dir=none, style=solid];
+"6a" -> "6" [dir=none, style=solid];
+"6b" -> "6" [dir=none, style=solid];
+"2" -> "7" [dir=none, style=solid, label = " 2", fontsize=18, fontcolor=red];
+"3" -> "7" [dir=none, style=solid, label = " 2", fontsize=18, fontcolor=red];
+"4" -> "8" [dir=none, style=solid, label = " 2", fontsize=18, fontcolor=red];
+"5" -> "8" [dir=none, style=solid, label = " 2", fontsize=18, fontcolor=red];
+"1" -> "9" [dir=none, style=solid, label = " 1", fontsize=18, fontcolor=red];
+"7" -> "9" [dir=none, style=solid, label = " 1", fontsize=18, fontcolor=red];
+"7" -> "10" [dir=none, style=solid, label = " 1", fontsize=18, fontcolor=red];
+"8" -> "10" [dir=none, style=solid, label = " 1", fontsize=18, fontcolor=red];
+"8" -> "11" [dir=none, style=solid, label = " 1", fontsize=18, fontcolor=red];
+"6" -> "11" [dir=none, style=solid, label = " 1", fontsize=18, fontcolor=red];
+"9" -> "12" [dir=none, style=solid, label = " 2", fontsize=18, fontcolor=red];
+"11" -> "12" [dir=none, style=solid, label = " 2", fontsize=18, fontcolor=red];
+"1" -> "13" [dir=none, style=solid, label = " 1", fontsize=18, fontcolor=red];
+"6" -> "13" [dir=none, style=solid, label = " 1", fontsize=18, fontcolor=red];
+"7" -> "s7" [dir=none, style=solid, label = " 1", fontsize=18, fontcolor=purple];
+"8" -> "s8" [dir=none, style=solid, label = " 1", fontsize=18, fontcolor=purple];
+"10" -> "s10" [dir=none, style=solid, label = " 1", fontsize=18, fontcolor=purple];
+"12" -> "s12" [dir=none, style=solid, label = " 2", fontsize=18, fontcolor=purple];
+"13" -> "s13" [dir=none, style=solid, label = " 1", fontsize=18, fontcolor=purple];
+}
