@@ -11,7 +11,7 @@ seg_haps_through_gsp(G, M, chrom_len, pop_idx_sep = "--\%--",
 \item{G}{a genome simulation pedigree as a list, ready to go}
 
 \item{M}{map information.  Should be a tibble with start_pos end_pos
-and theta.}
+and rec_prob}
 
 \item{chrom_len}{The length of the chromosome in base pairs}
 
@@ -24,4 +24,7 @@ The main input into this is the list prepared by prep_gsp_for_hap_dropping.
 This returns a list of the same form, but with a few extra variables in there,
 the most important of which for future use will be the Samples, which are
 lists that hold the founder segments that made it into the individual.
+}
+\details{
+This is a low-level function that the user will not typically use.
 }

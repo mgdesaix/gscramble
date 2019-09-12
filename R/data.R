@@ -47,3 +47,27 @@ NULL
 #' @docType data
 #' @name RecRates
 NULL
+
+#' Tibble holding specification for a 13 member genomic permutation pedigree
+#'
+#' This is just an example.
+#'
+#' Need to document it a little more....
+#' @format A tibble
+#' @source I just made it up!
+#' @docType data
+#' @name GSP
+NULL
+
+#' Tibble holding specification for a 7 member genomic permutation pedigree.
+#'
+#' This has 4 founders, each one from a different population, and it provides
+#' four samples that are the product of F1 matings (an A x B F1 crossing with
+#' a C x D F1.)
+#'
+#' Need to document it a little more....
+#' @format A tibble
+#' @source I just made it up!
+#' @docType data
+#' @name gsp4
+NULL

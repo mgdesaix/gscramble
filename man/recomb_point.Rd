@@ -7,7 +7,7 @@
 recomb_point(M, always_one = TRUE)
 }
 \arguments{
-\item{M}{a tibble that has the columns start_pos, end_pos, and theta (where theta is the
+\item{M}{a tibble that has the columns start_pos, end_pos, and rec_prob (where rec_prob is the
 probability (or intensity) of recombinations in the interval defined by start_pos and end_pos.}
 }
 \description{

@@ -281,6 +281,8 @@ And then make the dot drawing:
 ```{sh}
 cd dot_drawings
 dot -Tpng ped13_complex.dot > ped13_complex.png
+dot -Tps ped13_complex.dot > ped13_complex.eps
+
 ```
 
 ![](dot_drawings/ped13_complex.png)

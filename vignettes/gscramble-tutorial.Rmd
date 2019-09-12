@@ -18,6 +18,7 @@ knitr::opts_chunk$set(
 
 ```{r setup}
 library(gscramble)
+library(tidyverse)
 ```
 
 ## Input Data
@@ -32,15 +33,15 @@ The main required objects are:
 1. A matrix of genotype data. (`Geno`)
 2. A tibble of meta data about the individuals in the genotype data (`I_meta`)
 3. A tibble of meta data about the markers in the genotype data (`M_meta`)
-4. A tibble that describes the rates of genetic recombination along the chromosomes. (`RecRates`)
 
 On top of those, if you want to simulate hybrid individuals according to a pedigree, you might
 also need to provide
 
+4. A tibble that describes the rates of genetic recombination along the chromosomes. (`RecRates`)
 5. A tibble that describes a pedigree for gene dropping chromosome chunks, which we call
 a "genome simulation pedigree" (`GSP`)
 6. A tibble that matches the population specifiers in the pedigree with those in the
-genetic data (`GP_match`)
+genetic data for different replicates (`RepPop`)
 
 
 
@@ -159,4 +160,163 @@ with unexpected or bad results.
 
 **YO ERIC!  Include something that checks chrom_len > max(position) and check it at the 
 outset of the experiment. **
+
+### Genome Simulation Pedigree. `GSP`
+
+The `GSP` is a specification of a pedigree down which sections of chromosome 
+will get segregated to guide the sampling without replacement of genetic material
+into  hybrid individuals for the purpose of assessing the power for identifying
+these individuals.
+
+The `GSP` must be a tibble in which each individual has a numeric identifier (from
+1 up to the number of individuals in the pedigree.) The founders' parents are listed
+as NA and non-founders have parents listed.  Founders' haplotypes must have unique IDs
+and must originate from a specified population (typically given in capital letters.) 
+Individuals can be sampled from individuals in the pedigree.  
+
+The package data object `GSP` shows an example of such a genome simulation pedigree.  It is
+a fairly complex pedigree with 13 members.  **NOTE: Eric needs to write some functions
+that operate on a GSP and verify it is valid.  Until that time, users are encouraged
+to check them visually (more on that later...)**.  The package file at:
+```{r eval=FALSE}
+system.file("extdata/ped-13-complex.csv", package = "gscramble")
+```
+holds a CSV file that gives the `GSP` tibble when read in using `readr::read_csv()`.
+
+Here is an image of the data object `GSP` drawn as a genome simulation pedigree.
+You can produce this type of plot using functions available in the 'gscramble' package,
+but it requires the installation of the GraphViz `dot` software. Working with this
+is described in a different vignette.
+
+![](images/ped13_complex-700.png)
+
+### A four-poplation GSP. `gsp4`
+
+For illustration, we will have another pedigree that represents an F1 between 
+populations A and B then mating with an F1 from populations C and D.  The tibble
+is available in the package data object `gsp4`, while the CSV file of it is
+available at:
+```{r eval=FALSE}
+system.file("extdata/gsp4.csv", package = "gscramble")
+```
+
+Here is what it looks like:
+
+![](images/gsp4-700.png)
+
+
+### Matching populations/collections to founding populations. `RepPop`
+
+When you create a genomic simulation pedigree, you will typically denote the
+populations that the founders come from with short names, like "A" or "B".  However,
+the actual populations in your genotype data set might be different.  For example,
+in our example data in this R package, we have groups of individuals given
+in `I_meta`.  Here we count up how many individuals in each of these groups/populations/clusters
+there are:
+```{r}
+I_meta %>%
+  count(group)
+```
+
+You must use a tibble with columns `rep`, `pop`, `group`, to indicate which of the founding
+populations ("A", "B", etc.) correspond to the different groups in your genotype data set.
+Because it is quite likely that you might wish to iterate the segregation procedure multiple
+times in a single simulation, you can specify that by doing multiple "reps" (replicates) of the
+procedure. 
+
+An example might help.  Suppose that we wish to do a simulation with the pedigree in `GSP` (13 individuals,
+6 of which are founders: 3 from population "A" and 3 from population "B").  For the first rep, we might want
+to map "A" to Pop1 and "B" to Pop2, and in the second rep we might want to map "A" to Pop10, and "B" to
+Pop 5.  (Note, at this point genetic material from 3 individuals from each of those populations will have
+been "consumed" from each of these populations and segregated, without replacement, into the samples from the
+genomic permutation pedigree.
+
+
+The RepPop tibble that would specify this is given in the package variable `RepPop1`:
+```{r}
+RepPop1
+```
+
+For another example, imagine that we want to do three replicates creating the
+admixed individuals sampled from the genomic permutation pedigree, `gsp4`.
+The RepPop tibble for that might look like this:
+```{r}
+RepPop4
+```
+Note that this request will consume 1 individual from each of populations 1-12,
+and will create 12 simulated, admixed, individuals.
+
+## Segregating Chunks of Genome Without Replacement
+
+Now that we have been through all the input data formats, we can
+use them to segregate chunks of chromosome.  Note that this first part
+does not require the genotypes.  We are just simulating big chunks of 
+chromosome dropping through the pedigrees. The function used for this
+is `segregate()`. The needed inputs are:
+
+* 1 or more genomic permuation pedigrees (like `GSP` or `gsp4`)
+* A RepPop tibble to go with each genomic permutation pedigree
+* The recombination probabilities, like `RecRates`.
+
+The final wrinkle here is that we have set this up so that you
+can specify, in a single simulation, that replicates from
+multiple genomic permutation pedigrees can be requested. 
+This is done by passing `segregate()` a tibble that has a
+list column named `gpp` that holds the genomic permutation pedigrees,
+and a parallel column named `reppop` that holds the RepPop tibbles for each 
+of those genomic permutation pedigrees.  Let's
+see that by an example, building on the two examples above:
+```{r}
+Input_tibble <- tibble(
+  gpp = list(GSP, gsp4),
+  reppop = list(RepPop1, RepPop4)
+)
+
+# here is what that input object looks like:
+Input_tibble
+```
+
+The segregation requested is then carried out, using the recombination
+rates in `RecRates` like this:
+```{r}
+set.seed(15) # for reproducibility
+Segments <- segregate(
+  request = Input_tibble,
+  RR = RecRates
+)
+```
+
+The output from that is a big tibble.  Each row represents one segment of genetic
+material amongst the sampled individuals from the genomic permutation pedigrees.
+Each segment exists in one of the samples (`samp_index`) from a sampled individual
+with a `ped_sample_id` on a given `gpp` (the index giving the row of the request input tibble)
+in a given `rep` within the individual.  Further, it is on one of two gametes
+(`gamete_index`) that segregated into the individual, and it came from a certain founding
+population (`pop_origin`) that corresponds to the named groups in the genotype file (`group_origin`).
+And, of course, the segment occupies the space from `start` to `end` on a chromosome `chrom`.
+Finally, the index of the founder haplotype on the given gpp that this segement descended from is
+given in `rs_founder_haplotype` which is short for "rep-specific founder haplotype".  This final
+piece of information is crucial for segregating variation from the individuals in the `Geno` file
+onto these segments.  We take that up in the next section, but first we will look at the results
+that we have here.
+
+First, here is a listing of the top of the `Segments` we produced above.  
+```{r}
+Segments
+```
+The
+table is a little wide, so we will show the first half of the columns and then 
+the second half here.
+
+First half
+```{r}
+Segments %>%
+  select(gpp:pop_origin)
+```
+
+Second half
+```{r}
+Segments %>%
+  select(rs_founder_haplo:group_origin)
+```
 

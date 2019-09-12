@@ -1,0 +1,90 @@
+---
+title: "Developing the Ped Dropping"
+output: html_notebook
+---
+
+These are just notes while developing the stuff.
+
+At this point, I have examples of most of the data structures in R data 
+objects in the package.  So, we can start developing with those.
+
+
+## drop_segs_down_gsp()
+Note: if we have a given GSP with A's and B's at the top and 
+samples specified on the bottom, we will have to run that once
+for each chromosome and each rep.  So, we will make a function that
+takes the GSP and the RecRates and the number of reps desired, and then
+it will send back a tibble.
+
+I will start writing this function in `R/drop-segs-down-gsp.R`.
+
+This is what it looks like when we use it on the sample data:
+```{r}
+library(tidyverse)
+library(gscramble)
+
+set.seed(5)
+simSegs <- drop_segs_down_gsp(GSP = GSP, RR = RecRates, Reps = 4)
+```
+
+This is a tidy tibble that looks like this:
+```{r}
+simSegs[1:200,]
+```
+
+Columns that might not be self-explanatory are:
+
+* `ped_sample_id`: the index of the individuals in the GSP
+* `samp_index`: the index of the sample from that individual.  Some indivs
+in the pedigree have enough haplotypes coming into them that they can produce 2
+samples.
+* `gamete_index`: which of the two genomes in the individual are we dealing with.
+* `rs_founder_haplo`: what is the index of the founder haplotype that was inherited at
+this position?  This is Rep-specific, and within each rep they start with one.
+We will make a new column which is an "absolute_founder_haplo".  This will depend
+on which populations are mapped to the A and B founders.
+
+### Compute admixture fractions
+
+
+### Make a picture
+
+With data in this tidy format we can do nice plot of the different sampled indviduals' genomes.
+```{r}
+ss2 <- simSegs %>% 
+  mutate(chrom = as.integer(chrom)) %>%  # so that they sort correctly
+  mutate(ID = str_c(ped_sample_id, "_", samp_index)) %>%
+  mutate(xpos = chrom + (0.145 * (gamete_index == 2)) - (0.145 * (gamete_index == 1))) 
+
+# while we are at it, let's also compute the admixture fraction for each individual sample
+fractA <- ss2 %>%
+  group_by(rep, ID, pop_origin) %>%
+  summarise(tots = sum(end - start)) %>%
+  summarise(fractA = tots[1] / sum(tots)) %>%
+  mutate(fractA = sprintf("%.3f", fractA))
+
+# now, facet with samples in rows and reps in columns
+g <- ggplot(ss2) + 
+  geom_segment(aes(x = xpos, xend = xpos, y = start, yend = end, colour = pop_origin), size = 2) + 
+  facet_grid(ID ~ rep) + 
+  scale_colour_manual(values = c(A = "blue", B = "orange")) +
+  xlab("Chromosome") +
+  ylab("Genome coordinate (bp)") +
+  scale_x_continuous(breaks = 1:18) +
+  theme_bw() +
+  geom_text(data = fractA, mapping = aes(label = fractA), x = 3, y = 2.5e08)
+  
+
+ggsave(g, filename = "outputs/6-samples-4-reps-whole-pig-genome.pdf", width = 20, height = 12)
+```
+
+
+## segregate()
+
+OK, the true top level function here is going to be `segregate()`.  It will run
+`drop_segs_down_gsp()` multiple times if you pass in a list of pedigrees and a
+list of rep, pop-idx, pop-name tibbles.  If you just pass in one, it will replicate that.
+
+
+
+
