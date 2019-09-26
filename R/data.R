@@ -71,3 +71,15 @@ NULL
 #' @docType data
 #' @name gsp4
 NULL
+
+#' Tibble holding specification for a 5 member genomic permutation pedigree.
+#'
+#' This has 3 founders
+#'
+#' Need to document it a little more....
+#' @format A tibble
+#' @source Tim made it up!
+#' @docType data
+#' @name gsp3
+NULL
+

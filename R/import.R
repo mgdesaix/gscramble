@@ -16,7 +16,7 @@ NULL
 
 #' @importFrom rlang .data
 #' @importFrom stats setNames
-#' @importFrom dplyr bind_rows filter group_by left_join mutate mutate_all n pull select
+#' @importFrom dplyr arrange bind_rows everything filter group_by left_join mutate mutate_all n pull select summarise ungroup
 #' @importFrom glue glue
 #' @importFrom stringr str_c
 #' @importFrom tibble enframe tibble

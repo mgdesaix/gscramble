@@ -1,0 +1,31 @@
+digraph xxx {
+label = "  "
+ranksep = 1
+nodesep = 1
+compress = false
+"1a" [shape=invtriangle, regular=1, height=0.56, fixedsize=true, label=A, style=filled, fillcolor=lightblue];
+"2a" [shape=invtriangle, regular=1, height=0.56, fixedsize=true, label=B, style=filled, fillcolor=orange];
+"3a" [shape=invtriangle, regular=1, height=0.56, fixedsize=true, label=A, style=filled, fillcolor=lightblue];
+"1b" [shape=invtriangle, regular=1, height=0.56, fixedsize=true, label=A, style=filled, fillcolor=lightblue];
+"2b" [shape=invtriangle, regular=1, height=0.56, fixedsize=true, label=B, style=filled, fillcolor=orange];
+"3b" [shape=invtriangle, regular=1, height=0.56, fixedsize=true, label=A, style=filled, fillcolor=lightblue];
+"1" [shape=box, regular=1, height=0.86, fixedsize=true, label=1];
+"2" [shape=box, regular=1, height=0.86, fixedsize=true, label=2];
+"3" [shape=box, regular=1, height=0.86, fixedsize=true, label=3];
+"4" [shape=box, regular=1, height=0.86, fixedsize=true, label=4];
+"5" [shape=box, regular=1, height=0.86, fixedsize=true, label=5];
+"s4" [shape=hexagon, regular=1, height=0.86, fixedsize=true, style=filled, fillcolor=violet, label=s4];
+"s5" [shape=hexagon, regular=1, height=0.86, fixedsize=true, style=filled, fillcolor=violet, label=s5];
+"1a" -> "1" [dir=none, style=solid];
+"1b" -> "1" [dir=none, style=solid];
+"2a" -> "2" [dir=none, style=solid];
+"2b" -> "2" [dir=none, style=solid];
+"3a" -> "3" [dir=none, style=solid];
+"3b" -> "3" [dir=none, style=solid];
+"1" -> "4" [dir=none, style=solid, label = " 2", fontsize=18, fontcolor=red];
+"2" -> "4" [dir=none, style=solid, label = " 2", fontsize=18, fontcolor=red];
+"3" -> "5" [dir=none, style=solid, label = " 2", fontsize=18, fontcolor=red];
+"4" -> "5" [dir=none, style=solid, label = " 2", fontsize=18, fontcolor=red];
+"4" -> "s4" [dir=none, style=solid, label = " 1", fontsize=18, fontcolor=purple];
+"5" -> "s5" [dir=none, style=solid, label = " 2", fontsize=18, fontcolor=purple];
+}

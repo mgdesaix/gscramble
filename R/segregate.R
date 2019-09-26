@@ -6,10 +6,15 @@
 #' Gonna do that later
 #' @param request a tibble with list columns "gpp" and "reppop".
 #' @param RR the recombination rates in the format of the package data
+#' @param MM the marker meta data tibble (like M_meta).  If this is NULL it
+#' is fine.  If not, then it uses the order of the markers in MM to define
+#' the levels of a chrom_f column so that we can sort the rows of the output
+#' correctly, with respect to markers in the Genotype data frame.  This will
+#' let us more efficiently subscript the markers out of the matrix.
 #' \code{\link{RecRates}}
 #' @export
 #'
-segregate <- function(request, RR) {
+segregate <- function(request, RR, MM = NULL) {
 
   # ERROR CHECKING (gotta do)
   # Write a function to do a variety of things...
@@ -39,7 +44,18 @@ segregate <- function(request, RR) {
   # ERROR CHECKING on the result
     # any missing groups? etc.
 
-  ret
+  ret2 <- ret %>%
+    ungroup() %>%
+    sim_level_founder_haplos()  # on this line we also compute the simulation-level founder haplos!
+
+  if(!is.null(MM)) {
+    ret2 <- ret2 %>%
+      mutate(chrom_f = factor(chrom, levels = unique(MM$chrom))) %>%
+      select(chrom_f, everything()) %>%
+      arrange(gpp, rep, ped_sample_id, samp_index, gamete_index, chrom_f, start)
+  }
+
+  ret2
 }
 
 

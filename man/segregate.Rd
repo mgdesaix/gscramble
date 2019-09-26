@@ -4,12 +4,18 @@
 \alias{segregate}
 \title{must document this one fully}
 \usage{
-segregate(request, RR)
+segregate(request, RR, MM = NULL)
 }
 \arguments{
 \item{request}{a tibble with list columns "gpp" and "reppop".}
 
-\item{RR}{the recombination rates in the format of the package data
+\item{RR}{the recombination rates in the format of the package data}
+
+\item{MM}{the marker meta data tibble (like M_meta).  If this is NULL it
+is fine.  If not, then it uses the order of the markers in MM to define
+the levels of a chrom_f column so that we can sort the rows of the output
+correctly, with respect to markers in the Genotype data frame.  This will
+let us more efficiently subscript the markers out of the matrix.
 \code{\link{RecRates}}}
 }
 \description{

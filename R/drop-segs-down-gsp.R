@@ -60,7 +60,7 @@ drop_segs_down_gsp <- function(GSP, RR, Reps) {
   # and attach the Plist from above to each one
   RR_by_chrom <- RR %>%
     group_by(chrom) %>%
-    nest(.key = "map_stuff") %>%
+    nest(map_stuff = chrom_len:rec_prob) %>%
     mutate(chrom_len = map_dbl(map_stuff, function(x) x$chrom_len[1])) %>%
     mutate(gsp_init = list(Plist))
 
@@ -69,15 +69,16 @@ drop_segs_down_gsp <- function(GSP, RR, Reps) {
   rvec <- 1:Reps
   names(rvec) <- rvec
 
-  Res1 <- lapply(rvec, function(r) {
-    RR_by_chrom %>%
-      mutate(segged = pmap(.l = list(G = gsp_init, M = map_stuff, C = chrom_len),
-                           .f = function(G, M, C) seg_haps_through_gsp(G = G, M = M, chrom_len = C))
-      )
-  }) %>%
-    bind_rows(.id = "rep") %>%
-    mutate(rep = as.integer(rep))
-
+  Res1 <- suppressWarnings(  # doing this cuz of the "Vectorizing 'vctrs_list_of' elements may not preserve their attributes" warning
+    lapply(rvec, function(r) {
+      RR_by_chrom %>%
+        mutate(segged = pmap(.l = list(G = gsp_init, M = map_stuff, C = chrom_len),
+                             .f = function(G, M, C) seg_haps_through_gsp(G = G, M = M, chrom_len = C))
+        )
+    }) %>%
+      bind_rows(.id = "rep") %>%
+      mutate(rep = as.integer(rep))
+  )
 
   # now we tidy up the segged elements, to have a column where we retain just the samples.
   # Note that we might like to have Res1 for other types of analysis, but now we strip this
