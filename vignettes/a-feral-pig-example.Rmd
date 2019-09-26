@@ -163,8 +163,12 @@ make_subscript_matrix <- function(n, chrom, start, end, abs_column, m_list, num_
     the_chrom <- chrom[i]
     idxs <- m_list[[the_chrom]]$idx[ m_list[[the_chrom]]$pos > start[i] & m_list[[the_chrom]]$pos <= end[i] ]
     cbind(idxs, abs_column[i])
-  }) %>%
-    do.call(rbind, args = .)
+  }) 
+  
+  # here is a quick hack to deal with empty segments (i.e. those that have no markers in them)
+  ret <- ret[sapply(ret, ncol) == 2]
+  
+  ret <- do.call(rbind, args = ret)
   
   # now do a quick check to make sure that every position is in there in the 
   # correct order
@@ -186,7 +190,19 @@ pick_tib <- Segs2 %>%
                                                             m_list = m_list, 
                                                             num_markers = nrow(GS$G[[1]]))))
 ```
+For testing:
 
+```{r, eval=FALSE}
+Segs2 %>%
+  summarise(m_subscript_matrix = list(make_subscript_matrix(n = n(),
+                                                            chrom = chrom,
+                                                            start = start,
+                                                            end =  end,
+                                                            abs_column = abs_column,
+                                                            m_list = m_list, 
+                                                            num_markers = nrow(GS$G[[1]]))))
+  
+```
 Now, we can do some more error checking here to make sure that we haven't selected the same
 SNP from the sample founder haflotype twice:
 ```{r}
@@ -219,3 +235,5 @@ ped_sampled_indivs <- GS$G[[1]][full_mat] %>%
 
 ```
 That is freakishly fast too.  Good.
+
+Now, we just need to deal with missing data.  
