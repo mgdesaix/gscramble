@@ -30,10 +30,10 @@ rearrange_genos <- function(G, Im, Mm) {
   G2 <- t(G[I2$new_index__, ])
 
   # now, modify G2 so that
-  # and each column is a haplotype (or halflotype) of an individual,
+  # each column is a haplotype (or halflotype) of an individual,
   gmatH <- rbind(
     G2[seq(1, nrow(G2), by = 2), ],
-    G2[seq(1, nrow(G2), by = 2), ]
+    G2[seq(2, nrow(G2), by = 2), ]
   ) %>%
     matrix(nrow = nrow(Mm))
 
@@ -51,7 +51,7 @@ rearrange_genos <- function(G, Im, Mm) {
     ungroup()
 
   # and here at the end we just return that as a tibble with one row.
-  # This feels nicer than as a list, if you print it you don't get
+  # This feels nicer than as a list, if you print it, you don't get
   # something that bombs your screen.
   tibble(G = list(gmatH), I = list(ImetaH), M = list(Mm))
 }
