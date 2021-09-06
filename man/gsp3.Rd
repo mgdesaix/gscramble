@@ -4,7 +4,9 @@
 \name{gsp3}
 \alias{gsp3}
 \title{Tibble holding specification for a 5 member genomic permutation pedigree.}
-\format{A tibble}
+\format{
+A tibble
+}
 \source{
 Tim made it up!
 }

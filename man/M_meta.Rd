@@ -4,7 +4,9 @@
 \name{M_meta}
 \alias{M_meta}
 \title{Meta data for 25165 molecular markers}
-\format{A tibble with two columns: group and indiv.}
+\format{
+A tibble with two columns: group and indiv.
+}
 \source{
 Must add...
 }

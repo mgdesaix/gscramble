@@ -4,7 +4,9 @@
 \name{Geno}
 \alias{Geno}
 \title{Genotype matrix of 329 individuals and 25165 SNP markers}
-\format{A character matrix.}
+\format{
+A character matrix.
+}
 \source{
 Must add...
 }

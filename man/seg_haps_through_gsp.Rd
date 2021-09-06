@@ -4,8 +4,13 @@
 \alias{seg_haps_through_gsp}
 \title{Segregate haplotypes through a genome simulation pedigree list}
 \usage{
-seg_haps_through_gsp(G, M, chrom_len, pop_idx_sep = "--\%--",
-  recomb_model = "always one")
+seg_haps_through_gsp(
+  G,
+  M,
+  chrom_len,
+  pop_idx_sep = "--\%--",
+  recomb_model = "always one"
+)
 }
 \arguments{
 \item{G}{a genome simulation pedigree as a list, ready to go}

@@ -4,10 +4,15 @@
 \alias{gsp2dot}
 \title{Write a dot file to represent a genome scramble pedigree}
 \usage{
-gsp2dot(g, file = stdout(), edge_label_font_size = 18,
+gsp2dot(
+  g,
+  file = stdout(),
+  edge_label_font_size = 18,
   haplo_origin_colors = c("lightblue", "orange"),
-  sam_node_color = "violet", sample_edge_label_color = "purple",
-  parent_edge_label_color = "red")
+  sam_node_color = "violet",
+  sample_edge_label_color = "purple",
+  parent_edge_label_color = "red"
+)
 }
 \description{
 g <- read_csv("inst/extdata/13-member-ped.csv")

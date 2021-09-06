@@ -4,7 +4,9 @@
 \name{I_meta}
 \alias{I_meta}
 \title{Meta data for 329 individuals}
-\format{A tibble with three columns: chrom, pos, and variant_id.}
+\format{
+A tibble with three columns: chrom, pos, and variant_id.
+}
 \source{
 Must add...
 }

@@ -4,7 +4,9 @@
 \name{RecRates}
 \alias{RecRates}
 \title{Recombination rate data for many roughly 1 Mb bins}
-\format{A tibble with four columns: chrom, chrom_len, start_pos, end_pos, and rec_prob.}
+\format{
+A tibble with four columns: chrom, chrom_len, start_pos, end_pos, and rec_prob.
+}
 \source{
 Must add, inluding how I computed it from Torterau.
 }
