@@ -5,6 +5,7 @@
 
 - [ ] `check_chrom_lengths()` function (see tutorial vignette line 162)
 - [ ] A Function to check the validity of the GSPs.
+- [ ] Figure out if recombination rates between adjacent markers will work within the existing framework.
 
 
 ### In the paper
