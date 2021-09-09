@@ -64,7 +64,7 @@ package data `Geno`:
 Geno[1:4, 1:12]
 ```
 
-These data must be stored as a **characters**.  Don't pass in a matrix of integers.
+These data must be stored as a **character Matrix**.  Don't pass in a matrix of integers.
 The alleles can be any characters whatsoever.  This allows the data to be microsatellites,
 (`"112"`, `"116"`, etc), or microhaplotypes (`"ACCGA"`, `"ACCTC"`, etc.), or SNPs 
 (`"A"`, `"C"`, `"G"`, `"T"`), etc.  If you do have a matrix of integers, named, for example
@@ -87,7 +87,7 @@ are in `Geno`.  This can have many different columns if you want to have them,
 but there must be at least two columns:
 
 * `group`: a column that gives the character name of the group/cluster/population
-that each individual is considered to be a part of.
+that each individual is considered to be a part of. 
 * `indiv`: a column that gives the character ID of each individual.
 
 The number of rows of this tibble should be exactly equal to the number
@@ -112,9 +112,11 @@ the names of the chromosomes in `RecRates` (see next section).
 * `pos`: a numeric (integer or double) column giving the position of the marker
 (typically in base pairs, but it could be in arbitrary units that correspond to position 
 units in `RecRates`), along the chromosome. These position values must be greater than 0.
-* `variant_id`: a character vector of unique ID names for the markers.
+* `variant_id`: a character vector of unique ID names for the markers. These should be
+globally unique, i.e., don't have two markers on different chromosomes that are named the same
+thing.
 
-There must be exactly as many rows in `M_meta` as there are columns in `Geno` and the 
+There must be exactly half as many rows in `M_meta` as there are columns in `Geno`, and the 
 order of markers in `M_meta` must correspond exactly to the order of markers in the columns
 in `Geno`.
 
@@ -128,8 +130,9 @@ head(M_meta)
 
 This is a tibble that gives information about the rate of recombinations
 in the genome.  This is necessary if simulating linked markers.  It is not required
-in `gscramble` to know a crossover rate nor a recombination rate between every pair
-of markers.  Rather, the rate of recombination can be specified in terms of the 
+in `gscramble` to know a crossover rate nor a recombination rate between every adjacent pair
+of markers (though if you have that information, you can provide it in `RecRates`, (see below).
+Rather, the rate of recombination can be specified in terms of the 
 per-meiosis probability of recombination in a number of (preferably relatively short---for
 example, 1 Mb or less) bins. `RecRates` is a tibble which is required to have four columns:
 
@@ -156,10 +159,9 @@ might never be possible between some pairs of markers in the data set.
 iii. The chromosome length in `chrom_len` **must** exceed the position of every marker
 on the chromosome in `M_meta`.  If this is not the case
 then it would be possible that some markers would be dropped from the data set, possibly
-with unexpected or bad results.
+with unexpected or bad results. **(HEY TEAM!  LET'S WRITE A FUNCTION THAT CHECK THIS CALLED,
+`check_chrom_lengths()` or something).**
 
-**YO ERIC!  Include something that checks chrom_len > max(position) and check it at the 
-outset of the experiment. **
 
 ### Genome Simulation Pedigree. `GSP`
 
@@ -173,6 +175,8 @@ The `GSP` must be a tibble in which each individual has a numeric identifier (fr
 as NA and non-founders have parents listed.  Founders' haplotypes must have unique IDs
 and must originate from a specified population (typically given in capital letters.) 
 Individuals can be sampled from individuals in the pedigree.  
+
+**This needs more explanation **
 
 The package data object `GSP` shows an example of such a genome simulation pedigree.  It is
 a fairly complex pedigree with 13 members.  **NOTE: Eric needs to write some functions
@@ -205,7 +209,7 @@ Here is what it looks like:
 ![](images/gsp4-700.png)
 
 
-### Matching populations/collections to founding populations. `RepPop`
+### Mapping populations/collections to founding populations. `RepPop`
 
 When you create a genomic simulation pedigree, you will typically denote the
 populations that the founders come from with short names, like "A" or "B".  However,
@@ -219,7 +223,8 @@ I_meta %>%
 ```
 
 You must use a tibble with columns `rep`, `pop`, `group`, to indicate which of the founding
-populations ("A", "B", etc.) correspond to the different groups in your genotype data set.
+populations ("A", "B", etc.) correspond to the different groups (from the `group` column in, for example,
+`I_meta`) in your genotype data set.
 Because it is quite likely that you might wish to iterate the segregation procedure multiple
 times in a single simulation, you can specify that by doing multiple "reps" (replicates) of the
 procedure. 
@@ -227,9 +232,9 @@ procedure.
 An example might help.  Suppose that we wish to do a simulation with the pedigree in `GSP` (13 individuals,
 6 of which are founders: 3 from population "A" and 3 from population "B").  For the first rep, we might want
 to map "A" to Pop1 and "B" to Pop2, and in the second rep we might want to map "A" to Pop10, and "B" to
-Pop 5.  (Note, at this point genetic material from 3 individuals from each of those populations will have
+Pop 5.  (Note, at this point, genetic material from 3 individuals from each of those populations will have
 been "consumed" from each of these populations and segregated, without replacement, into the samples from the
-genomic permutation pedigree.
+genomic simulation pedigree.)
 
 
 The RepPop tibble that would specify this is given in the package variable `RepPop1`:
