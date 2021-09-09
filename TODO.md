@@ -1,4 +1,4 @@
 ## TODO
 
 
-- [ ] `check_chrom_lengths()` function (see tutorial vignette line 162)
+- [] `check_chrom_lengths()` function (see tutorial vignette line 162)
