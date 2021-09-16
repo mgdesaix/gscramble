@@ -6,6 +6,9 @@
 - [ ] `check_chrom_lengths()` function (see tutorial vignette line 162)
 - [ ] A Function to check the validity of the GSPs.
 - [ ] Figure out if recombination rates between adjacent markers will work within the existing framework.
+- [ ] Check out `xover()` and deal with what happens when a new breakpoint occurs exactly
+at an existing one, and be explicit in the documentation about whether breaks occur
+"to the left" or "to the right" of the breakpoint.  
 
 
 ### In the paper
