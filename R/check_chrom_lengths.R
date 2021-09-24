@@ -2,6 +2,10 @@
 ###### Compares the last position on each chromosome (found in meta data file)
 ###### to the chromosome length (found in recombination map chrom_len)
 
+#' check that the chromosome lengths are acceptable given recombination rates
+#'
+#' Needs more documenting.
+#' @export
 check_chrom_lengths<-function(meta,rec){
   Flag<-FALSE
   chrom_list<-unique(meta$chrom)

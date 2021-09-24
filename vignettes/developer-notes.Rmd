@@ -1,0 +1,26 @@
+---
+title: "developer-notes"
+author: "Eric C. Anderson"
+date: "`r Sys.Date()`"
+output: 
+  rmarkdown::html_vignette:
+    toc: true
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+These are some notes on how various things are implemented in the package.
+
+## Chromosomal segments
+
+The two chromosomes in individual are represented by a list of two collections
+of breakpoints. 

@@ -15,8 +15,8 @@ rearrange_genos(G, Im, Mm)
 }
 \description{
 This function first reorders individuals in the columns of
-the matrix so that ever population is together.  Then it
-rearrange genotypes into separate columns for each haplotype
+the matrix so that every population is together.  Then it
+rearranges genotypes into separate columns for each haplotype
 (or "halflotype" if they are unphased.)  This prepares the matrix
 for different kinds of a permutation (within or between populations,
 for example).

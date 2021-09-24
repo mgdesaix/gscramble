@@ -1,24 +1,3 @@
-
-make_subscript_matrix <- function(n, chrom, start, end, abs_column, m_list, num_markers) {
-  ret <- lapply(1:n, function(i) {
-    the_chrom <- chrom[i]
-    idxs <- m_list[[the_chrom]]$idx[ m_list[[the_chrom]]$pos > start[i] & m_list[[the_chrom]]$pos <= end[i] ]
-    cbind(idxs, abs_column[i])
-  })
-
-  # here is a quick hack to deal with empty segments (i.e. those that have no markers in them)
-  ret <- ret[sapply(ret, ncol) == 2]
-
-  ret <- do.call(rbind, args = ret)
-
-  # now do a quick check to make sure that every position is in there in the
-  # correct order
-  stopifnot(all(ret[,1] == 1:num_markers))
-
-  ret
-}
-
-
 #' Just a big, messy wrapper to wrap up some things so Tim can use them
 #'
 #' @param GS_input the rearranged (but not yet scrambled) genos
@@ -33,7 +12,11 @@ big_wrapper <- function(GS_input, Segs, M_meta) {
   # scramble by pops
   GS <- perm_gs_by_pops(GS_input)
 
-  # join the absolute columns of the founders
+  # do this if TEMPORARILY NOT-SCRAMBLING WHILE TESTING
+  #GS <- GS_input
+  #GS$G_permed <- list(GS$G[[1]])
+
+  # join so that we have the absolute columns of the founders
   Segs2 <- GS$I[[1]] %>%
     select(group, gs_column, abs_column) %>%
     left_join(Segs, ., by = c("group_origin" = "group", "sim_level_founder_haplo" = "gs_column"))
@@ -48,19 +31,25 @@ big_wrapper <- function(GS_input, Segs, M_meta) {
   # sprinkle the variants in there:
   full_pick_mat <- Segs2 %>%
     group_by(gpp, rep, ped_sample_id, samp_index, gamete_index) %>%
-    summarise(m_subscript_matrix = list(make_subscript_matrix(n = n(),
-                                                              chrom = chrom,
-                                                              start = start,
-                                                              end =  end,
-                                                              abs_column = abs_column,
-                                                              m_list = m_list,
-                                                              num_markers = nrow(GS$G[[1]])))) %>%
+    summarise(
+      m_subscript_matrix = list(
+        make_subscript_matrix(
+          n = n(),
+          chrom = chrom,
+          start = start,
+          end =  end,
+          abs_column = abs_column,
+          m_list = m_list,
+          num_markers = nrow(GS$G[[1]])
+        )
+      )
+    ) %>%
     pull(m_subscript_matrix) %>%
     do.call(rbind, .)
 
-  # and now we slurp the genos out into a big matrix
-  ped_sampled_indivs <- GS$G[[1]][full_pick_mat] %>%
-    matrix(nrow = dim(GS$G[[1]]))
+  # and now we slurp the genos out of GS$G_permed into a big matrix
+  ped_sampled_indivs <- GS$G_permed[[1]][full_pick_mat] %>%
+    matrix(nrow = dim(GS$G_permed[[1]]))
 
   # now, cycle over the columns and make missing data within a locus
   # consistent at the two haplotypes.  Assumes missing data = "0".  This

@@ -1,38 +1,3 @@
-#### HELPER FUNCTIONS FIRST  ####
-
-# Here is a function that takes the waka_waka table and returns
-# a simple tibble with results for each sampled "hybridized" gamete
-# from each chromosome
-# @param W a tibble.  see how it is used in code below.
-tidy_up_sampled_haplos <- function(W) {
-
-  # here we pick out only those elements that have samples:
-  W %>%
-    mutate(ped_samples =
-             map(segged, function(x) {
-               map(x, "Samples") %>%
-                 keep(~!is.null(.x)) %>%
-                 map_dfr(function(z) tibble(
-                   samp_index = rep(1:length(z), each = 2),
-                   gamete_index = rep(c(1,2), times = length(z)),
-                   gamete_segments = flatten(z)
-                 ),
-                 .id = "ped_sample_id")
-             })
-    )
-}
-
-# here is a function that takes a gamete in segment format
-# and returns a tibble with Pop and indiv_index
-seg2tib <- function(s) {
-  L <- length(s)
-  tibble(tmp_seg_names = names(s)[-L],
-         start = s[-L],
-         end = s[-1])
-}
-
-
-#### MAIN FUNCTION  ####
 #' High level function for dropping segments down a GSP
 #'
 #' This one asks for the number of reps to do, and it also

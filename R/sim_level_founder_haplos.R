@@ -1,5 +1,3 @@
-
-
 #' computes the simulation-level founder haplotype index for each founder haplo
 #'
 #' This takes the output of segregate and deals with the multiple gpp's and reps

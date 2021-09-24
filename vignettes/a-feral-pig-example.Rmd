@@ -180,20 +180,148 @@ data when we scramble.  So, we change missing data to "M" and then run it:
 GenoM <- Geno
 GenoM[GenoM== 0] <- "M"
 GSM <- rearrange_genos(G = GenoM, Im = I_meta, Mm = M_meta)
+```
+
+#### Check/Test on rearrange_genos()
+
+Before we proceed, I will do a quick test here to make sure that the rearranged genos still have the correct
+number of alleles in each individual.
+```{r}
+# first check the total number of alleles
+table(as.vector(GenoM))
+table(as.vector(GSM$G[[1]]))
+```
+
+So, that is all good.  Now, check the number of alleles by population
+```{r}
+# first, the original ones
+pop_counts_orig <- I_meta %>%
+  mutate(idx = 1:n()) %>%
+  group_by(group) %>%
+  summarize(idxs = list(c(idx))) %>%
+  mutate(
+    alle_counts = map(.x = idxs, .f = function(x) table(as.vector(GenoM[x, ])))
+  )
+
+# then the rearranged ones
+pop_counts_rearr <- GSM$I[[1]] %>%
+  group_by(group) %>%
+  summarise(idxs = list(c(abs_column))) %>%
+  mutate(
+    alle_counts = map(.x = idxs, .f = function(x) table(as.vector(GSM$G[[1]][, x])))
+  )
+
+# now join those and compare
+check_it <- left_join(
+  pop_counts_orig,
+  pop_counts_rearr,
+  by = "group"
+) %>%
+  mutate(all_good = map2_lgl(.x = alle_counts.x, .y = alle_counts.y, .f = function(x, y) all.equal(x, y)))
+
+check_it
+```
+
+So, that totally checks out.  
+
+```{r}
 
 BWM <- big_wrapper(GSM, Segs, M_meta)
 
 # now count up the number of different alleles
-table(as.vector(GenoM))
+GMc <- table(as.vector(GenoM))
+GMc
 
-table(as.vector(BWM$ret_geno))
+GSMc <- table(as.vector(GSM$G[[1]]))
+GSMc
 
-table(as.vector(GSM$G[[1]]))
+BWMc <- table(as.vector(BWM$ret_geno))
+BWMc
 
+GSMc - GMc
+
+BWMc - GMc
+
+sum(BWMc - GMc)
 ```
 
 Nope! That is not checking out.  So there must be bug somewhere in the part that sprinkles
-markers onto the segments.  Bummer....
+markers onto the segments.  Bummer....  **HOLD ON! THIS CHECKS OUT IF WE ARE NOT SCRAMBLING GENOTYPES,
+SO I SUSPECT THATH THE PROBLEM IS IN `perm_gs_by_pops()`**
+
+Gonna check that out now:
+```{r}
+GS_input <- GSM
+GS <- perm_gs_by_pops(GS_input)
+
+table(as.vector(GSM$G[[1]]))
+table(as.vector(GS$G[[1]]))
+table(as.vector(GS$G_permed[[1]]))
+```
+NO! That check out.  But somehow it is interacting with passing segments around.  Fuuuuuuuuuuuuh!
+
+
+
+
+Let's see if we can track down which loci these discrepancies are occurring in:
+```{r}
+# first, make a big tibble that has the variant_id and allele on it, and then count them up
+BWMa <- tibble(
+  variant_id = rep(M_meta$variant_id, each = 329 * 2),
+  allele = as.vector(BWM$ret_geno)
+) %>%
+  count(variant_id, allele)
+
+GMa <- tibble(
+  variant_id = rep(M_meta$variant_id, each = 329 * 2),
+  allele = as.vector(GenoM)
+) %>%
+  count(variant_id, allele) %>%
+  rename(nGMa = n)
+
+comp <- left_join(GMa, BWMa) %>%
+  group_by(variant_id) %>% 
+  mutate(diff = nGMa - n, diff_sum = sum(diff))
+
+comp
+```
+
+So, the number of gene copies is the same at each marker, but the allele counts are off, but balance within every variant.  
+
+That makes me think that we are, perhaps, grabbing the same haflotype from each founder. Because then the heterozygotes will
+be wonked like this.  i.e., since we are segregating each half of a founder into the scrambled individuals, if it is a heterozygote
+and we only take one of them, each time, then we will have too many of one allele, and exactly two few of the other one.
+
+Look at the distribution of the diffs there:
+```{r}
+ggplot(comp, aes(x = diff)) +
+  geom_histogram()
+
+max(comp$diff, na.rm = TRUE)
+```
+
+So, that is weird. But let's confirm that it is only an issue amongst the ones that were segregated through the
+pedigree, and not just from the permed ones.
+```{r}
+# first get the IDs of all the permed ones
+simply_permed_ids <- BWM$ret_ids %>%
+  filter(str_detect(indiv, "permed")) %>%
+  mutate(ID = str_replace(indiv, "^permed_", "")) %>%
+  pull(ID)
+
+spO <- table(as.vector(GenoM[which(I_meta$indiv %in% simply_permed_ids), ]))
+spGM <- table(as.vector(GSM$G[[1]][, GSM$I[[1]]$indiv %in% simply_permed_ids ]))
+spBWM <- table(as.vector(BWM$ret_geno[which(str_detect(BWM$ret_ids$indiv, "^permed")), ]))
+
+spO
+spGM
+spBWM
+```
+That is interesting.  It looks like there is a discrepancy in the BWM individuals that have **not** been 
+segregated through the pedigree, as well. So, I need to track that down!  Wait, no! We don't expect these things
+to be the same, necessarily, because we have scrambled everything before doing it. (NOTE! If we don't scramble things, they all come out just like they should!)  So, the only thing that we can expect is that the total number of alleles will be correct.  So, it must really be coming down to how
+we are assigning alleles to segregated segments...  Hmm....
+
 
 ## Subsumed into the big_wrapper() function
 

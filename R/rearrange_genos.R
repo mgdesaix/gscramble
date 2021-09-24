@@ -1,8 +1,8 @@
 #' rearrange genotypes into separate columns for each haplotype.
 #'
 #' This function first reorders individuals in the columns of
-#' the matrix so that ever population is together.  Then it
-#' rearrange genotypes into separate columns for each haplotype
+#' the matrix so that every population is together.  Then it
+#' rearranges genotypes into separate columns for each haplotype
 #' (or "halflotype" if they are unphased.)  This prepares the matrix
 #' for different kinds of a permutation (within or between populations,
 #' for example).
@@ -27,7 +27,8 @@ rearrange_genos <- function(G, Im, Mm) {
     arrange(group) %>%
     mutate(new_index__ = 1:n())
 
-  G2 <- t(G[I2$new_index__, ])
+
+  G2 <- t(G[I2$orig_index__, ])
 
   # now, modify G2 so that
   # each column is a haplotype (or halflotype) of an individual,

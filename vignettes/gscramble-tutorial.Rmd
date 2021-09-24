@@ -154,7 +154,7 @@ i. The start point of a bin should be 1 greater than the end point of the preced
 ii. The positions of all the markers (in `M_meta`) should be included amongst the bin
 intervals defined by `start_pos` and `end_pos`.  Most crucially in this regard, the
 smallest `start_pos` should be less than the smallest `pos` in `M_meta` and the greatest
-`end_pos` should be greater than the largest `pos` in `M_meta`. Otherwise, recombination
+`end_pos` should be greater than or equal to the largest `pos` in `M_meta`. Otherwise, recombination
 might never be possible between some pairs of markers in the data set.
 iii. The chromosome length in `chrom_len` **must** exceed the position of every marker
 on the chromosome in `M_meta`.  If this is not the case

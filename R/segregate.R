@@ -1,6 +1,3 @@
-
-
-
 #' must document this one fully
 #'
 #' Gonna do that later
