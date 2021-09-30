@@ -28,7 +28,7 @@ and then modify recomb_point to accommodate the different choices.}
 The main input into this is the list prepared by prep_gsp_for_hap_dropping.
 This returns a list of the same form, but with a few extra variables in there,
 the most important of which for future use will be the Samples, which are
-lists that hold the founder segments that made it into the individual.
+lists that hold the founder segments that made it into the sampled individuals.
 }
 \details{
 This is a low-level function that the user will not typically use.

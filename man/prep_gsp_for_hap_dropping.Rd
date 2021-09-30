@@ -7,17 +7,103 @@
 prep_gsp_for_hap_dropping(gsp)
 }
 \arguments{
-\item{gsp}{A tibble that holds the gsp}
+\item{gsp}{A tibble that holds the genome simulation pedigree (GSP).
+This is a tibble in which each row specifies an individual in the
+GSP.  The columns of the tibble are:
+\itemize{
+\item \code{ind}: a numeric identifier for that row's indvidual.
+\item \code{par}: the numeric ID of the first parent of the individual (NA if the
+individual is a founder of the pedigree).
+\item \code{par2}: the numeric ID of the second parent of the individual (NA if
+the individual is a founder)
+\item \code{ipar1}: the number of gametes that \code{par1} must segregate "through" \code{ind} in
+order to exhaust all the genetic material in the GSP.  These values are given
+by the red numerals alongside the edge connecting parents to offspring in the
+GSP images defined by \code{gsp2dot()}.  See the vignette \code{gscramble-tutorial}, for
+an example. (NA if \code{ind} is a founder).
+\item \code{ipar2}: the number of gametes that \code{par2} must segregate through \code{ind}.
+(NA if \code{ind} is a founder).
+\item \code{hap1}: a unique character label given to the first haplotype in \code{ind} if \code{ind} is a
+founder.  If \code{ind} is not a founder, this must be NA.
+\item \code{hap2}: unique character label given to the second haplotype in \code{ind}. NA if \code{ind}
+is not a founder.
+\item \code{hpop1}: character label giving the population of origin of the first haplotype
+(i.e., \code{hap1}) in \code{ind}, if \code{ind} is a founder.  NA otherwise.
+\item \code{hpop2}: character label giving the population of origin of the second
+haplotype (i.e., \code{hap2}) in \code{ind}.  NA if \code{ind} is not a founder.
+\item \code{sample}: unique character label for the outcoming diploid sample from the
+pedigree member \code{ind}. NA if \code{ind} is not sampled.
+\item \code{osample}: the number of diploid samples that come out of \code{ind}.  NA if
+\code{ind} is not sampled.
+}}
+}
+\value{
+This function returns a named list, which is a linked-list type of
+structure that contains the same information that is in \code{gsp}, but
+it makes it easier to access when traversing the pedigree.
+
+The length of the list is
+\code{nrow(gsp)}. The names are the character versions of the \code{ind} column.
+Each component of the list refers to an individual row from \code{gsp}.  All
+of these list elements are themselves lists. (i.e., the information
+about a single individual is stored in a list.) Every such individual
+list has at least the two elements:
+\itemize{
+\item \code{isSample}: TRUE if samples are taken from the individual. FALSE otherwise.
+\item \code{isFounder}: TRUE if the individual is a founder.  FALSE otherwise.
+\item \code{nGamete}: The total number of gametes that will be segregated \emph{out}
+of this individual along edges to the \emph{offspring} of the individual in the pedigree.
+This is the sum of all the red numbers alongside edges below the individual in the
+GSP.
+}
+
+If an individual's \code{isSample} is TRUE, then its list also contains the following elements:
+\itemize{
+\item \code{nSamples}: the number of diploid genomes sampled out of this individual.
+This is the purple number along the edge to the sample node below the individual
+in the GSP "picture".
+}
+
+If an individual's, \code{isFounder} is TRUE then its list also contains
+the following elements:
+\itemize{
+\item \code{hpop1}: the population from which haplotype 1 in this (founder) individual originated.
+\item \code{hpop2}: the population from which haplotype 2 in this (founder) individual originated.
+\item \code{fh_idx1}: this stands for "founding haplotype index 1.  It is a unique integer
+that identifies haplotype one in this founder individual.  This integer is unique over
+all haplotypes in all the founder individuals.
+\item \code{fh_idx2}' the unique integer identifier for haplotype two in this founder
+individual.
+}
+
+If an individual's \code{isFounder} is FALSE, then its list also contains
+the following elements:
+\itemize{
+\item \code{par1} and \code{par2}. Each of these is a list with the elements:
+\itemize{
+\item \code{par}: the character identifier of the first (if in \code{par1}) of the
+second (if in \code{par2}) parent of the individual.
+\item \code{gam_idx}: This tells us which of the gametes in the parent (1 or 2)
+depending on if this is in \code{par1} or \code{par2}, gets segregated to the
+individual.  NEED TO EXPLAIN MORE.  SINCE THINGS GET PERMUTED, ETC.
+}
+}
 }
 \description{
 Just a simple function that makes a list-based data structure
-that makes it easy to gene drop chromosome segments down the
+that makes it easy to gene-drop chromosome segments down the
 gsp.  The basic idea is to get everyone into a data structure
 in which they are ordered such that by the time you get to segregating
-genes from anyone, you already have the genes segregated into them.
+segments \emph{from} anyone, you already have the segments segregated \emph{into} them.
 This works by each individual having a list of gametes (post-recombination)
 coming out of them, and a list of "uniters" which are the gametes coming
 into them.  We just point the uniters to gametes in the previous generation
 and then make sure that we shuffle the order of the gametes when they come
 out of someone.
+}
+\examples{
+# get the 13 member complex pedigree in tibble form
+file <- system.file("extdata/ped-13-complex.csv", package = "gscramble")
+complex13 <- readr::read_csv(file)
+complex13_prepped <- prep_gsp_for_hap_dropping(complex13)
 }

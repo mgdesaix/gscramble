@@ -2,17 +2,94 @@
 #' Take a gsp in tibble form and make a list suitable for gene dropping
 #'
 #' Just a simple function that makes a list-based data structure
-#' that makes it easy to gene drop chromosome segments down the
+#' that makes it easy to gene-drop chromosome segments down the
 #' gsp.  The basic idea is to get everyone into a data structure
 #' in which they are ordered such that by the time you get to segregating
-#' genes from anyone, you already have the genes segregated into them.
+#' segments _from_ anyone, you already have the segments segregated _into_ them.
 #' This works by each individual having a list of gametes (post-recombination)
 #' coming out of them, and a list of "uniters" which are the gametes coming
 #' into them.  We just point the uniters to gametes in the previous generation
 #' and then make sure that we shuffle the order of the gametes when they come
 #' out of someone.
-#' @param gsp A tibble that holds the gsp
+#' @param gsp A tibble that holds the genome simulation pedigree (GSP).
+#' This is a tibble in which each row specifies an individual in the
+#' GSP.  The columns of the tibble are:
+#'
+#' - `ind`: a numeric identifier for that row's indvidual.
+#' - `par`: the numeric ID of the first parent of the individual (NA if the
+#' individual is a founder of the pedigree).
+#' - `par2`: the numeric ID of the second parent of the individual (NA if
+#' the individual is a founder)
+#' - `ipar1`: the number of gametes that `par1` must segregate "through" `ind` in
+#' order to exhaust all the genetic material in the GSP.  These values are given
+#' by the red numerals alongside the edge connecting parents to offspring in the
+#' GSP images defined by `gsp2dot()`.  See the vignette `gscramble-tutorial`, for
+#' an example. (NA if `ind` is a founder).
+#' - `ipar2`: the number of gametes that `par2` must segregate through `ind`.
+#' (NA if `ind` is a founder).
+#' - `hap1`: a unique character label given to the first haplotype in `ind` if `ind` is a
+#' founder.  If `ind` is not a founder, this must be NA.
+#' - `hap2`: unique character label given to the second haplotype in `ind`. NA if `ind`
+#' is not a founder.
+#' - `hpop1`: character label giving the population of origin of the first haplotype
+#' (i.e., `hap1`) in `ind`, if `ind` is a founder.  NA otherwise.
+#' - `hpop2`: character label giving the population of origin of the second
+#' haplotype (i.e., `hap2`) in `ind`.  NA if `ind` is not a founder.
+#' - `sample`: unique character label for the outcoming diploid sample from the
+#' pedigree member `ind`. NA if `ind` is not sampled.
+#' - `osample`: the number of diploid samples that come out of `ind`.  NA if
+#' `ind` is not sampled.
+#' @return
+#' This function returns a named list, which is a linked-list type of
+#' structure that contains the same information that is in `gsp`, but
+#' it makes it easier to access when traversing the pedigree.
+#'
+#' The length of the list is
+#' `nrow(gsp)`. The names are the character versions of the `ind` column.
+#' Each component of the list refers to an individual row from `gsp`.  All
+#' of these list elements are themselves lists. (i.e., the information
+#' about a single individual is stored in a list.) Every such individual
+#' list has at least the two elements:
+#'
+#' - `isSample`: TRUE if samples are taken from the individual. FALSE otherwise.
+#' - `isFounder`: TRUE if the individual is a founder.  FALSE otherwise.
+#' - `nGamete`: The total number of gametes that will be segregated _out_
+#' of this individual along edges to the _offspring_ of the individual in the pedigree.
+#' This is the sum of all the red numbers alongside edges below the individual in the
+#' GSP.
+#'
+#' If an individual's `isSample` is TRUE, then its list also contains the following elements:
+#'
+#' - `nSamples`: the number of diploid genomes sampled out of this individual.
+#' This is the purple number along the edge to the sample node below the individual
+#' in the GSP "picture".
+#'
+#' If an individual's, `isFounder` is TRUE then its list also contains
+#' the following elements:
+#'
+#' - `hpop1`: the population from which haplotype 1 in this (founder) individual originated.
+#' - `hpop2`: the population from which haplotype 2 in this (founder) individual originated.
+#' - `fh_idx1`: this stands for "founding haplotype index 1.  It is a unique integer
+#' that identifies haplotype one in this founder individual.  This integer is unique over
+#' all haplotypes in all the founder individuals.
+#' - `fh_idx2`' the unique integer identifier for haplotype two in this founder
+#' individual.
+#'
+#' If an individual's `isFounder` is FALSE, then its list also contains
+#' the following elements:
+#'
+#' - `par1` and `par2`. Each of these is a list with the elements:
+#'     * `par`: the character identifier of the first (if in `par1`) of the
+#'     second (if in `par2`) parent of the individual.
+#'     * `gam_idx`: This tells us which of the gametes in the parent (1 or 2)
+#'     depending on if this is in `par1` or `par2`, gets segregated to the
+#'     individual.  NEED TO EXPLAIN MORE.  SINCE THINGS GET PERMUTED, ETC.
 #' @export
+#' @examples
+#' # get the 13 member complex pedigree in tibble form
+#' file <- system.file("extdata/ped-13-complex.csv", package = "gscramble")
+#' complex13 <- readr::read_csv(file)
+#' complex13_prepped <- prep_gsp_for_hap_dropping(complex13)
 prep_gsp_for_hap_dropping <- function(gsp) {
   founders <- gsp %>%
     filter(is.na(par1) | is.na(par2)) %>%
