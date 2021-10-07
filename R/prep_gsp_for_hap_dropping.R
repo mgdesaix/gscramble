@@ -86,10 +86,9 @@
 #'     individual.  NEED TO EXPLAIN MORE.  SINCE THINGS GET PERMUTED, ETC.
 #' @export
 #' @examples
-#' # get the 13 member complex pedigree in tibble form
-#' file <- system.file("extdata/ped-13-complex.csv", package = "gscramble")
-#' complex13 <- readr::read_csv(file)
-#' complex13_prepped <- prep_gsp_for_hap_dropping(complex13)
+#' # get the 13 member complex pedigree in tibble form as the
+#' # package data object GSP and prep it:
+#' GSP_list <- prep_gsp_for_hap_dropping(GSP)
 prep_gsp_for_hap_dropping <- function(gsp) {
   founders <- gsp %>%
     filter(is.na(par1) | is.na(par2)) %>%
@@ -155,7 +154,7 @@ prep_gsp_for_hap_dropping <- function(gsp) {
       # Now, if this individual (ind) has isSample == TRUE, we will have to
       # note that and also to say how many samples we want from it
       glist[[ind]]$isSample <- TRUE
-      glist[[ind]]$nSamples <- gre$osample[i]
+      glist[[ind]]$nSamples <- as.integer(gre$osample[i])
     }
     if(round == 1) {
       glist[[ind]]$isFounder <- TRUE
@@ -216,6 +215,24 @@ prep_gsp_for_hap_dropping <- function(gsp) {
     }
 
   }
+
+  # now, before we return this thing, we check to make sure that it
+  # 1. Does not have inbreeding loops in it.  (That's an error!)
+  # 2. Does not "consume" more genetic material than is available
+  #    at any step. (That's an error!)
+  # 3. Each individual passes on as much genetic material as
+  #    comes into it. (If not, that's a warning!)
+  # 4. The amount of genetic material sampled is the same
+  #    as the amount coming in from the founders. (If not, that's a warning!)
+
+  # 1 is taken care of by this function
+  check_pedigree_for_inbreeding(glist)
+
+  # 2-4 are checked by this function.     STILL HAVE TO WRITE IT!!
+  #check_gsp_is_valid_and_saturated(glist)
+
+
+
 
   glist
 }

@@ -181,18 +181,25 @@ Individuals can be sampled from individuals in the pedigree.
 The package data object `GSP` shows an example of such a genome simulation pedigree.  It is
 a fairly complex pedigree with 13 members.  **NOTE: Eric needs to write some functions
 that operate on a GSP and verify it is valid.  Until that time, users are encouraged
-to check them visually (more on that later...)**.  The package file at:
+to check them visually (more on that later...)**.  Here is how we created the
+images for this vignette:
 ```{r eval=FALSE}
-system.file("extdata/ped-13-complex.csv", package = "gscramble")
+csv <- system.file("extdata/13-member-ped.csv", package = "gscramble")
+gsp_tib <- readr::read_csv(csv)
+paths <- gsp2dot(g = gsp_tib, path = "images/13-member-ped")
+# now, get rid of the dot and png files
+file.remove(paths[1:2])
 ```
 holds a CSV file that gives the `GSP` tibble when read in using `readr::read_csv()`.
 
 Here is an image of the data object `GSP` drawn as a genome simulation pedigree.
-You can produce this type of plot using functions available in the 'gscramble' package,
+You can produce this type of plot using the `gsp2dot()` function
+in the 'gscramble' package,
 but it requires the installation of the GraphViz `dot` software. Working with this
 is described in a different vignette.
-
-![](images/ped13_complex-700.png)
+```{r, fig.align='center', out.width='100%', echo = FALSE}
+knitr::include_graphics("images/13-member-ped.svg")
+```
 
 ### A four-poplation GSP. `gsp4`
 

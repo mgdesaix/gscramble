@@ -272,7 +272,8 @@ this is all sampling with replacement.)  It is a little bit hairier to specify t
 but I want to do it on the ground floor here, so I can get all the structures right.  
 
 So, I made another pedigree in `ped13-complex.csv`.  Let's see if our pedigree drawing
-function can even deal with that:
+function can even deal with that. NOTE, this file is no longer around, but the
+package data object `GSP` holds the tibble...
 ```{r}
 ped13_complex <- read_csv("../inst/extdata/ped-13-complex.csv")
 gsp2dot(ped13_complex, file = "dot_drawings/ped13_complex.dot")

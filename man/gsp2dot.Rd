@@ -2,18 +2,75 @@
 % Please edit documentation in R/gsp2dot.R
 \name{gsp2dot}
 \alias{gsp2dot}
-\title{Write a dot file to represent a genome scramble pedigree}
+\title{Write a dot file to represent a genome simulation pedigree}
 \usage{
 gsp2dot(
   g,
-  file = stdout(),
+  path = file.path(tempfile(), "file_prefix"),
   edge_label_font_size = 18,
-  haplo_origin_colors = c("lightblue", "orange"),
+  haplo_origin_colors = c("lightblue", "orange", "blue", "green"),
   sam_node_color = "violet",
   sample_edge_label_color = "purple",
   parent_edge_label_color = "red"
 )
 }
+\arguments{
+\item{g}{a GSP tibble.}
+
+\item{path}{the path to the file prefix to use (to this will be appended
+.dot, and .png or .svg, if dot is on your system). By default these
+paths are in a temporary directory, because packages are not allowed to
+write to user home directories by default.  Supply a path with prefix,
+like \code{my_path/myfile} to get the output file \code{mypath.myfile.dot}}
+
+\item{edge_label_font_size}{The font size of the number annotations along the edges.}
+
+\item{haplo_origin_colors}{The colors for different origins of haplotypes.
+By default there are only four.  If you have more populations that founders
+may come from, you should add some more.}
+
+\item{sam_node_color}{The color given to the sample nodes in the GSP.}
+
+\item{sample_edge_label_color}{Color for the numeric annotations along the
+edges leading to samples.}
+
+\item{parent_edge_label_color}{Color for the numeric annotations along the
+edges leading from parents to offspring.}
+}
+\value{
+A vector of file paths.  The first is the path of the dot
+file that was produced.  The second and third are only present if
+dot was found in the PATH.  They are the paths of the png and svg
+files that were produced.
+}
 \description{
-g <- read_csv("inst/extdata/13-member-ped.csv")
+This takes the tibble representation of a GSP and writes it to
+a dot file to be rendered into a graph using the dot command
+from the GraphViz package.  You can easily get GraphViz using Miniconda
+or check out the GraphViz downloads page.  If you have the dot
+executable in your PATH, then dot will be run on the dot file
+and an SVG and a PNG image of the graph.
+}
+\details{
+It can be tricky knowing whether or not R or Rstudio will read
+your Unix rc files and populate your paths appropriately.  If you want to
+test whether \code{dot} in on your PATH as it is when running under R, try:
+\code{Sys.which("dot")} at your R console.  If that returns an empty string,
+(\code{""}), then you need to do something else to make sure R can find \code{dot}
+on your system.
+}
+\examples{
+gsp_file <- system.file("extdata/13-member-ped.csv", package = "gscramble")
+g <- readr::read_csv(gsp_file)
+
+paths <- gsp2dot(g)
+paths
+
+\dontrun{
+paths <- gsp2dot(
+    g = g,
+    path = "gsp_figs/13-member"
+)
+paths
+}
 }

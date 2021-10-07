@@ -6,7 +6,7 @@
 #' it should be easy to check for any inbreeding loops in it (which
 #' are not allowed!).  This version uses a simple recursive
 #' approach to compute the ancestry vector for each individual, and it
-#' detects inbreeding the the occurrence of the same ID in the ancestry
+#' detects inbreeding by the occurrence of the same ID in the ancestry
 #' vector more than once.  This might be slow on large pedigrees, but for
 #' most that people would use, this should be fine.
 #'
@@ -17,14 +17,15 @@
 #' @param GP A gsp in list format as produced by the function
 #' `prep_gsp_for_hap_dropping()`.  See the documentation for the return
 #' object of `prep_gsp_for_hap_dropping()` for a description.
+#' @return This function does not return anything.  It throws an error via `stop()` if
+#' inbreeeding loops are found in the pedigree.  Before throwing that error it lists
+#' the individuals with repeated occurrences in their ancestry vectors via the
+#' `message()` function.
 #' @export
 #' @examples
-#' # get the 13 member complex pedigree in tibble form
-#' file <- system.file("extdata/ped-13-complex.csv", package = "gscramble")
-#' complex13 <- readr::read_csv(file)
-#'
+#' # get the 13 member pedigree in the data object GSP and
 #' # turn it into a list
-#' GP <- prep_gsp_for_hap_dropping(complex13)
+#' GP <- prep_gsp_for_hap_dropping(GSP)
 #'
 #' # check it for inbreeding. (There is none)
 #' check_pedigree_for_inbreeding(GP)

@@ -48,9 +48,9 @@ NULL
 #' @name RecRates
 NULL
 
-#' Tibble holding specification for a 13 member genomic permutation pedigree
+#' Tibble holding specification for a 13 member genomic simulation pedigree
 #'
-#' This is just an example.
+#' The CSV version of this is in `extdata/13-member-ped.csv`.
 #'
 #' Need to document it a little more....
 #' @format A tibble
@@ -58,6 +58,8 @@ NULL
 #' @docType data
 #' @name GSP
 NULL
+
+
 
 #' Tibble holding specification for a 7 member genomic permutation pedigree.
 #'
