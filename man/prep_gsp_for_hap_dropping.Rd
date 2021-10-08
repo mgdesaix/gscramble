@@ -102,8 +102,7 @@ and then make sure that we shuffle the order of the gametes when they come
 out of someone.
 }
 \examples{
-# get the 13 member complex pedigree in tibble form
-file <- system.file("extdata/ped-13-complex.csv", package = "gscramble")
-complex13 <- readr::read_csv(file)
-complex13_prepped <- prep_gsp_for_hap_dropping(complex13)
+# get the 13 member complex pedigree in tibble form as the
+# package data object GSP and prep it:
+GSP_list <- prep_gsp_for_hap_dropping(GSP)
 }

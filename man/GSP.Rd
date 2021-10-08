@@ -3,7 +3,7 @@
 \docType{data}
 \name{GSP}
 \alias{GSP}
-\title{Tibble holding specification for a 13 member genomic permutation pedigree}
+\title{Tibble holding specification for a 13 member genomic simulation pedigree}
 \format{
 A tibble
 }
@@ -11,7 +11,7 @@ A tibble
 I just made it up!
 }
 \description{
-This is just an example.
+The CSV version of this is in \code{extdata/13-member-ped.csv}.
 }
 \details{
 Need to document it a little more....

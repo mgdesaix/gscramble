@@ -35,18 +35,11 @@ GP <- prep_gsp_for_hap_dropping(GSP)
 check_gsp_for_validity_and_saturation(GP)
 
 \dontrun{
-# Now we create errors in the GSP list
-GP_broken <- GP
-
-# make founder 6 not have founder haplotype information for the first haplotype
-GP_broken$`6`$hpop1 <- NA
-
-# request two samples from 7
-GP_broken$`7`$nSamples <- 2
-
-# remove one of the samples from 12
-GP_broken$`12`$nSamples <- 1
-
+# Read in a gsp with errors and then make sure all the
+# error in it are caught
+bad <- read_csv("inst/extdata/13-member-ped-with-errors.csv")
+badL <- prep_gsp_for_hap_dropping(bad)
+check_gsp_for_validity_and_saturation(badL)
 }
 
 }

@@ -25,18 +25,11 @@
 #' check_gsp_for_validity_and_saturation(GP)
 #'
 #' \dontrun{
-#' # Now we create errors in the GSP list
-#' GP_broken <- GP
-#'
-#' # make founder 6 not have founder haplotype information for the first haplotype
-#' GP_broken$`6`$hpop1 <- NA
-#'
-#' # request two samples from 7
-#' GP_broken$`7`$nSamples <- 2
-#'
-#' # remove one of the samples from 12
-#' GP_broken$`12`$nSamples <- 1
-#'
+#' # Read in a gsp with errors and then make sure all the
+#' # error in it are caught
+#' bad <- read_csv("inst/extdata/13-member-ped-with-errors.csv")
+#' badL <- prep_gsp_for_hap_dropping(bad)
+#' check_gsp_for_validity_and_saturation(badL)
 #' }
 #'
 check_gsp_for_validity_and_saturation <- function(GP) {
@@ -88,7 +81,7 @@ check_gsp_for_validity_and_saturation <- function(GP) {
       # If the total number of outgoing gametes (that is for samples and
       # for offspring) is > the number of incoming gametes.  That is an
       # error, and if it is less than, that is a warning.
-      IncGam = length(G$par1$gam_idx) + length(G$par1$gam_idx)
+      IncGam = length(G$par1$gam_idx) + length(G$par2$gam_idx)
       OffGam = G$nGamete  # number of gametes that will be segregated to offspring
       if(G$isSample == TRUE) {
         SamGam <- G$nSamples * 2  # number of gametes that will be used in making the samples.
@@ -110,6 +103,6 @@ check_gsp_for_validity_and_saturation <- function(GP) {
     }
   }
 
-  if(WARN) warning("There were warnings. See them in the above messages.")
+  if(WARN) warning("There were warnings. See them in the above messages.", immediate. = TRUE)
   if(ERROR) stop("There were errors. See them in the above messages. Exiting...")
 }
