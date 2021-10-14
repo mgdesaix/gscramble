@@ -229,7 +229,7 @@ prep_gsp_for_hap_dropping <- function(gsp) {
   check_pedigree_for_inbreeding(glist)
 
   # 2-4 are checked by this function.     STILL HAVE TO WRITE IT!!
-  #check_gsp_is_valid_and_saturated(glist)
+  check_gsp_for_validity_and_saturation(glist)
 
 
 
