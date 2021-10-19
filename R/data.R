@@ -85,3 +85,14 @@ NULL
 #' @name gsp3
 NULL
 
+#' Tibble holding specification for a 5 member genomic permutation pedigree.
+#'
+#' This has 3 founders
+#'
+#' Need to document it a little more....
+#' @format A list of 15 tibbles
+#' @source Rachael and Tim
+#' @docType data
+#' @name GSP_opts
+NULL
+
