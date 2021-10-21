@@ -13,6 +13,7 @@
 #' ```
 #' @export
 full_analysis <- function() {
+  create_GSP()
   gsp2dot()
   segregate()
   rearrange_genos()
