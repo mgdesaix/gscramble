@@ -1,0 +1,24 @@
+---
+title: "Pedigrees Available from create_GSP()"
+author: "Vignette Author"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+
+# determine if dot is on the system or not.  If we are running it on
+# our own machines, with dot, then it will update the images. If dot is
+# not on the system it will just use the stored dot images.
+HasDot <- Sys.which("dot") != ""
+
+# a function to create (if dot is present) the figure
+```
