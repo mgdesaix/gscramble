@@ -2,7 +2,7 @@
 % Please edit documentation in R/create_GSP.R
 \name{create_GSP}
 \alias{create_GSP}
-\title{Create a GSP from user inputs about what type of hybrids from which populations to create hybrids,}
+\title{Create a GSP from user inputs about what type of hybrids from which populations to create hybrids}
 \usage{
 create_GSP(pop1, pop2, F1 = F, F2 = F, F1B = F, F1B2 = F)
 }
@@ -13,17 +13,30 @@ create_GSP(pop1, pop2, F1 = F, F2 = F, F1B = F, F1B2 = F)
 
 \item{F1}{logical indicating whether you would like to have sampled F1 hybrids in the output.}
 
-\item{F2}{logical indicating whether you would like to have sampled F2 hybrids in the output.
-Needs more documenting.}
+\item{F2}{logical indicating whether you would like to have sampled F2 hybrids in the output.}
+
+\item{F1B}{logical indicating whether you would like to have sampled F1 backcross hybrids in the output.}
+
+\item{F1B2}{logical indicating whether you would like to have sampled F1 backcross 2 hybrids in the output.}
+}
+\value{
+This function returns a GSP in tibble format with the user argument for pop1 and pop2 autopopulated
+in the hpop1 and hpop2 columns.
 }
 \description{
-what types of individuals they would like to sample
-in terms of F1, F2, F1 backcross (F1B), or F1 backross 2 (F1B2) individuals.
-Pop IDs must be of class character and at least one parameter from the list (F1,F2,F1B, or F1B2) must be TRUE.
-Default setting for these parameters is FALSE.
+This function allows the user to choose two populations and create a GSP input for gscramble.
+The input requires two different population IDs of class character as well as at least one TRUE statement for one of
+the hybrid parameters (F1, F2, F1B, F1B2). The GSP will indicate hybrid individuals that will be sampled based on
+which F1, F2, F1B, and F1B2 parameters are TRUE. F1= TRUE means F1 hybrids will be sampled. F2=TRUE means F2 hybrids
+will be sampled. F1B2=TRUE means F1 backcross hybrids will be sampled. F1B2=TRUE means F1 backcross 2 hybrids will be sampled.
+Default setting for these parameters is FALSE. The function then outputs a GSP in tibble format that can be used for other
+functions in gscramble including "check_pedigree_for_inbreeding" and "prep_gsp_for_hap_dropping".
 }
 \examples{
-# create a GSP that produces F1s and F1B's from pops A and B
+# create a GSP that generates hybrids and samples F1s and F1B's from pops A and B
 gsp <- create_GSP("A", "B", F1 = TRUE, F1B = TRUE)
+
+#create a GSP that generates hybrids and samples F1s, F2s, F1Bs, F1B2s from pops A and B
+gsp <- create_GSP("A", "B", F1 = TRUE, F1=TRUE, F1B = TRUE, F1B2=TRUE)
 
 }

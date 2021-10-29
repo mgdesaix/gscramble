@@ -24,7 +24,7 @@
 #'
 #' @examples
 #' #create a GSP that generates hybrids and samples F1s, F2s, F1Bs, F1B2s from pops A and B
-#' gsp <- create_GSP("A", "B", F1 = TRUE, F1=TRUE, F1B = TRUE, F1B2=TRUE)
+#' gsp <- create_GSP("Pop_X", "Pop_Z", F1 = TRUE, F1=TRUE, F1B = TRUE, F1B2=TRUE)
 #'
 create_GSP<-function(pop1,pop2,F1=F,F2=F,F1B=F,F1B2=F){
 
