@@ -27,9 +27,12 @@
 #' \dontrun{
 #' # Read in a gsp with errors and then make sure all the
 #' # error in it are caught
-#' bad <- read_csv("inst/extdata/13-member-ped-with-errors.csv")
+#' bad <- readr::read_csv("inst/extdata/13-member-ped-with-errors.csv")
+#'
+#' # check_gsp_for_validity_and_saturation() is called internally from
+#' # within prep_gsp_for_hap_dropping(), after creating a list-from GSP.
+#' # This will show the error produced by check_gsp_for_validity_and_saturation().
 #' badL <- prep_gsp_for_hap_dropping(bad)
-#' check_gsp_for_validity_and_saturation(badL)
 #' }
 #'
 check_gsp_for_validity_and_saturation <- function(GP) {

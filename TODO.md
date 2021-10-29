@@ -3,6 +3,9 @@
 
 ### Coding stuff
 
+- [ ] in `prep_gsp_for_hap_dropping()` write a quick check to ensure that
+all the column types in the GSP tibble are correct (and that NAs are not
+character "NAs", etc.)
 - [x] `check_chrom_lengths()` function (see tutorial vignette line 162)
 - [x] A Function to check the validity of the GSPs.
 - [x] Figure out if recombination rates between adjacent markers 
@@ -17,12 +20,12 @@ at an existing one, and be explicit in the documentation about whether breaks oc
 
 - [ ] `big-wrapper()`
 - [ ] `check_chrom_lengths()`
-- [ ] `check_gsp_for_validity_and_saturation()`
-- [ ] `check_pedigree_for_inbreeding()`
+- [x] `check_gsp_for_validity_and_saturation()`
+- [x] `check_pedigree_for_inbreeding()`
 - [ ] `computeQs_from_segments()`
-- [ ] `create_GSP()`
-- [ ] `data()`
-- [ ] `drop-segs-down-gsp()`
+- [ ] `create_GSP()` (just needs F1B and F1B2 params documented!)
+- [ ] `data()` (Needs mild further description and editing for some data objects)
+- [x] `drop-segs-down-gsp()`
 - [ ] `full_analysis()`
 - [ ] `gsp2dot()`
 - [ ] `import()`

@@ -13,7 +13,16 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.2
 Depends:
     R (>= 3.5.0)
+    dplyr,
+    glue,
+    purrr,
+    rlang,
+    stats,
+    stringr,
+    tibble,
+    tidyr
 Suggests: 
     knitr,
+    readr,
     rmarkdown
 VignetteBuilder: knitr
