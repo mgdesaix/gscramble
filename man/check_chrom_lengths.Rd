@@ -26,7 +26,8 @@ as a numeric, the starting position of the recombination bin as a numeric, the l
 a numeric, and the recombination probability for the given bin as a numeric).
 }
 \examples{
-#The example uses the built in datasets M_meta and RecRates to use the check_chrom_lengths() function
+# The example uses the built in datasets M_meta and RecRates
+# to use the check_chrom_lengths() function
 
 check_chrom_lengths(M_meta,RecRates)
 

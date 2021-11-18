@@ -8,6 +8,12 @@ missing data constant.}
 \usage{
 mat_scramble(M, missing = "0")
 }
+\arguments{
+\item{M}{a matrix with L rows (number of markers) and 2 * N columns
+where N is the number of individuals.}
+
+\item{missing}{The value used to denote missing data in the matrix.}
+}
 \description{
 Assumes that M is a matrix with L rows (number of markers) and
 2 * N (N = number of individuals) columns.  Holds position of

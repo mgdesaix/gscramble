@@ -2,12 +2,23 @@
 % Please edit documentation in R/segregate.R
 \name{segregate}
 \alias{segregate}
-\title{must document this one fully}
+\title{Segregate segments down genomic simlation pedigrees}
 \usage{
 segregate(request, RR, MM = NULL)
 }
 \arguments{
-\item{request}{a tibble with list columns "gpp" and "reppop".}
+\item{request}{a tibble with list columns "gpp" and "reppop".
+Each element of the gpp column is a tibble giving a genomic simulation
+pedigree as documented as the input for \code{prep_gsp_for_hap_dropping()}.
+Each element of the "reppop" column is a tibble  a tibble with columns
+\code{rep}, \code{pop}, \code{group}, to indicate which of the founding
+populations ("A", "B", etc.) correspond to the different groups
+(from the \code{group} column in, for example, the meta data for individuals
+in your genotype data set, like the data object \code{I_meta}.
+Because it is quite likely that you might wish to iterate
+the segregation procedure multiple
+times in a single simulation, you can specify that by doing multiple
+"reps" (replicates) of the procedure.}
 
 \item{RR}{the recombination rates in the format of the package data}
 
@@ -19,5 +30,29 @@ let us more efficiently subscript the markers out of the matrix.
 \code{\link{RecRates}}}
 }
 \description{
-Gonna do that later
+Given a collection of genomic simulation pedigrees and requests
+for how many simulations should be done (in the \code{request} input),
+as well as recombination rates this simulates the segregation
+of segments down through the pedigrees
+}
+\examples{
+# We construct an example here where we will request segregation
+# down a GSP with two F1s and F1B backcrosses between two hypothetical
+# populations, A and B.
+gsp_f1f1b <- create_GSP("A", "B", F1 = TRUE, F1B = TRUE)
+
+# We will imagine that in our marker data there are three groups
+# labelled "grp1", "grp2", and "grp3", and we want to create the F1Bs with backcrossing
+# only to grp3.
+reppop <- tibble::tibble(
+    rep = c(1, 1, 2, 2),
+    pop = c("A", "B", "A", "B"),
+    group = c("grp3", "grp1", "grp3", "grp2")
+)
+
+# combine those into a request
+request <- tibble::tibble(
+   gpp = list(gsp_f1f1b),
+   reppop = list(reppop)
+)
 }

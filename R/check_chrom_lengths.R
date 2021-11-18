@@ -15,7 +15,8 @@
 #' @return This function will return a message for each chromosome stating whether the chromosome lengths are accurate
 #' @export
 #' @examples
-#' #The example uses the built in datasets M_meta and RecRates to use the check_chrom_lengths() function
+#' # The example uses the built in datasets M_meta and RecRates
+#' # to use the check_chrom_lengths() function
 #'
 #' check_chrom_lengths(M_meta,RecRates)
 #'

@@ -6,6 +6,22 @@
 \usage{
 make_subscript_matrix(n, chrom, start, end, abs_column, m_list, num_markers)
 }
+\arguments{
+\item{n}{the number of rows in the group of the tibble}
+
+\item{chrom}{chromosome names}
+
+\item{start}{starting position of the segment}
+
+\item{end}{ending position of th segment}
+
+\item{abs_column}{the absolute column index of the founder}
+
+\item{m_list}{a list column of markers}
+
+\item{num_markers}{the number of markers}
+}
 \description{
-I need to fully document this still.
+This is intended to be applied to a grouped tibble that
+has all the columns that are arguments to the function.
 }

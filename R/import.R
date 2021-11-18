@@ -15,12 +15,69 @@ NULL
 
 
 
-#' @importFrom dplyr arrange bind_rows case_when distinct everything filter group_by left_join mutate mutate_all n pull select summarise ungroup
+#' @importFrom dplyr arrange bind_rows case_when distinct everything filter group_by left_join mutate mutate_all n pull rename select summarise tally ungroup
+#' @importFrom ggplot2 aes facet_wrap geom_rect ggplot
 #' @importFrom glue glue
 #' @importFrom purrr flatten keep map map_dbl map_dfr pmap
 #' @importFrom rlang .data
-#' @importFrom stats setNames
+#' @importFrom stats rpois runif setNames
 #' @importFrom stringr str_c
 #' @importFrom tibble enframe tibble
-#' @importFrom tidyr separate nest unnest
+#' @importFrom tidyr separate nest unite unnest
 NULL
+
+
+
+# quiets concerns of R CMD check re: the . and other column names
+# that appear in dplyr chains
+if(getRversion() >= "2.15.1")  {
+  utils::globalVariables(
+    c(
+      ".",
+      "BY",
+      "GSP_opts",
+      "abs_column",
+      "chr_xmax",
+      "chr_xmin",
+      "chr_ymax",
+      "chr_ymin",
+      "chrom",
+      "chrom_f",
+      "chrom_len",
+      "end",
+      "gam_tibs",
+      "gamete_index",
+      "gamete_segments",
+      "gpp",
+      "group",
+      "group_length",
+      "group_origin",
+      "gs_column",
+      "gsp_init",
+      "h",
+      "hap1",
+      "hap2",
+      "haplo",
+      "id",
+      "indiv",
+      "m_subscript_matrix",
+      "map_stuff",
+      "matrix_row",
+      "par1",
+      "par2",
+      "ped_sample_id",
+      "ped_samples",
+      "pop",
+      "pop_mat",
+      "pop_origin",
+      "rec_prob",
+      "rs_founder_haplo",
+      "samp_index",
+      "segged",
+      "start",
+      "tmp_seg_names",
+      "tot_length",
+      "variant_id"
+    )
+  )
+}

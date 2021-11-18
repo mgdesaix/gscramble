@@ -14,6 +14,9 @@
 #' @param recomb_model  Not used for now, but we will want to add that
 #' here, eventually, to specify the kind of recombination model we are using,
 #' and then modify recomb_point to accommodate the different choices.
+#' @param pop_idx_sep The string to use to separate the index of the pop
+#' and the index of the founder for naming where chromosomal segments
+#' come from.  It is not recommended that this be changed.
 #' @export
 seg_haps_through_gsp <- function(G, M, chrom_len, pop_idx_sep = "--%--", recomb_model = "always one") {
 

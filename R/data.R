@@ -96,3 +96,24 @@ NULL
 #' @name GSP_opts
 NULL
 
+
+
+#' A reppop tibble for an example
+#'
+#' Needs more explanation
+#' @format A tibble...
+#' @source eric
+#' @docType data
+#' @name RepPop1
+NULL
+
+
+#' A reppop tibble for an example
+#'
+#' Needs more explanation
+#' @format A tibble...
+#' @source eric
+#' @docType data
+#' @name RepPop4
+NULL
+

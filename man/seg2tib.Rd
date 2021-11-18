@@ -2,10 +2,13 @@
 % Please edit documentation in R/seg2tib.R
 \name{seg2tib}
 \alias{seg2tib}
-\title{takes a gamete in segment format and returns a tibble with Pop and indiv_index}
+\title{Takes a gamete in segment format and returns a tibble with Pop and indiv_index}
 \usage{
 seg2tib(s)
 }
+\arguments{
+\item{s}{a gamete in segment format}
+}
 \description{
-Needs documenting
+A small helper function.
 }

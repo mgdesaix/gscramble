@@ -2,3 +2,7 @@
 ^\.Rproj\.user$
 ^inst/extdata/GSP_opts_stored_svgs/.*\.dot$
 ^inst/extdata/GSP_opts_stored_svgs/.*\.png$
+^LICENSE\.md$
+^TODO\.md$
+^development$
+^README\.Rmd$

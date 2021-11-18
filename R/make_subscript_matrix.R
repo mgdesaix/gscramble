@@ -1,7 +1,15 @@
 
 #' makes a two-column matrix for subscripting alleles out of a genotype matrix
 #'
-#' I need to fully document this still.
+#' This is intended to be applied to a grouped tibble that
+#' has all the columns that are arguments to the function.
+#' @param n the number of rows in the group of the tibble
+#' @param chrom chromosome names
+#' @param start starting position of the segment
+#' @param end ending position of th segment
+#' @param abs_column the absolute column index of the founder
+#' @param m_list a list column of markers
+#' @param num_markers  the number of markers
 #' @export
 make_subscript_matrix <- function(n, chrom, start, end, abs_column, m_list, num_markers) {
   ret <- lapply(1:n, function(i) {
