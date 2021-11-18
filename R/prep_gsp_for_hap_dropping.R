@@ -90,6 +90,48 @@
 #' # package data object GSP and prep it:
 #' GSP_list <- prep_gsp_for_hap_dropping(GSP)
 prep_gsp_for_hap_dropping <- function(gsp) {
+
+  # first check the gsp tibble to make sure that the column
+  # types are correct and shout a warning if any element is
+  # "NA" (as a character) rather than NA.
+  if(!is.na(any(gsp == "NA")) && any(gsp == "NA")) {
+    warning("WARNING in prep_gsp_for_hap_dropping(): some elements of gsp are \"NA\" strings, not NAs")
+  }
+  numeric_cols <- c(
+    "ind",
+    "par1",
+    "par2",
+    "ipar1",
+    "ipar2",
+    "osample"
+  )
+  char_cols <- c(
+    "hap1",
+    "hap2",
+    "hpop1",
+    "hpop2",
+    "sample"
+  )
+  nc_tf <- sapply(gsp[numeric_cols], is.numeric)
+  if(any(!nc_tf)) {
+    stop(
+      "Column(s): [",
+      paste(names(nc_tf)[!nc_tf], collapse = ", "),
+      "] in parameter gsp are not of numeric type"
+    )
+  }
+  cc_tf <- sapply(gsp[char_cols], is.character)
+  if(any(!cc_tf)) {
+    stop(
+      "Column(s): [",
+      paste(names(cc_tf)[!cc_tf], collapse = ", "),
+      "] in parameter gsp are not of character type"
+    )
+  }
+
+
+  ## Done with that type-error catching.
+
   founders <- gsp %>%
     filter(is.na(par1) | is.na(par2)) %>%
     pull(ind)
