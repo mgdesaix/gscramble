@@ -19,14 +19,14 @@ at an existing one, and be explicit in the documentation about whether breaks oc
 #### Functions To Document:
 
 - [ ] `big-wrapper()`
-- [ ] `check_chrom_lengths()`
+- [x] `check_chrom_lengths()`
 - [x] `check_gsp_for_validity_and_saturation()`
 - [x] `check_pedigree_for_inbreeding()`
 - [ ] `computeQs_from_segments()`
-- [ ] `create_GSP()` (just needs F1B and F1B2 params documented!)
+- [x] `create_GSP()` (just needs F1B and F1B2 params documented!)
 - [ ] `data()` (Needs mild further description and editing for some data objects)
 - [x] `drop-segs-down-gsp()`
-- [ ] `full_analysis()`
+- [ ] `full_analysis()`  NOT HIGH PRIORITY.  THIS IS JUST FOR VISUALIZTION
 - [ ] `gsp2dot()`
 - [ ] `import()`
 - [ ] `make_subscript_matrix()`
