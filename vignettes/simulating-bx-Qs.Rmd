@@ -37,8 +37,12 @@ Get the pedigree:
 ```{r}
 f <- system.file("extdata", "two_F1s.csv", package = "gscramble")
 f1 <- read_csv(f)
+```
 
-gsp2dot(f1, file = "p.dot")
+```{r, include=FALSE}
+if(Sys.which("dot") != "") {
+  gsp2dot()
+}
 ```
 
 Then make the file

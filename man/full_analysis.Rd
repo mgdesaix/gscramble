@@ -17,3 +17,11 @@ deps <- funDependencies("package:gscramble", "full_analysis")
 plot(deps)
 }
 }
+\examples{
+\dontrun{
+library(gscramble)
+library(DependenciesGraphs)
+deps <- funDependencies("package:gscramble", "full_analysis")
+plot(deps)
+}
+}

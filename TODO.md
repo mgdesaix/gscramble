@@ -3,7 +3,7 @@
 
 ### Coding stuff
 
-- [ ] in `prep_gsp_for_hap_dropping()` write a quick check to ensure that
+- [x] in `prep_gsp_for_hap_dropping()` write a quick check to ensure that
 all the column types in the GSP tibble are correct (and that NAs are not
 character "NAs", etc.)
 - [x] `check_chrom_lengths()` function (see tutorial vignette line 162)
