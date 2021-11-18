@@ -12,6 +12,14 @@
 #' plot(deps)
 #' ```
 #' @export
+#' @examples
+#' \dontrun{
+#' library(gscramble)
+#' library(DependenciesGraphs)
+#' deps <- funDependencies("package:gscramble", "full_analysis")
+#' plot(deps)
+#' }
+
 full_analysis <- function() {
   create_GSP()
   gsp2dot()
