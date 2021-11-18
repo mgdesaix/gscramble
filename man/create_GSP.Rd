@@ -37,6 +37,6 @@ functions in gscramble including "check_pedigree_for_inbreeding" and "prep_gsp_f
 gsp <- create_GSP("A", "B", F1 = TRUE, F1B = TRUE)
 
 #create a GSP that generates hybrids and samples F1s, F2s, F1Bs, F1B2s from pops A and B
-gsp <- create_GSP("Pop_X", "Pop_Z", F1 = TRUE, F1=TRUE, F1B = TRUE, F1B2=TRUE)
+gsp <- create_GSP("Pop_X", "Pop_Z", F1 = TRUE, F2 = TRUE, F1B = TRUE, F1B2 = TRUE)
 
 }
