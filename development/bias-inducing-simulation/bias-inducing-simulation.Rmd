@@ -1,0 +1,416 @@
+---
+title: "A Bias Inducing Simulation"
+output: 
+  html_notebook:
+    toc: true
+---
+
+Eric has been saying for a long time that one ought to be able to do a simple
+simulation to demonstrate the effect of sampling _with_ replacement to simulate
+hybrids and pure individuals.  This should create a situation where resampling
+from a finite sample will make it appear that there is more power for
+distinguishing two groups (and their hybrids) than there really is.
+
+Here I am going to do a simple simulation of that.  The steps are:
+
+1. Simulate a set of population allele frequencies (for just a single population).
+We will imagine that this a large population.
+2. Draw two independent samples of size $M = 30$ diploids from those
+allele frequencies.
+3. Resample alleles _with replacement_ from the each of the those samples,
+as appropriate, to create:
+    - $N_{1,P}$ pure individuals from population 1
+    - $N_{2,P}$ pure individuals from population 2
+    - $N_{F_1}$ F1 individuals ("hybrids" between pop 1 and pop 2)
+    - $N_{BC1}$ Backcross 1 ($F_1 \times \mathrm{Pop}~1$) individuals
+    - $N_{BC2}$ Backcross 2 ($F_1 \times \mathrm{Pop}~2$) individuals
+4. Throw all those individuals into ADMIXTURE and see how well it can estimate the
+Q-values of the different individuals.
+
+If it estimates Q according to the described categories above, then we are
+witnessing a bias, because, in reality all those individuals came from the
+same population.
+
+I will also simulate a set of individuals from the
+parametric allele frequencies and we will see that ADMIXTURE does not
+assign individuals to different populations correctly.
+
+Also, I will do a final case wherein the original samples are used in ADMIXTURE,
+but they are used as reference individuals in a supervised learning context, with
+some additional hybrids, simulated from those samples/reference individuals by sampling
+alleles with replacement, added in there for unsupevised learning.  This is likely how
+things get done in practice.  So it will be important to model those. 
+
+## Preliminaries
+
+1. Install the 'genoscapertools' where I have some wrapper code for running
+ADMIXTURE.
+2. Load the tidyverse
+```{r, eval=FALSE}
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+BiocManager::install("SNPRelate")
+
+remotes::install_github("eriqande/genoscapertools")
+```
+
+
+```{r}
+library(tidyverse)
+```
+
+## Simulate allele frequencies
+
+Here is a function to give us the frequencies of one of the alleles
+for $L$ biallelic markers. It just simulates from a beta dist.
+```{r}
+sim_afreqs <- function(L = 5e4, a = 1, b = 10) {
+  rbeta(L, a, b)
+}
+```
+
+Let's simulate 50K such allele freqs and note that their distribution---mostly
+rare alleles---is what we might expect to see in weakly ascertained SNP data.
+```{r}
+set.seed(555)
+L <- 5e4
+freqs <- sim_afreqs(L =  5e4)
+hist(freqs, breaks = 50)
+```
+We will declare that these are the frequencies of the "1" alleles, with the
+other allele being the "0" allele.
+
+So, the genotypes of any individuals simulate from this population can
+be expressed as the sum of the two allelic types.  Thus, genotypes of
+0, 1, or 2. 
+
+## Simulate two samples of $M$ diploids from those freqs
+
+We will just make L x M matrices, where each column is an individual
+and each row a SNP.  We will call these `sam1` and `sam2`. We simulate
+the genotypes by simulating the first and then the second allele into
+two matrices and then adding those together.
+```{r}
+M <- 30
+
+# here is a function for it
+sim_pure_genos_from_freqs <- function(
+  freqs,
+  M, 
+  prefix = "pop1"
+) {
+  L <- length(freqs)
+  alle1 <- runif(L * M) < rep(freqs, M) %>%
+    matrix(nrow = L, ncol = M)
+  alle2 <- runif(L * M) < rep(freqs, M) %>%
+    matrix(nrow = L, ncol = M)
+  ret <- alle1 + alle2
+  rownames(ret) <- paste("Loc", 1:L, "--", 1e4 * 1:L, sep = "")
+  colnames(ret) <- paste(prefix, 1:M, sep = "_" )
+  ret
+}
+
+# and here we simulate some samples from those freqs
+sam1 <- sim_pure_genos_from_freqs(freqs, M, prefix = "pop1")
+sam2 <- sim_pure_genos_from_freqs(freqs, M, prefix = "pop2")
+```
+
+## A function to run a matrix of genotypes through ADMIXTURE
+
+With on 012 matrix (like sam1, above) we can use the functions
+in genoscapeRtools to convert it to a plink file, run it through
+Admixture, slurp out the results, and plot them.
+```{r}
+#' @param mat an 012 matrix of genotypes (numLoci rows and numInds columns)
+#' @param breaks indexes of last individuals in different groups in mat, named by the
+#' group that is ending at that point.  Example:  c(pop1 = 30, pop2 = 60, F1 = 65)
+#' @param kVals a vector of the K values you want to do the runs at
+#' @param Reps the number of reps to do at each kVal.
+#' @param num_cores number of cores for mclapply.
+#' @param supervised  A named vector of the individuals considered to be of known
+#' origin, and which should be included in a "supervised" analysis.  For this to
+#' work, all such individuals must be the first ones in the data set. The vector
+#' you give is named by the populations, and gives the numbers of individuals in each,
+#' in the order in which those individuals/populations appear in the data.
+#' Example:  c(pop1 = 30, pop2 = 30).
+run_and_present_admixture <- function(
+  mat012, 
+  kVals = 2,
+  Reps = 3,
+  num_cores = 3,
+  breaks = NULL,
+  supervised = NULL
+) {
+  
+  tmpd <- tempfile()
+  dir.create(tmpd, recursive = TRUE)
+  genoscapeRtools::convert_012_to_bed(
+    t(mat012),
+    prefix = file.path(tmpd, "plink"),
+    chromo_override = TRUE
+  )
+  
+  more_flags = ""
+  if(!is.null(supervised)) {
+    pop_labels <- rep(names(supervised), times = supervised)
+    length(pop_labels) <- ncol(mat012)
+    pop_labels[is.na(pop_labels)] <- "-"
+    dir.create(file.path(tmpd, "admixture_runs", "data"), recursive = TRUE)
+    cat(pop_labels, sep = "\n", file = file.path(tmpd, "admixture_runs", "data", "input.pop"))
+    
+    more_flags = "--supervised"
+  }
+  
+  boing <- genoscapeRtools::run_admixture(
+    file.path(tmpd, "plink.bed"),
+    Reps = 3,
+    Kvals = 2,
+    path = tmpd,
+    num_cores = num_cores,
+    use_existing_directory = TRUE,
+    more_flags = more_flags
+  )
+  
+  slurped <- genoscapeRtools::slurp_admixture(path = file.path(tmpd, "admixture_runs"))
+  
+  # this ensures they come out in the right order...
+  slurped$ID <- factor(slurped$ID, levels = unique(slurped$ID))
+  
+  g <- genoscapeRtools::ggplot_the_Qs(slurped)
+  
+  
+  # get the positions for the notations
+  if(!is.null(breaks)) {
+    anno <- ((c(breaks,NA) + c(0, breaks)) / 2)[1:length(breaks)]
+    anno_tib <- expand_grid(nesting(categ = names(anno), xval = anno), K = unique(slurped$Qs$K), rep = unique(slurped$Qs$rep), cluster = NA)
+    
+    g <- g + 
+      geom_vline(xintercept = breaks + 0.5) +
+      geom_text(
+        data = anno_tib, 
+        mapping = aes(
+          x = xval,
+          label = categ
+        ),
+        y = 1.1
+      ) +
+      ylim(0, 1.2) 
+  }
+    
+  
+  list(
+    Qs = slurped,
+    plot = g
+  )
+}
+```
+
+## Run the actual samples through admixture
+
+This is now fairly easy:
+```{r, message=FALSE}
+result_real_samples <- run_and_present_admixture(cbind(sam1, sam2), breaks = c(pop1 = 30, pop2 = 60))
+
+# and look at a plot of the result:
+result_real_samples$plot
+```
+This is what we would expect it to look like: no correspondence between
+the cluster Q-values and the samples (pop1 vs pop2).  Because, recall that
+each sample was drawn from the same population (i.e. pop1 = pop2).
+
+
+## Run the resampled data set through admixture
+
+Now, resampling alleles from those samples, with replacement,
+is identical to just simulating alleles from the 
+frequencies with which they are found in the samples, so let
+us get those freqs.
+
+```{r}
+sfreq1 <- rowMeans(sam1) / 2
+sfreq2 <- rowMeans(sam2) / 2
+
+sam_r1 <- sim_pure_genos_from_freqs(sfreq1, M, prefix = "pop1")
+sam_r2 <- sim_pure_genos_from_freqs(sfreq2, M, prefix = "pop2")
+```
+
+Then we can run that through admixture and see how we do:
+```{r}
+result_resampled_samples <- run_and_present_admixture(cbind(sam_r1, sam_r2), breaks = c(pop1 = 30, pop2 = 60))
+
+result_resampled_samples$plot
+```
+
+In this case, each simulated individual is perfectly assigned
+to one group or another, directly in accordance with which sample
+they came from, even though they were all from the same population.
+
+This is not super surprising.
+
+## Functions to simlulate individuals of different hybrid categories
+
+First, a function to make F1s:
+```{r}
+#' @param n the number of F1s to make
+#' @param f1 the allele frequencies in population 1
+#' @param f2 the allele frequencies in population 2
+makeF1s <- function(n, f1, f2) {
+  # this is super easy.  We just draw one allele from each
+  # population and add those together.
+  L <- length(f1)
+  stopifnot(L == length(f2))
+  
+  mat1 <- runif(L * n) < rep(f1, n) %>% 
+    matrix(nrow = L, ncol = n)
+  mat2 <- runif(L * n) < rep(f2, n) %>% 
+    matrix(nrow = L, ncol = n)
+  
+  ret <- mat1 + mat2
+  
+  rownames(ret) <- paste("Loc", 1:L, "--", 1e4 * 1:L, sep = "")
+  colnames(ret) <- paste("F1", 1:n, sep = "_" )
+  ret
+}
+```
+
+And a function to make backcrosses:
+```{r}
+#' @param n number of backcrosses to make
+#' @param f1 allele freqs in the population to which the backcrossing occurs.
+#' In other works, if f1 has the allele freqs in pop1, then the individuals
+#' created are the products of an F1 (pop1 x pop2) mated with a pop1 individual.
+#' @param f2 allele freqs in the other population.
+makeBX <- function(n, f1, f2, prefix = "BX") {
+  # Modelling this without any physical linkage, etc. we just
+  # randomly assign loci to either:
+  #  1. Have both gene copies from pop1 (with prob 0.5)
+  #  2. Have one gene copy from pop 1 and one from pop 2 (with prob 0.5)
+  L <- length(f1)
+  stopifnot(L == length(f2))
+  
+  loc_flags <- sample(c("both", "one"), size = L * n, replace = TRUE)
+  
+  # matrix 1 is all alleles from pop1
+  mat1 <- runif(L * n) < rep(f1, n) %>% 
+    matrix(nrow = L, ncol = n)
+  
+  # matrix 2 has either a pop1 or a pop2 allele
+  mat2 <- ifelse(
+    loc_flags == "both",
+    runif(L * n) < rep(f1, n),
+    runif(L * n) < rep(f2, n)
+  ) %>%
+    matrix(nrow = L, ncol = n)
+
+  ret <- mat1 + mat2
+  
+  rownames(ret) <- paste("Loc", 1:L, "--", 1e4 * 1:L, sep = "")
+  colnames(ret) <- paste(prefix, 1:n, sep = "_" )
+  ret
+}
+```
+
+
+## Now simulation with resampled data sets
+
+Here we just resample 30 from each population, then add 10 F1s 6 BX1s and 4 BX2's
+(where BX2 means a backcross to pop2).
+
+```{r}
+F1s <- makeF1s(10, sfreq1, sfreq2)
+BX1s <- makeBX(6, sfreq1, sfreq2, "BX1")
+BX2s <- makeBX(4, sfreq2, sfreq1, "BX2")
+
+mat <- cbind(sam_r1, sam_r2, F1s, BX1s, BX2s)
+types <- c(pop1 = 30, pop2 = 60, F1 = 70, BX1 = 76, BX2 = 80)
+
+results_with_hybrids <- run_and_present_admixture(mat, breaks = types)
+
+results_with_hybrids$plot
+
+```
+
+## Now, using the original samples as reference samples
+
+It is probably more common that people will use the original samples
+as supervised learning samples, but they will sample alleles from those
+with replacement to make hybrids and see how well those hybrids can be
+identified.  Let's do that.
+```{r}
+mat012 <- cbind(sam1, sam2, F1s, BX1s, BX2s)
+breaks <- c(pop1 = 30, pop2 = 60, F1 = 70, BX1 = 76, BX2 = 80)
+supervised <- c(pop1 = 30, pop2 = 30)
+
+results_supervised <- run_and_present_admixture(
+  mat012, 
+  breaks = breaks,
+  supervised = supervised
+)
+
+results_supervised$plot
+```
+
+So, that is interesting.  For the most part, the F1s are identified as such
+(though they shouldn't be!), with variation from run to run,
+while the backcrosses just get identified as pures.  Hmmm...
+
+## How about with larger samples?
+
+Let's do samples of 100 individuals, and see how that goes.
+```{r}
+M <- 100
+sam1 <- sim_pure_genos_from_freqs(freqs, M, prefix = "pop1")
+sam2 <- sim_pure_genos_from_freqs(freqs, M, prefix = "pop2")
+
+sfreq1 <- rowMeans(sam1) / 2
+sfreq2 <- rowMeans(sam2) / 2
+
+F1s <- makeF1s(15, sfreq1, sfreq2)
+BX1s <- makeBX(15, sfreq1, sfreq2, "BX1")
+BX2s <- makeBX(15, sfreq2, sfreq1, "BX2")
+
+mat012 <- cbind(sam1, sam2, F1s, BX1s, BX2s)
+breaks <- c(pop1 = 100, pop2 = 200, F1 = 215, BX1 = 230, BX2 = 245)
+supervised <- c(pop1 = 100, pop2 = 100)
+
+results_supervised2 <- run_and_present_admixture(
+  mat012, 
+  breaks = breaks,
+  supervised = supervised
+)
+
+results_supervised2$plot
+
+```
+
+## What should that look like in reality?
+
+Well, we could do a supervised run with all the samples coming from the
+actual, parametric allele frequencies.  In this case all F1's and BX1 look
+like everyone else. So...
+
+```{r}
+M <- 100
+sam1 <- sim_pure_genos_from_freqs(freqs, M, prefix = "pop1")
+sam2 <- sim_pure_genos_from_freqs(freqs, M, prefix = "pop2")
+
+F1s <- sim_pure_genos_from_freqs(freqs, 15, prefix = "F1")
+BX1s <- sim_pure_genos_from_freqs(freqs, 15, prefix = "BX1")
+BX2s <- sim_pure_genos_from_freqs(freqs, 15, prefix = "BX2")
+
+mat012 <- cbind(sam1, sam2, F1s, BX1s, BX2s)
+breaks <- c(pop1 = 100, pop2 = 200, F1 = 215, BX1 = 230, BX2 = 245)
+supervised <- c(pop1 = 100, pop2 = 100)
+
+results_supervised3 <- run_and_present_admixture(
+  mat012, 
+  breaks = breaks,
+  supervised = supervised
+)
+
+results_supervised3$plot
+
+```
+So, that is quite clear.
+
+
