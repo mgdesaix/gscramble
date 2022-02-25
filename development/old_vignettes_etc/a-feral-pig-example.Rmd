@@ -70,32 +70,32 @@ to get many simulated samples of hybrid individuals it will be necessary to
 do multiple simulations, but we can make each simulation count as much 
 as possible by ensuring that one individual is consumed from each group.
 
-Here we set up a RepPop that samples 2 individuals from every even group as being
+Here we set up a RepPop that samples 2 individuals each from Pop2 and Pop4 to be
 from population A and 1
-individual from every odd group as being from popuation B, leaving out Pop13.
-And we add to that 2 individuals from every odd group from A and 1 from even even
-group from B.  This means we consume 3 individuals from each population.
+individual from each of Pop10 and Pop3 to be from popuation B.
+And we add to that 2 individuals from Pop2 and 4 to be from A and 1
+from even group from B.  This means we consume 3 individuals from each population.
 ```{r}
 rp1 <- bind_rows(
   tibble(
     rep = 1:6,
     pop = "A",
-    group = str_c("Pop", seq(2,12,2))
+    group = str_c("Pop", rep(c(2, 4), 3))
   ),
   tibble(
     rep = 1:6,
     pop = "B",
-    group = str_c("Pop", seq(1,11,2))
+    group = str_c("Pop", rep(c(10, 3), 3))
   ),
   tibble(
     rep = 7:12,
     pop = "B",
-    group = str_c("Pop", seq(2,12,2))
+    group = str_c("Pop", rep(c(2, 4), 3))
   ),
   tibble(
     rep = 7:12,
     pop = "A",
-    group = str_c("Pop", seq(1,11,2))
+    group = str_c("Pop", rep(c(10, 3), 3))
   )
 ) %>%
   arrange(rep, pop)
@@ -103,7 +103,7 @@ rp1 <- bind_rows(
 rp1
 ```
 
-Such an arrangement will produce one simulation that includes 3 hybrid individuals
+Such an arrangement will produce 6 simulations that include 3 hybrid individuals
 from each pair of populations in the same "rep".  But it will consume no more than
 2 individuals from each even population and no more than one individual from each odd
 population.  And no hybrids will be formed by any individuals from Pop13.

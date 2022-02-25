@@ -22,8 +22,9 @@ NULL
 #' @importFrom rlang .data
 #' @importFrom stats rpois runif setNames
 #' @importFrom stringr str_c
-#' @importFrom tibble enframe tibble
+#' @importFrom tibble as_tibble enframe tibble
 #' @importFrom tidyr separate nest unite unnest
+#' @importFrom utils write.table
 NULL
 
 
@@ -60,20 +61,26 @@ if(getRversion() >= "2.15.1")  {
       "haplo",
       "id",
       "indiv",
+      "link_pos",
       "m_subscript_matrix",
+      "ma",
       "map_stuff",
       "matrix_row",
+      "pa",
       "par1",
       "par2",
       "ped_sample_id",
       "ped_samples",
+      "pheno",
       "pop",
       "pop_mat",
       "pop_origin",
+      "pos",
       "rec_prob",
       "rs_founder_haplo",
       "samp_index",
       "segged",
+      "sex_code",
       "start",
       "tmp_seg_names",
       "tot_length",

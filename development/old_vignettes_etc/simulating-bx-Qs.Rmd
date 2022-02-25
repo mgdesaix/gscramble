@@ -2,8 +2,6 @@
 title: "Simulating Q Values of a Couple Backcross Categories"
 author: "Tim Smyser and Eric C. Anderson"
 output: 
-  html_notebook:
-    toc: true
   rmarkdown::html_vignette:
     toc: true
 vignette: >

@@ -18,7 +18,9 @@ knitr::opts_chunk$set(
 
 ```{r setup}
 library(gscramble)
-library(tidyverse)
+library(tibble)
+library(dplyr)
+library(readr)
 ```
 
 ## Input Data
@@ -45,7 +47,8 @@ genetic data for different replicates (`RepPop`)
 
 
 
-Examples of these objects from a data set of feral pigs (CITATION) are included as data objects with the 
+Examples of these objects (which have been heavily downsampled
+to make them small enough to host on CRAN) from a data set of feral pigs (CITATION) are included as data objects with the 
 package. The following sections discuss each of these data inputs in detail.
 
 ### Matrix of genotype data.  `Geno`
@@ -134,7 +137,7 @@ in `gscramble` to know a crossover rate nor a recombination rate between every a
 of markers (though if you have that information, you can provide it in `RecRates`, (see below).
 Rather, the rate of recombination can be specified in terms of the 
 per-meiosis probability of recombination in a number of (preferably relatively short---for
-example, 1 Mb or less) bins. `RecRates` is a tibble which is required to have four columns:
+example, one megabase or less) bins. `RecRates` is a tibble which is required to have four columns:
 
 * `chrom`: the chromosome on which the bin occurs. Note that the chromosome nomenclature
 must match exactly that used in `M_meta`.
@@ -159,8 +162,8 @@ might never be possible between some pairs of markers in the data set.
 iii. The chromosome length in `chrom_len` **must** exceed the position of every marker
 on the chromosome in `M_meta`.  If this is not the case
 then it would be possible that some markers would be dropped from the data set, possibly
-with unexpected or bad results. **(HEY TEAM!  LET'S WRITE A FUNCTION THAT CHECK THIS CALLED,
-`check_chrom_lengths()` or something).**
+with unexpected or bad results. You can check for errors in this
+regard using the function `check_chrom_lengths()`.
 
 
 ### Genome Simulation Pedigree. `GSP`
@@ -174,15 +177,25 @@ The `GSP` must be a tibble in which each individual has a numeric identifier (fr
 1 up to the number of individuals in the pedigree.) The founders' parents are listed
 as NA and non-founders have parents listed.  Founders' haplotypes must have unique IDs
 and must originate from a specified population (typically given in capital letters.) 
-Individuals can be sampled from individuals in the pedigree.  
+Individuals can be sampled from individuals in the pedigree, and it is up to the user
+to indicate how many gametes must be segregated to each individuals (from each of its
+two parents) in order to consume all the genetic material present in the founders.
 
-**This needs more explanation **
+This probably sounds a little abstract, and, indeed, it is.  To try to explain the
+GSP concept more fully, we will first draw a picture of one, and then show the tibble
+representation of that same GSP and discuss the structure of a GSP in light of those
+two pieces of information.
 
-The package data object `GSP` shows an example of such a genome simulation pedigree.  It is
-a fairly complex pedigree with 13 members.  **NOTE: Eric needs to write some functions
-that operate on a GSP and verify it is valid.  Until that time, users are encouraged
-to check them visually (more on that later...)**.  Here is how we created the
-images for this vignette:
+
+The package data object `GSP` shows an example of a genome simulation pedigree.  It is
+a fairly complex pedigree with 13 members.  Here is a picture of what it looks like:
+```{r, fig.align='center', out.width='100%', echo = FALSE}
+knitr::include_graphics("images/13-member-ped.svg")
+```
+
+You can produce this type of plot using the `gsp2dot()` function
+in the 'gscramble' package,
+but it requires the installation of the GraphViz `dot` software.
 ```{r eval=FALSE}
 csv <- system.file("extdata/13-member-ped.csv", package = "gscramble")
 gsp_tib <- readr::read_csv(csv)
@@ -190,15 +203,11 @@ paths <- gsp2dot(g = gsp_tib, path = "images/13-member-ped")
 # now, get rid of the dot and png files
 file.remove(paths[1:2])
 ```
-holds a CSV file that gives the `GSP` tibble when read in using `readr::read_csv()`.
 
-Here is an image of the data object `GSP` drawn as a genome simulation pedigree.
-You can produce this type of plot using the `gsp2dot()` function
-in the 'gscramble' package,
-but it requires the installation of the GraphViz `dot` software. Working with this
-is described in a different vignette.
-```{r, fig.align='center', out.width='100%', echo = FALSE}
-knitr::include_graphics("images/13-member-ped.svg")
+The tibble specification of that same GSP is printed here:
+```{r}
+csv <- system.file("extdata/13-member-ped.csv", package = "gscramble")
+readr::read_csv(csv)
 ```
 
 ### A four-poplation GSP. `gsp4`
@@ -255,8 +264,8 @@ The RepPop tibble for that might look like this:
 ```{r}
 RepPop4
 ```
-Note that this request will consume 1 individual from each of populations 1-12,
-and will create 12 simulated, admixed, individuals.
+Note that this request will consume 1 individual from each of populations 2, 3, 4, and 10 (which are mapped to A, B, C, and D, respectively),
+and will create 4 simulated, admixed, and sampled individuals.
 
 ## Segregating Chunks of Genome Without Replacement
 
