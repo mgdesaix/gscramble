@@ -66,11 +66,4 @@ g <- readr::read_csv(gsp_file)
 paths <- gsp2dot(g)
 paths
 
-\dontrun{
-paths <- gsp2dot(
-    g = g,
-    path = "gsp_figs/13-member"
-)
-paths
-}
 }

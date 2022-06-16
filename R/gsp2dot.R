@@ -41,13 +41,6 @@
 #' paths <- gsp2dot(g)
 #' paths
 #'
-#' \dontrun{
-#' paths <- gsp2dot(
-#'     g = g,
-#'     path = "gsp_figs/13-member"
-#' )
-#' paths
-#' }
 gsp2dot <- function(
   g,
   path = file.path(tempfile(), "file_prefix"),
@@ -146,6 +139,8 @@ gsp2dot <- function(
     ret[2] <- paste0(file, ".png")
     ret[3] <- paste0(file, ".svg")
     names(ret) <- c("dot", "png", "svg")
+  } else {
+    message("Cannot find dot on the system path. Returning the path to just the dot file, but not the rendered png and svg files.")
   }
 
   return(ret)
