@@ -12,9 +12,67 @@ computeQs_from_segments(S, check_total_length = TRUE)
 \item{check_total_length}{TRUE means it checks the total
 genome length in each individual to make sure it checks out.}
 }
+\value{
+This function returns a tibble with the following columns:
+\itemize{
+\item \code{gpp}: the genomic simulation pedigree within which the individual sample
+simulated.
+\item \code{rep}: the number of replicate of the simulation
+\item \code{ped_sample_id}: the id number of that the sampled individual had in the
+genomic simulation pedigree.
+\item \code{samp_index}: the index of the sample taken.  Some individuals in some
+genomic simulation pedigrees can produce more than one sample. This number
+tells you which sample it is.
+\item \code{pop_origin}: the "pedigree" population of origin of the segments that contributed
+to the \code{group_length}.  These are
+the simple "A", "B", "C", etc. designations given in the genomic simulation
+pedigree.
+\item \code{group_origin}: Which group of samples the segments contributing to
+the \code{group_length} originated from.  These are the groups of samples
+that were mapped onto the simple pedigree \code{pop_origin}s by the reppop
+request.
+\item \code{group_length}: the total length of segments from this group in this individual
+in this rep from this gpp (in bases).
+\item \code{tot_length}: the total number of bases from all origins carried by this
+individual.
+\item \code{admixture_fraction}: the fraction of all bases in the simulated individual
+that originate from the group in \code{group_origin}.
+}
+}
 \description{
 This operates on the output of segregate to add up the lengths
 of all the segments segregated to different individuals to
 thus compute the admixture fractions of each sampled
 individual.
+}
+\examples{
+#### Get output from segregate to use as input ####
+# We construct an example here where we will request segregation
+# down a GSP with two F1s and F1B backcrosses between two hypothetical
+# populations, A and B.
+gsp_f1f1b <- create_GSP("A", "B", F1 = TRUE, F1B = TRUE)
+
+# We will imagine that in our marker data there are three groups
+# labelled "grp1", "grp2", and "grp3", and we want to create the F1Bs with backcrossing
+# only to grp3.
+reppop <- tibble::tibble(
+  rep = c(1, 1, 2, 2),
+  pop = c("A", "B", "A", "B"),
+  group = c("grp3", "grp1", "grp3", "grp2")
+)
+
+# combine those into a request
+request <- tibble::tibble(
+  gpp = list(gsp_f1f1b),
+  reppop = list(reppop)
+)
+
+# now run it through segregate()
+set.seed(5)  # just for reproducibility in example...
+simSegs <- segregate(request, RecRates)
+
+#### Now we can run those through computeQs_from_segments() ####
+Qs <- computeQs_from_segments(simSegs)
+
+Qs
 }
