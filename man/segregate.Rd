@@ -2,7 +2,7 @@
 % Please edit documentation in R/segregate.R
 \name{segregate}
 \alias{segregate}
-\title{Segregate segments down genomic simlation pedigrees}
+\title{Segregate segments down genomic simulation pedigrees}
 \usage{
 segregate(request, RR, MM = NULL)
 }
@@ -10,11 +10,11 @@ segregate(request, RR, MM = NULL)
 \item{request}{a tibble with list columns "gpp" and "reppop".
 Each element of the gpp column is a tibble giving a genomic simulation
 pedigree as documented as the input for \code{prep_gsp_for_hap_dropping()}.
-Each element of the "reppop" column is a tibble  a tibble with columns
+Each element of the "reppop" column is a tibble with columns
 \code{rep}, \code{pop}, \code{group}, to indicate which of the founding
 populations ("A", "B", etc.) correspond to the different groups
 (from the \code{group} column in, for example, the meta data for individuals
-in your genotype data set, like the data object \code{I_meta}.
+in your genotype data set, like the data object \code{I_meta}).
 Because it is quite likely that you might wish to iterate
 the segregation procedure multiple
 times in a single simulation, you can specify that by doing multiple
@@ -22,7 +22,7 @@ times in a single simulation, you can specify that by doing multiple
 
 \item{RR}{the recombination rates in the format of the package data}
 
-\item{MM}{the marker meta data tibble (like M_meta).  If this is NULL it
+\item{MM}{the marker meta data tibble (like M_meta).  If this is NULL (the default) that
 is fine.  If not, then it uses the order of the markers in MM to define
 the levels of a chrom_f column so that we can sort the rows of the output
 correctly, with respect to markers in the Genotype data frame.  This will
@@ -32,7 +32,7 @@ let us more efficiently subscript the markers out of the matrix.
 \description{
 Given a collection of genomic simulation pedigrees and requests
 for how many simulations should be done (in the \code{request} input),
-as well as recombination rates this simulates the segregation
+as well as recombination rates, this simulates the segregation
 of segments down through the pedigrees
 }
 \examples{
@@ -55,4 +55,14 @@ request <- tibble::tibble(
    gpp = list(gsp_f1f1b),
    reppop = list(reppop)
 )
+
+
+result1 <- segregate(request, RecRates)
+
+# here we pass it some markers, too
+result2 <- segregate(request, RecRates, M_meta)
+
+result1
+
+result2
 }
