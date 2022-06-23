@@ -42,15 +42,15 @@ make_plots <- function(i) {
   
   # make the plots if dot is installed
   if(HasDot) {
-    gsp2dot(GSP_opts[[i]], paste("../inst/extdata/GSP_opts_stored_svgs/", i, sep=""))
+    gsp2dot(GSP_opts[[i]], paste("../man/figures/", i, sep=""))
   }
   
   # remove the dot and png files, that we do not need
-  catch <- file.remove(paste("../inst/extdata/GSP_opts_stored_svgs/", i, c(".dot", ".png"), sep = ""))
+  catch <- file.remove(paste("../man/figures/", i, c(".dot", ".png"), sep = ""))
   
   # now actually make the text for the sections
   ticks3 <- "```"
-  sprintf("\n\n%s\n\n%s{r, echo=FALSE, out.width='100%%', fig.align='center'}\nknitr::include_graphics(system.file('extdata/GSP_opts_stored_svgs/%d.svg', package = 'gscramble'))\n%s", section_title, ticks3, i, ticks3)
+  sprintf("\n\n%s\n\n%s{r, echo=FALSE, out.width='100%%', fig.align='center'}\nknitr::include_graphics('../man/figures/%d.svg')\n%s", section_title, ticks3, i, ticks3)
 }
 
 # uncomment the following line and run in the console to get text for 
@@ -62,91 +62,91 @@ make_plots <- function(i) {
 ###  F1 = TRUE, &nbsp;&nbsp;&nbsp;&nbsp; F2 = FALSE, &nbsp;&nbsp;&nbsp;&nbsp; F1B = FALSE, &nbsp;&nbsp;&nbsp;&nbsp; F1B2 = FALSE, &nbsp;&nbsp;&nbsp;&nbsp; 
 
 ```{r, echo=FALSE, out.width='100%', fig.align='center'}
-knitr::include_graphics(system.file('extdata/GSP_opts_stored_svgs/1.svg', package = 'gscramble'))
+knitr::include_graphics('../man/figures/1.svg')
 ```
 
 ###  F1 = FALSE, &nbsp;&nbsp;&nbsp;&nbsp; F2 = TRUE, &nbsp;&nbsp;&nbsp;&nbsp; F1B = FALSE, &nbsp;&nbsp;&nbsp;&nbsp; F1B2 = FALSE, &nbsp;&nbsp;&nbsp;&nbsp; 
 
 ```{r, echo=FALSE, out.width='100%', fig.align='center'}
-knitr::include_graphics(system.file('extdata/GSP_opts_stored_svgs/2.svg', package = 'gscramble'))
+knitr::include_graphics('../man/figures/2.svg')
 ```
 
 ###  F1 = TRUE, &nbsp;&nbsp;&nbsp;&nbsp; F2 = TRUE, &nbsp;&nbsp;&nbsp;&nbsp; F1B = FALSE, &nbsp;&nbsp;&nbsp;&nbsp; F1B2 = FALSE, &nbsp;&nbsp;&nbsp;&nbsp; 
 
 ```{r, echo=FALSE, out.width='100%', fig.align='center'}
-knitr::include_graphics(system.file('extdata/GSP_opts_stored_svgs/3.svg', package = 'gscramble'))
+knitr::include_graphics('../man/figures/3.svg')
 ```
 
 ###  F1 = FALSE, &nbsp;&nbsp;&nbsp;&nbsp; F2 = FALSE, &nbsp;&nbsp;&nbsp;&nbsp; F1B = TRUE, &nbsp;&nbsp;&nbsp;&nbsp; F1B2 = FALSE, &nbsp;&nbsp;&nbsp;&nbsp; 
 
 ```{r, echo=FALSE, out.width='100%', fig.align='center'}
-knitr::include_graphics(system.file('extdata/GSP_opts_stored_svgs/4.svg', package = 'gscramble'))
+knitr::include_graphics('../man/figures/4.svg')
 ```
 
 ###  F1 = TRUE, &nbsp;&nbsp;&nbsp;&nbsp; F2 = FALSE, &nbsp;&nbsp;&nbsp;&nbsp; F1B = TRUE, &nbsp;&nbsp;&nbsp;&nbsp; F1B2 = FALSE, &nbsp;&nbsp;&nbsp;&nbsp; 
 
 ```{r, echo=FALSE, out.width='100%', fig.align='center'}
-knitr::include_graphics(system.file('extdata/GSP_opts_stored_svgs/5.svg', package = 'gscramble'))
+knitr::include_graphics('../man/figures/5.svg')
 ```
 
 ###  F1 = FALSE, &nbsp;&nbsp;&nbsp;&nbsp; F2 = TRUE, &nbsp;&nbsp;&nbsp;&nbsp; F1B = TRUE, &nbsp;&nbsp;&nbsp;&nbsp; F1B2 = FALSE, &nbsp;&nbsp;&nbsp;&nbsp; 
 
 ```{r, echo=FALSE, out.width='100%', fig.align='center'}
-knitr::include_graphics(system.file('extdata/GSP_opts_stored_svgs/6.svg', package = 'gscramble'))
+knitr::include_graphics('../man/figures/6.svg')
 ```
 
 ###  F1 = TRUE, &nbsp;&nbsp;&nbsp;&nbsp; F2 = TRUE, &nbsp;&nbsp;&nbsp;&nbsp; F1B = TRUE, &nbsp;&nbsp;&nbsp;&nbsp; F1B2 = FALSE, &nbsp;&nbsp;&nbsp;&nbsp; 
 
 ```{r, echo=FALSE, out.width='100%', fig.align='center'}
-knitr::include_graphics(system.file('extdata/GSP_opts_stored_svgs/7.svg', package = 'gscramble'))
+knitr::include_graphics('../man/figures/7.svg')
 ```
 
 ###  F1 = FALSE, &nbsp;&nbsp;&nbsp;&nbsp; F2 = FALSE, &nbsp;&nbsp;&nbsp;&nbsp; F1B = FALSE, &nbsp;&nbsp;&nbsp;&nbsp; F1B2 = TRUE, &nbsp;&nbsp;&nbsp;&nbsp; 
 
 ```{r, echo=FALSE, out.width='100%', fig.align='center'}
-knitr::include_graphics(system.file('extdata/GSP_opts_stored_svgs/8.svg', package = 'gscramble'))
+knitr::include_graphics('../man/figures/8.svg')
 ```
 
 ###  F1 = TRUE, &nbsp;&nbsp;&nbsp;&nbsp; F2 = FALSE, &nbsp;&nbsp;&nbsp;&nbsp; F1B = FALSE, &nbsp;&nbsp;&nbsp;&nbsp; F1B2 = TRUE, &nbsp;&nbsp;&nbsp;&nbsp; 
 
 ```{r, echo=FALSE, out.width='100%', fig.align='center'}
-knitr::include_graphics(system.file('extdata/GSP_opts_stored_svgs/9.svg', package = 'gscramble'))
+knitr::include_graphics('../man/figures/9.svg')
 ```
 
 ###  F1 = FALSE, &nbsp;&nbsp;&nbsp;&nbsp; F2 = TRUE, &nbsp;&nbsp;&nbsp;&nbsp; F1B = FALSE, &nbsp;&nbsp;&nbsp;&nbsp; F1B2 = TRUE, &nbsp;&nbsp;&nbsp;&nbsp; 
 
 ```{r, echo=FALSE, out.width='100%', fig.align='center'}
-knitr::include_graphics(system.file('extdata/GSP_opts_stored_svgs/10.svg', package = 'gscramble'))
+knitr::include_graphics('../man/figures/10.svg')
 ```
 
 ###  F1 = TRUE, &nbsp;&nbsp;&nbsp;&nbsp; F2 = TRUE, &nbsp;&nbsp;&nbsp;&nbsp; F1B = FALSE, &nbsp;&nbsp;&nbsp;&nbsp; F1B2 = TRUE, &nbsp;&nbsp;&nbsp;&nbsp; 
 
 ```{r, echo=FALSE, out.width='100%', fig.align='center'}
-knitr::include_graphics(system.file('extdata/GSP_opts_stored_svgs/11.svg', package = 'gscramble'))
+knitr::include_graphics('../man/figures/11.svg')
 ```
 
 ###  F1 = FALSE, &nbsp;&nbsp;&nbsp;&nbsp; F2 = FALSE, &nbsp;&nbsp;&nbsp;&nbsp; F1B = TRUE, &nbsp;&nbsp;&nbsp;&nbsp; F1B2 = TRUE, &nbsp;&nbsp;&nbsp;&nbsp; 
 
 ```{r, echo=FALSE, out.width='100%', fig.align='center'}
-knitr::include_graphics(system.file('extdata/GSP_opts_stored_svgs/12.svg', package = 'gscramble'))
+knitr::include_graphics('../man/figures/12.svg')
 ```
 
 ###  F1 = TRUE, &nbsp;&nbsp;&nbsp;&nbsp; F2 = FALSE, &nbsp;&nbsp;&nbsp;&nbsp; F1B = TRUE, &nbsp;&nbsp;&nbsp;&nbsp; F1B2 = TRUE, &nbsp;&nbsp;&nbsp;&nbsp; 
 
 ```{r, echo=FALSE, out.width='100%', fig.align='center'}
-knitr::include_graphics(system.file('extdata/GSP_opts_stored_svgs/13.svg', package = 'gscramble'))
+knitr::include_graphics('../man/figures/13.svg')
 ```
 
 ###  F1 = FALSE, &nbsp;&nbsp;&nbsp;&nbsp; F2 = TRUE, &nbsp;&nbsp;&nbsp;&nbsp; F1B = TRUE, &nbsp;&nbsp;&nbsp;&nbsp; F1B2 = TRUE, &nbsp;&nbsp;&nbsp;&nbsp; 
 
 ```{r, echo=FALSE, out.width='100%', fig.align='center'}
-knitr::include_graphics(system.file('extdata/GSP_opts_stored_svgs/14.svg', package = 'gscramble'))
+knitr::include_graphics('../man/figures/14.svg')
 ```
 
 ###  F1 = TRUE, &nbsp;&nbsp;&nbsp;&nbsp; F2 = TRUE, &nbsp;&nbsp;&nbsp;&nbsp; F1B = TRUE, &nbsp;&nbsp;&nbsp;&nbsp; F1B2 = TRUE, &nbsp;&nbsp;&nbsp;&nbsp; 
 
 ```{r, echo=FALSE, out.width='100%', fig.align='center'}
-knitr::include_graphics(system.file('extdata/GSP_opts_stored_svgs/15.svg', package = 'gscramble'))
+knitr::include_graphics('../man/figures/15.svg')
 ```
 
 
