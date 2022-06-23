@@ -15,7 +15,10 @@
 #' Because it is quite likely that you might wish to iterate
 #' the segregation procedure multiple
 #' times in a single simulation, you can specify that by doing multiple
-#' "reps" (replicates) of the procedure.
+#' "reps" (replicates) of the procedure.  **BIG NOTE**: The reps that you
+#' choose must start at 1 and should be dense within.  In other words, if
+#' the max value in the reps column is N, then every integer from 1 to N
+#' must be in there.
 #' @param RR the recombination rates in the format of the package data
 #' @param MM the marker meta data tibble (like M_meta).  If this is NULL (the default) that
 #' is fine.  If not, then it uses the order of the markers in MM to define
