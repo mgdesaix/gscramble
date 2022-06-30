@@ -18,7 +18,10 @@ in your genotype data set, like the data object \code{I_meta}).
 Because it is quite likely that you might wish to iterate
 the segregation procedure multiple
 times in a single simulation, you can specify that by doing multiple
-"reps" (replicates) of the procedure.}
+"reps" (replicates) of the procedure.  \strong{BIG NOTE}: The reps that you
+choose must start at 1 and should be dense within.  In other words, if
+the max value in the reps column is N, then every integer from 1 to N
+must be in there.}
 
 \item{RR}{the recombination rates in the format of the package data}
 

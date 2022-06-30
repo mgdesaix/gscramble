@@ -77,7 +77,7 @@ computeQs_from_segments <- function(S, check_total_length = TRUE) {
     tot_len_by_max <- sum(chrom_lengths$ml) * 2
 
     problems <- tmp %>%
-      filter(tot_length != tot_len_by_max)
+      filter(!near(tot_length, tot_len_by_max, tol = 0.0001))
 
     if(nrow(problems) > 0) {
       message("Mismatch in total genome length and sum of max chrom lengths:")

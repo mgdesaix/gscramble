@@ -4,14 +4,16 @@
 \alias{big_wrapper}
 \title{Just a big, messy wrapper to wrap up some things so Tim can use them}
 \usage{
-big_wrapper(GS_input, Segs, M_meta)
+big_wrapper(Segs, Im, Mm, G)
 }
 \arguments{
-\item{GS_input}{the rearranged (but not yet scrambled) genos}
-
 \item{Segs}{the simulated segments}
 
-\item{M_meta}{the marker meta data}
+\item{Im}{the individual meta data, like that in \code{\link{I_meta}}}
+
+\item{Mm}{the marker meta data formatted like that in \code{\link{M_meta}}}
+
+\item{G}{the marker genotype data as a matrix like \code{\link{Geno}}}
 }
 \description{
 Just a big, messy wrapper to wrap up some things so Tim can use them
