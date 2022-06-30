@@ -1,12 +1,20 @@
 
 
-#' Genotype matrix of 329 individuals and 25165 SNP markers
+#' Genotype matrix of 78 individuals and 100 SNP markers
 #'
-#' This is a data set from feral pigs.  It is a standard "two-column"
-#' format genotype data matrix for a diploid species.
+#' This dataset represents 3 distinct populations of feral swine in the United States.
+#' To make this dataset computationally efficient, only 3 chromosomes (12, 17, 18) from the pig genome were used.
+#' Further, loci were reduced to the 100 most informative loci for distinguishing the 3 populations.
+#' The genotype matrix is in a standard "two-column"
+#' format genotype data matrix for a diploid species
+#' where two adjacent columns make up a locus and each column of a locus contains an allele.
+#' Genotype data is stored in the character class.
+#' Missing data is represented by NAs.
+#' Individual IDs and population assignment can be found in \code{\link{I_meta}}
+#' Locus and chromosome information for genotypes can be found in \code{\link{M_meta}}
 #'
 #' Need to document it a little more....
-#' @format A character matrix.
+#' @format A character matrix.Each row represents an individual and
 #' @source Must add...
 #' @docType data
 #' @name Geno
