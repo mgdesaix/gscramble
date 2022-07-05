@@ -5,7 +5,7 @@
 #' @param Mm the marker meta data formatted like that in \code{\link{M_meta}}
 #' @param G the marker genotype data as a matrix like \code{\link{Geno}}
 #' @export
-big_wrapper <- function(Segs, Im, Mm, G) {
+segments2markers <- function(Segs, Im, Mm, G) {
 
   GS_input = rearrange_genos(G, Im, Mm)
 

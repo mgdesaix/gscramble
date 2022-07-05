@@ -341,3 +341,96 @@ Segments %>%
   select(rs_founder_haplo:group_origin)
 ```
 
+### Visualizing those chunks of genome
+
+We have a convenience function called `plot_simulated_chromosome_segments()` that
+let's you quickly visualize the results. Let's try it here:
+```{r, fig.width=7.5, fig.height=9}
+g <- plot_simulated_chromomsome_segments(Segments, RecRates)
+g
+```
+
+
+## Simulating alleles at markers within segments
+
+There are a few separate steps required to make this happen, and they all occur
+within the function `segments2markers()`.  The steps that happen are:
+
+1. The genotype matrix is reorganized according to the `group` specification
+in the `I_meta`, so that individuals in the same group are adjacent to one another
+in the genotype matrix.
+2. The alleles carried by the individuals within each population are permuted.
+3. The chromosomes carrying these permuted alleles from `Geno` are mapped to the
+chromosomes carried by the founders in the simulation performed by `segregate()`. 
+4. The alleles on the founder chromosomes are propagated to the descendant segments
+in the individuals sampled from the GSP.
+5. Missing data is dealt with.  (If a site has one gene copy missing after the permutation
+and mapping described above, the other gene copy must be declared missing, as well).
+6. The output genotypes are formatted for return, along with some information about
+the true admixture proportions of each individual.
+
+The input to `segments2markers()` is:
+
+* A tibble of segments, like that returned from `segments()`.  This is the variable
+`Segments` defined above in this vignette example,
+* The individual meta data,
+* The marker meta data,
+* The genotype data.
+
+We invoke it like this:
+```{r}
+Markers <- segments2markers(
+  Segs = Segments,
+  Im = I_meta,
+  Mm = M_meta,
+  G = Geno
+)
+```
+
+The output is a list of three components:
+
+* `$ret_geno` is an N x 2L matrix of returned genotypes. The two alleles at each
+    locus are in two adjacent columns.
+    ```{r}
+    dim(Markers$ret_geno)
+    ```
+    ```{r}
+    # genotypes of the first 10 individuals at the first 3 markers
+    Markers$ret_geno[1:10, 1:6]
+    ```
+* `$ret_ids`: a tibble with IDs of the individuals corresponding to the rows
+    in the `ret_geno` matrix.  There are two columns: `group` and `indiv`.  The first
+    rows include the samples from the GSP.  Their group is `ped_hybs` (meaning
+    "sampled hybrids from the pedigree") and their IDs are in the `indiv` column in the
+    format of an `h-` followed by a string with replaced values of: `gpp-rep-ped_sample_id-samp_index-matrix_row`.
+    Those are (they need explaining):
+    - `rep`:
+    - `ped`:
+    - `sample_id`:
+    - `samp_index`:
+    - `matrix_row`:
+    
+    After the individual hybrid samples from the pedigree, there are rows of all the
+    remaining individuals whose genotypes after permutation were not involved as
+    founders in the segregation simulation.  These are given the name `permed` + their
+    original IDs.  The group that each belongs to is in the group column.  Things are
+    organized this way so that the whole genotype can easily be passed to ADMIXTURE and the
+    admixture fractions of the hybrid individuals estimated using the `permed_*` individuals
+    as samples of known cluster/group origin.
+* `$hyb_Qs`: A tibble with the true admixture fraction (calculated as the total proportion
+    of genome length from each group) of each simulated hybrid.
+
+
+
+## Back to plink format
+
+```{r}
+tfile <- tempfile()
+gscramble2plink(
+  I_meta = Markers$ret_ids,
+  M_meta = M_meta,
+  Geno = Markers$ret_geno,
+  prefix = tfile
+)
+```
+

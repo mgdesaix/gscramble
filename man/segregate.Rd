@@ -29,7 +29,9 @@ must be in there.}
 is fine.  If not, then it uses the order of the markers in MM to define
 the levels of a chrom_f column so that we can sort the rows of the output
 correctly, with respect to markers in the Genotype data frame.  This will
-let us more efficiently subscript the markers out of the matrix.
+let us more efficiently subscript the markers out of the matrix. If MM is
+not present, then the function will create \code{chrom_f} by using the
+order of the chromosomes from RR.
 \code{\link{RecRates}}}
 }
 \description{

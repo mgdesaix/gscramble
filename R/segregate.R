@@ -24,7 +24,9 @@
 #' is fine.  If not, then it uses the order of the markers in MM to define
 #' the levels of a chrom_f column so that we can sort the rows of the output
 #' correctly, with respect to markers in the Genotype data frame.  This will
-#' let us more efficiently subscript the markers out of the matrix.
+#' let us more efficiently subscript the markers out of the matrix. If MM is
+#' not present, then the function will create `chrom_f` by using the
+#' order of the chromosomes from RR.
 #' \code{\link{RecRates}}
 #' @export
 #' @examples
@@ -92,13 +94,17 @@ segregate <- function(request, RR, MM = NULL) {
     sim_level_founder_haplos()  # on this line we also compute the simulation-level founder haplos!
 
   if(!is.null(MM)) {
-    ret2 <- ret2 %>%
-      mutate(chrom_f = factor(chrom, levels = unique(MM$chrom))) %>%
-      select(chrom_f, everything()) %>%
-      arrange(gpp, rep, ped_sample_id, samp_index, gamete_index, chrom_f, start)
+    ret_tmp <- ret2 %>%
+      mutate(chrom_f = factor(chrom, levels = unique(MM$chrom)))
+  } else {
+    ret_tmp <- ret2 %>%
+      mutate(chrom_f = factor(chrom, levels = unique(RR$chrom)))
   }
 
-  ret2
+  # arrange and return
+  ret_tmp %>%
+      select(chrom_f, everything()) %>%
+      arrange(gpp, rep, ped_sample_id, samp_index, gamete_index, chrom_f, start)
 }
 
 
