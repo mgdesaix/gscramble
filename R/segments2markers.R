@@ -1,10 +1,13 @@
 #' Just a big, messy wrapper to wrap up some things so Tim can use them
 #'
-#' @param GS_input the rearranged (but not yet scrambled) genos
 #' @param Segs the simulated segments
-#' @param M_meta the marker meta data
+#' @param Im the individual meta data, like that in \code{\link{I_meta}}
+#' @param Mm the marker meta data formatted like that in \code{\link{M_meta}}
+#' @param G the marker genotype data as a matrix like \code{\link{Geno}}
 #' @export
-big_wrapper <- function(GS_input, Segs, M_meta) {
+segments2markers <- function(Segs, Im, Mm, G) {
+
+  GS_input = rearrange_genos(G, Im, Mm)
 
   # compute the true Q values for the ped-sampled individuals
   trueQs <- computeQs_from_segments(Segs)
@@ -52,11 +55,11 @@ big_wrapper <- function(GS_input, Segs, M_meta) {
     matrix(nrow = dim(GS$G_permed[[1]]))
 
   # now, cycle over the columns and make missing data within a locus
-  # consistent at the two haplotypes.  Assumes missing data = "0".  This
+  # consistent at the two haplotypes.  Assumes missing data is NA.  This
   # is likely not the fastest, but it gets the job done
   for(i in seq(from = 1, to = ncol(ped_sampled_indivs), by = 2)) {
-    ped_sampled_indivs[, i+1] <- ifelse(ped_sampled_indivs[, i] == "0", "0", ped_sampled_indivs[, i+1])
-    ped_sampled_indivs[, i] <- ifelse(ped_sampled_indivs[, i+1] == "0", "0", ped_sampled_indivs[, i])
+    ped_sampled_indivs[, i+1] <- ifelse(is.na(ped_sampled_indivs[, i]), NA_character_, ped_sampled_indivs[, i+1])
+    ped_sampled_indivs[, i] <- ifelse(is.na(ped_sampled_indivs[, i+1]), NA_character_, ped_sampled_indivs[, i])
   }
 
   # now we just have some bookkeeping to do.
@@ -99,7 +102,7 @@ big_wrapper <- function(GS_input, Segs, M_meta) {
     # OK, those hyb indivs are now ready to ship back out
 
     # now we just need to pack up the permed individuals that were not consumed
-    # to make the hybrid indivs.
+    # in the process of making the hybrid indivs.
     consumed_columns <- sort(unique(Segs2$abs_column))
 
     remaining_haplos <- GS$I[[1]] %>%

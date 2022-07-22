@@ -2,20 +2,42 @@
 % Please edit documentation in R/mat_scramble.R
 \name{mat_scramble}
 \alias{mat_scramble}
-\title{Assumes that M is a matrix with L rows (number of markers) and
-2 * N (N = number of individuals) columns.  Holds position of
-missing data constant.}
+\title{This function assumes that M is a matrix with L rows (number of markers) and
+2 * N (N = number of individuals) columns.
+There are two ways that the data might be permuted.  In the first,
+obtained with \code{preserve_haplotypes = FALSE},
+the position of missing data within the matrix is held constant, but all
+non-missing sites within a row (i.e. all gene copies at a locus) get
+scrambled amongst the samples.  In the second way, just the columns are
+permuted.  This preserves haplotypes in the data, if there are any.
+The second approach should only be used if haplotypes are inferred in
+the individuals.}
 \usage{
-mat_scramble(M, missing = "0")
+mat_scramble(M, preserve_haplotypes = !is.null(row_groups), row_groups = NULL)
 }
 \arguments{
 \item{M}{a matrix with L rows (number of markers) and 2 * N columns
-where N is the number of individuals.}
+where N is the number of individuals. Missing data must be coded
+as NA}
 
-\item{missing}{The value used to denote missing data in the matrix.}
+\item{preserve_haplotypes}{logical indicating whether the haplotypes
+set to be TRUE}
+
+\item{row_groups}{if not NULL must be a list of indexes of adjacent rows
+that are all in the same groups.  For example: \code{list(1:10, 11:15, 16:30)}.
+They should be in order and complete.
+In practice, these should correspond to the indexes of markers on different
+chromosomes.}
 }
 \description{
-Assumes that M is a matrix with L rows (number of markers) and
-2 * N (N = number of individuals) columns.  Holds position of
-missing data constant.
+This function assumes that M is a matrix with L rows (number of markers) and
+2 * N (N = number of individuals) columns.
+There are two ways that the data might be permuted.  In the first,
+obtained with \code{preserve_haplotypes = FALSE},
+the position of missing data within the matrix is held constant, but all
+non-missing sites within a row (i.e. all gene copies at a locus) get
+scrambled amongst the samples.  In the second way, just the columns are
+permuted.  This preserves haplotypes in the data, if there are any.
+The second approach should only be used if haplotypes are inferred in
+the individuals.
 }

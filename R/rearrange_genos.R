@@ -20,7 +20,7 @@ rearrange_genos <- function(G, Im, Mm) {
   stopifnot(nrow(G) == nrow(Im))
 
   # now, reorder the individuals in Im and then G, and while we
-  # are at it, transpose G so that markers are in rows,
+  # are at it, transpose G so that markers are in the rows
   I2 <- Im %>%
     ungroup() %>%
     mutate(orig_index__ = 1:n()) %>%

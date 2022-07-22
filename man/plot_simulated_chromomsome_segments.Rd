@@ -32,7 +32,7 @@ pair in a chromosome unit.
 \item \code{spark_gap}: the gap between the top chromosome and the sparkline box
 for recombination rates.
 \item \code{spark_box}: height of the box within which the sparkline goes.  Note that
-the sparkline itself will be scaled so that the highest rate anywhere withing
+the sparkline itself will be scaled so that the highest rate anywhere within
 the genome will correspond to the top of the spark box.
 \item \code{unit_gap}: The relative height of the gap between one chromosome unit and
 the next.

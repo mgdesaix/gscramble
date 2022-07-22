@@ -18,7 +18,10 @@ in your genotype data set, like the data object \code{I_meta}).
 Because it is quite likely that you might wish to iterate
 the segregation procedure multiple
 times in a single simulation, you can specify that by doing multiple
-"reps" (replicates) of the procedure.}
+"reps" (replicates) of the procedure.  \strong{BIG NOTE}: The reps that you
+choose must start at 1 and should be dense within.  In other words, if
+the max value in the reps column is N, then every integer from 1 to N
+must be in there.}
 
 \item{RR}{the recombination rates in the format of the package data}
 
@@ -26,7 +29,9 @@ times in a single simulation, you can specify that by doing multiple
 is fine.  If not, then it uses the order of the markers in MM to define
 the levels of a chrom_f column so that we can sort the rows of the output
 correctly, with respect to markers in the Genotype data frame.  This will
-let us more efficiently subscript the markers out of the matrix.
+let us more efficiently subscript the markers out of the matrix. If MM is
+not present, then the function will create \code{chrom_f} by using the
+order of the chromosomes from RR.
 \code{\link{RecRates}}}
 }
 \description{

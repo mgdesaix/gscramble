@@ -22,7 +22,7 @@
 #' - `spark_gap`: the gap between the top chromosome and the sparkline box
 #' for recombination rates.
 #' - `spark_box`: height of the box within which the sparkline goes.  Note that
-#' the sparkline itself will be scaled so that the highest rate anywhere withing
+#' the sparkline itself will be scaled so that the highest rate anywhere within
 #' the genome will correspond to the top of the spark box.
 #' - `unit_gap`: The relative height of the gap between one chromosome unit and
 #' the next.
@@ -65,7 +65,7 @@ plot_simulated_chromomsome_segments <- function(
 
   # get a tibble of the central points of each chromosome unit, where
   # we will want to put tick marks and plot their name. I think we
-  # want to put those in the middle of the gap between the chromsomes.
+  # want to put those in the middle of the gap between the chromosomes.
   chrom_ticks <- S %>%
     distinct(chrom_f, BY) %>%
     mutate(tick_y = BY + ah["chrom_ht"] + 0.5 * ah["chrom_gap"])
@@ -88,12 +88,19 @@ plot_simulated_chromomsome_segments <- function(
     geom_rect(
       data = S2 %>% filter(rep <= 4),
       mapping = aes(
-        xmin = chr_xmin,
-        xmax = chr_xmax,
+        xmin = chr_xmin/1e6,
+        xmax = chr_xmax/1e6,
         ymin = chr_ymin,
         ymax = chr_ymax,
         fill = pop_origin
       )
+    ) +
+    xlab("bp in Megabases") +
+    scale_y_continuous(
+      name = "Chromosome",
+      breaks = chrom_ticks$tick_y,
+      labels = as.character(chrom_ticks$chrom_f),
+      minor_breaks = NULL
     ) +
     facet_wrap(~ unit)
 
