@@ -1,138 +1,138 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>/404.html</loc>
+    <loc>https://eriqande.github.io/gscramble/404.html</loc>
   </url>
   <url>
-    <loc>/LICENSE.html</loc>
+    <loc>https://eriqande.github.io/gscramble/LICENSE.html</loc>
   </url>
   <url>
-    <loc>/TODO.html</loc>
+    <loc>https://eriqande.github.io/gscramble/TODO.html</loc>
   </url>
   <url>
-    <loc>/articles/about-createGSP.html</loc>
+    <loc>https://eriqande.github.io/gscramble/articles/about-createGSP.html</loc>
   </url>
   <url>
-    <loc>/articles/gscramble-tutorial.html</loc>
+    <loc>https://eriqande.github.io/gscramble/articles/gscramble-tutorial.html</loc>
   </url>
   <url>
-    <loc>/articles/gscramble-tutorial_1.2.html</loc>
+    <loc>https://eriqande.github.io/gscramble/articles/gscramble-tutorial_1.2.html</loc>
   </url>
   <url>
-    <loc>/articles/index.html</loc>
+    <loc>https://eriqande.github.io/gscramble/articles/index.html</loc>
   </url>
   <url>
-    <loc>/authors.html</loc>
+    <loc>https://eriqande.github.io/gscramble/authors.html</loc>
   </url>
   <url>
-    <loc>/index.html</loc>
+    <loc>https://eriqande.github.io/gscramble/index.html</loc>
   </url>
   <url>
-    <loc>/reference/GSP.html</loc>
+    <loc>https://eriqande.github.io/gscramble/reference/GSP.html</loc>
   </url>
   <url>
-    <loc>/reference/GSP_opts.html</loc>
+    <loc>https://eriqande.github.io/gscramble/reference/GSP_opts.html</loc>
   </url>
   <url>
-    <loc>/reference/Geno.html</loc>
+    <loc>https://eriqande.github.io/gscramble/reference/Geno.html</loc>
   </url>
   <url>
-    <loc>/reference/I_meta.html</loc>
+    <loc>https://eriqande.github.io/gscramble/reference/I_meta.html</loc>
   </url>
   <url>
-    <loc>/reference/M_meta.html</loc>
+    <loc>https://eriqande.github.io/gscramble/reference/M_meta.html</loc>
   </url>
   <url>
-    <loc>/reference/RecRates.html</loc>
+    <loc>https://eriqande.github.io/gscramble/reference/RecRates.html</loc>
   </url>
   <url>
-    <loc>/reference/RepPop1.html</loc>
+    <loc>https://eriqande.github.io/gscramble/reference/RepPop1.html</loc>
   </url>
   <url>
-    <loc>/reference/RepPop4.html</loc>
+    <loc>https://eriqande.github.io/gscramble/reference/RepPop4.html</loc>
   </url>
   <url>
-    <loc>/reference/big_wrapper.html</loc>
+    <loc>https://eriqande.github.io/gscramble/reference/big_wrapper.html</loc>
   </url>
   <url>
-    <loc>/reference/check_chrom_lengths.html</loc>
+    <loc>https://eriqande.github.io/gscramble/reference/check_chrom_lengths.html</loc>
   </url>
   <url>
-    <loc>/reference/check_gsp_for_validity_and_saturation.html</loc>
+    <loc>https://eriqande.github.io/gscramble/reference/check_gsp_for_validity_and_saturation.html</loc>
   </url>
   <url>
-    <loc>/reference/check_pedigree_for_inbreeding.html</loc>
+    <loc>https://eriqande.github.io/gscramble/reference/check_pedigree_for_inbreeding.html</loc>
   </url>
   <url>
-    <loc>/reference/computeQs_from_segments.html</loc>
+    <loc>https://eriqande.github.io/gscramble/reference/computeQs_from_segments.html</loc>
   </url>
   <url>
-    <loc>/reference/create_GSP.html</loc>
+    <loc>https://eriqande.github.io/gscramble/reference/create_GSP.html</loc>
   </url>
   <url>
-    <loc>/reference/drop_segs_down_gsp.html</loc>
+    <loc>https://eriqande.github.io/gscramble/reference/drop_segs_down_gsp.html</loc>
   </url>
   <url>
-    <loc>/reference/full_analysis.html</loc>
+    <loc>https://eriqande.github.io/gscramble/reference/full_analysis.html</loc>
   </url>
   <url>
-    <loc>/reference/gscramble2plink.html</loc>
+    <loc>https://eriqande.github.io/gscramble/reference/gscramble2plink.html</loc>
   </url>
   <url>
-    <loc>/reference/gsp2dot.html</loc>
+    <loc>https://eriqande.github.io/gscramble/reference/gsp2dot.html</loc>
   </url>
   <url>
-    <loc>/reference/gsp3.html</loc>
+    <loc>https://eriqande.github.io/gscramble/reference/gsp3.html</loc>
   </url>
   <url>
-    <loc>/reference/gsp4.html</loc>
+    <loc>https://eriqande.github.io/gscramble/reference/gsp4.html</loc>
   </url>
   <url>
-    <loc>/reference/index.html</loc>
+    <loc>https://eriqande.github.io/gscramble/reference/index.html</loc>
   </url>
   <url>
-    <loc>/reference/make_subscript_matrix.html</loc>
+    <loc>https://eriqande.github.io/gscramble/reference/make_subscript_matrix.html</loc>
   </url>
   <url>
-    <loc>/reference/mat_scramble.html</loc>
+    <loc>https://eriqande.github.io/gscramble/reference/mat_scramble.html</loc>
   </url>
   <url>
-    <loc>/reference/perm_gs_by_pops.html</loc>
+    <loc>https://eriqande.github.io/gscramble/reference/perm_gs_by_pops.html</loc>
   </url>
   <url>
-    <loc>/reference/plink2gscramble.html</loc>
+    <loc>https://eriqande.github.io/gscramble/reference/plink2gscramble.html</loc>
   </url>
   <url>
-    <loc>/reference/plot_simulated_chromomsome_segments.html</loc>
+    <loc>https://eriqande.github.io/gscramble/reference/plot_simulated_chromomsome_segments.html</loc>
   </url>
   <url>
-    <loc>/reference/prep_gsp_for_hap_dropping.html</loc>
+    <loc>https://eriqande.github.io/gscramble/reference/prep_gsp_for_hap_dropping.html</loc>
   </url>
   <url>
-    <loc>/reference/rearrange_genos.html</loc>
+    <loc>https://eriqande.github.io/gscramble/reference/rearrange_genos.html</loc>
   </url>
   <url>
-    <loc>/reference/recomb_point.html</loc>
+    <loc>https://eriqande.github.io/gscramble/reference/recomb_point.html</loc>
   </url>
   <url>
-    <loc>/reference/seg2tib.html</loc>
+    <loc>https://eriqande.github.io/gscramble/reference/seg2tib.html</loc>
   </url>
   <url>
-    <loc>/reference/seg_haps_through_gsp.html</loc>
+    <loc>https://eriqande.github.io/gscramble/reference/seg_haps_through_gsp.html</loc>
   </url>
   <url>
-    <loc>/reference/segments2markers.html</loc>
+    <loc>https://eriqande.github.io/gscramble/reference/segments2markers.html</loc>
   </url>
   <url>
-    <loc>/reference/segregate.html</loc>
+    <loc>https://eriqande.github.io/gscramble/reference/segregate.html</loc>
   </url>
   <url>
-    <loc>/reference/sim_level_founder_haplos.html</loc>
+    <loc>https://eriqande.github.io/gscramble/reference/sim_level_founder_haplos.html</loc>
   </url>
   <url>
-    <loc>/reference/tidy_up_sampled_haplos.html</loc>
+    <loc>https://eriqande.github.io/gscramble/reference/tidy_up_sampled_haplos.html</loc>
   </url>
   <url>
-    <loc>/reference/xover.html</loc>
+    <loc>https://eriqande.github.io/gscramble/reference/xover.html</loc>
   </url>
 </urlset>

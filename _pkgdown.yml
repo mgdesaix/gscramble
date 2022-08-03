@@ -1,4 +1,7 @@
-url: ~
+url: https://eriqande.github.io/gscramble
+
 template:
-  bootstrap: 5
+  params:
+    bootswatch: cosmo
+
 

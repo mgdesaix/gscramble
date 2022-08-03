@@ -1,0 +1,75 @@
+# this will be added into pkgdown.yaml, but for some
+# reason it is currently causing errors when added:
+
+# Error : $ operator is invalid for atomic vectors
+# Error: callr subprocess failed: $ operator is invalid for atomic vectors
+
+reference:
+- title: "High level simulation functions"
+  desc: >
+    These are functions that are intended for use by the user when
+    preparing inputs for a gscramble simulation and for conducting those
+    simulation.
+- contents:
+  - create_GSP
+  - segregate
+  - segments2markers
+- title: "Functions for summarizing and visualizing simulation results or inputs"
+  desc: >
+    These are just a few functions to summarize the results from
+    gscramble simulations or to visualize GSPs.
+- contents:
+  - computeQs_from_segments
+  - plot_simulated_chromomsome_segments
+  - gsp2dot
+- title: "Data input and output functions"
+  desc: >
+    These functions help to get data in PLINK format into
+    gscramble, and also converting gscramble objects into
+    PLINK files.
+- contents:
+  - plink2gscramble
+  - gscramble2plink
+- title: "Example data objects"
+  desc: >
+    These data objects are provided as examples of the inputs to gscramble.
+    They are used in the vignettes as well.
+- contents:
+  - Geno
+  - I_meta
+  - M_meta
+  - RecRates
+  - gsp4
+  - GSP
+  - RepPop1
+  - RepPop4
+- title: "Low-level functions"
+  desc: >
+    These are functions that are not intended for use by the general
+    user, but they are included in the documentation for the interest of
+    developers and they are exported in the package to help with debugging and
+    development.
+- contents:
+  - check_chrom_lengths
+  - check_gsp_for_validity_and_saturation
+  - check_pedigree_for_inbreeding
+  - drop_segs_down_gsp
+  - make_subscript_matrix
+  - mat_scramble
+  - perm_gs_by_pops
+  - prep_gsp_for_hap_dropping
+  - rearrange_genos
+  - recomb_point
+  - seg2tib
+  - seg_haps_through_gsp
+  - sim_level_founder_haplos
+  - tidy_up_sampled_haplos
+  - xover
+- title: "Other"
+  desc: >
+    Stuff we haven't put anywhere else yet, some of which might
+    get tossed.
+- contents
+  - GSP_opts
+  - full_analysis
+  - gsp3

@@ -1,5 +1,10 @@
 ---
 title: "A first tutorial for `gscramble`"
+resource_files:
+  - ../man/figures/F1-500.png
+  - ../man/figures/13.svg
+  - ../man/figures/13-member-ped.svg
+  - ../man/figures/gsp4-700.png
 output: 
   rmarkdown::html_vignette:
     toc: true
@@ -200,8 +205,10 @@ To try to explain the GSP concept more fully, we will first draw a picture of th
 most basic pedigree (the simulation of F1s created through the hybridization of 
 individuals from two population).  We then show the tibble representation of that
 same GSP and discuss the structure of a GSP in light of those two pieces of information.
+```{r, fig.align='center', out.width='50%', echo = FALSE}
+knitr::include_graphics("../man/figures/F1-500.png")
+```
 
-![](images/F1-500.png)
 
 Now, for example, let’s say you are interested in simulating F1 hybrids for all pairwise combinations of populations (with the example data Pop1, Pop2, Pop3, Pop4).  F1s are symmetrical such that a Pop1-Pop2 hybrid is identical to a Pop2-Pop1 hybrid.  Accordingly, we need to specify the `RepPop` tibble to define which populations to use in each replicate of the simulation:
 
@@ -230,7 +237,7 @@ gspComplex
 For this example, Pop1 is our population of interest. We are simulating Pop1-Pop2 F1s, then pairing those F1 individuals with Pop1 to generate backcrossed hybrids, which are different than Pop1-Pop2, backcrossed to Pop2 hybrids. Here is a picture of what that looks like:
 
 ```{r, fig.align='center', out.width='100%', echo = FALSE}
-knitr::include_graphics("images/13.svg")
+knitr::include_graphics("../man/figures/13.svg")
 ```
 
 Notice that backcrossed individuals are not symmetrical. 
@@ -263,7 +270,7 @@ Here are two illustrations of more complex patterns of hybridization:
 The package data object `GSP` shows an example of a genome simulation pedigree with 13 members.  Here is a picture of what it looks like:
 
 ```{r, fig.align='center', out.width='100%', echo = FALSE}
-knitr::include_graphics("images/13-member-ped.svg")
+knitr::include_graphics("../man/figures/13-member-ped.svg")
 ```
 
 You can produce this type of plot using the `gsp2dot()` function
@@ -296,8 +303,9 @@ system.file("extdata/gsp4.csv", package = "gscramble")
 ```
 
 Here is what it looks like:
-
-![](images/gsp4-700.png)
+```{r, fig.align='center', out.width='70%', echo = FALSE}
+knitr::include_graphics("../man/figures/gsp4-700.png")
+```
 
 
 ### Mapping populations/collections to founding populations. `RepPop`
@@ -501,6 +509,10 @@ The output is a list of three components:
 ## Back to plink format
 
 ```{r}
+# note, we are only using a temporary file here for the output
+# because this is in the vignette of an R package.  You, yourself,
+# will likely want to write the results to a directory in your
+# home directory somewhere, like `prefix = ~/my_stuff/gscram-sim-1`, etc.
 tfile <- tempfile()
 gscramble2plink(
   I_meta = Markers$ret_ids,
