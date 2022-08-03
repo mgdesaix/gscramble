@@ -26,6 +26,7 @@
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
     <a class="dropdown-item" href="../articles/about-createGSP.html">Pedigrees Available from create_GSP()</a>
     <a class="dropdown-item" href="../articles/gscramble-tutorial.html">A first tutorial for `gscramble`</a>
+    <a class="dropdown-item" href="../articles/gscramble-tutorial_1.2.html">A first tutorial for `gscramble`</a>
   </div>
 </li>
       </ul><form class="form-inline my-2 my-lg-0" role="search">
@@ -66,7 +67,7 @@
           
           <code><a href="Geno.html">Geno</a></code> 
         </dt>
-        <dd>Genotype matrix of 329 individuals and 25165 SNP markers</dd>
+        <dd>Genotype matrix of 78 individuals and 100 SNP markers</dd>
       </dl><dl><dt>
           
           <code><a href="I_meta.html">I_meta</a></code> 
@@ -92,11 +93,6 @@
           <code><a href="RepPop4.html">RepPop4</a></code> 
         </dt>
         <dd>A reppop tibble for an example</dd>
-      </dl><dl><dt>
-          
-          <code><a href="big_wrapper.html">big_wrapper()</a></code> 
-        </dt>
-        <dd>Just a big, messy wrapper to wrap up some things so Tim can use them</dd>
       </dl><dl><dt>
           
           <code><a href="check_chrom_lengths.html">check_chrom_lengths()</a></code> 
@@ -161,9 +157,16 @@
           
           <code><a href="mat_scramble.html">mat_scramble()</a></code> 
         </dt>
-        <dd>Assumes that M is a matrix with L rows (number of markers) and
-2 * N (N = number of individuals) columns.  Holds position of
-missing data constant.</dd>
+        <dd>This function assumes that M is a matrix with L rows (number of markers) and
+2 * N (N = number of individuals) columns.
+There are two ways that the data might be permuted.  In the first,
+obtained with <code>preserve_haplotypes = FALSE</code>,
+the position of missing data within the matrix is held constant, but all
+non-missing sites within a row (i.e. all gene copies at a locus) get
+scrambled amongst the samples.  In the second way, just the columns are
+permuted.  This preserves haplotypes in the data, if there are any.
+The second approach should only be used if haplotypes are inferred in
+the individuals.</dd>
       </dl><dl><dt>
           
           <code><a href="perm_gs_by_pops.html">perm_gs_by_pops()</a></code> 
@@ -201,9 +204,14 @@ missing data constant.</dd>
         <dd>Segregate haplotypes through a genome simulation pedigree list</dd>
       </dl><dl><dt>
           
+          <code><a href="segments2markers.html">segments2markers()</a></code> 
+        </dt>
+        <dd>Just a big, messy wrapper to wrap up some things so Tim can use them</dd>
+      </dl><dl><dt>
+          
           <code><a href="segregate.html">segregate()</a></code> 
         </dt>
-        <dd>Segregate segments down genomic simlation pedigrees</dd>
+        <dd>Segregate segments down genomic simulation pedigrees</dd>
       </dl><dl><dt>
           
           <code><a href="sim_level_founder_haplos.html">sim_level_founder_haplos()</a></code> 

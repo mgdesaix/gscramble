@@ -26,6 +26,7 @@
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
     <a class="dropdown-item" href="../articles/about-createGSP.html">Pedigrees Available from create_GSP()</a>
     <a class="dropdown-item" href="../articles/gscramble-tutorial.html">A first tutorial for `gscramble`</a>
+    <a class="dropdown-item" href="../articles/gscramble-tutorial_1.2.html">A first tutorial for `gscramble`</a>
   </div>
 </li>
       </ul><form class="form-inline my-2 my-lg-0" role="search">
@@ -49,13 +50,20 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">perm_gs_by_pops</span><span class="op">(</span><span class="va">GS</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">perm_gs_by_pops</span><span class="op">(</span><span class="va">GS</span>, preserve_haplotypes <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
     </div>
 
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>GS</dt>
 <dd><p>the tibble that is the output from rearrange_genos</p></dd>
+
+
+<dt>preserve_haplotypes</dt>
+<dd><p>If true then the Geno data is assumed phased
+(first allele at an individual on one haplotype and second allele on the
+other) and those haplotypes are preserved in this permutation of
+genomic material amongst the founders.</p></dd>
 
 </dl></div>
 

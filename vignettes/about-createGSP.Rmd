@@ -1,5 +1,21 @@
 ---
 title: "Pedigrees Available from create_GSP()"
+resource_files:
+  - ../man/figures/1.svg
+  - ../man/figures/2.svg
+  - ../man/figures/3.svg
+  - ../man/figures/4.svg
+  - ../man/figures/5.svg
+  - ../man/figures/6.svg
+  - ../man/figures/7.svg
+  - ../man/figures/8.svg
+  - ../man/figures/9.svg
+  - ../man/figures/10.svg
+  - ../man/figures/11.svg
+  - ../man/figures/12.svg
+  - ../man/figures/13.svg
+  - ../man/figures/14.svg
+  - ../man/figures/15.svg
 author: "Rachel Giglio"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette

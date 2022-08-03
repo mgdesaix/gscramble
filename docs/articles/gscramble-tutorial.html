@@ -43,6 +43,7 @@
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
     <a class="dropdown-item" href="../articles/about-createGSP.html">Pedigrees Available from create_GSP()</a>
     <a class="dropdown-item" href="../articles/gscramble-tutorial.html">A first tutorial for `gscramble`</a>
+    <a class="dropdown-item" href="../articles/gscramble-tutorial_1.2.html">A first tutorial for `gscramble`</a>
   </div>
 </li>
       </ul>
@@ -502,22 +503,22 @@ will look at the results that we have here.</p>
 produced above.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">Segments</span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 286 × 13</span></span>
-<span class="co">#&gt;      gpp   rep chrom ped_sample_id samp_index gamete_index gamete_segments</span>
-<span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>         </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>     1     1 12    10                     1            1 <span style="color: #949494;">&lt;dbl [3]&gt;</span>      </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>     1     1 12    10                     1            1 <span style="color: #949494;">&lt;dbl [3]&gt;</span>      </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>     1     1 17    10                     1            1 <span style="color: #949494;">&lt;dbl [3]&gt;</span>      </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>     1     1 17    10                     1            1 <span style="color: #949494;">&lt;dbl [3]&gt;</span>      </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>     1     1 18    10                     1            1 <span style="color: #949494;">&lt;dbl [5]&gt;</span>      </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>     1     1 18    10                     1            1 <span style="color: #949494;">&lt;dbl [5]&gt;</span>      </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>     1     1 18    10                     1            1 <span style="color: #949494;">&lt;dbl [5]&gt;</span>      </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>     1     1 18    10                     1            1 <span style="color: #949494;">&lt;dbl [5]&gt;</span>      </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>     1     1 12    10                     1            2 <span style="color: #949494;">&lt;dbl [5]&gt;</span>      </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">10</span>     1     1 12    10                     1            2 <span style="color: #949494;">&lt;dbl [5]&gt;</span>      </span>
-<span class="co">#&gt; <span style="color: #949494;"># … with 276 more rows, and 6 more variables: pop_origin &lt;chr&gt;,</span></span>
-<span class="co">#&gt; <span style="color: #949494;">#   rs_founder_haplo &lt;int&gt;, start &lt;dbl&gt;, end &lt;dbl&gt;, group_origin &lt;chr&gt;,</span></span>
-<span class="co">#&gt; <span style="color: #949494;">#   sim_level_founder_haplo &lt;int&gt;</span></span></code></pre></div>
+<span class="co">#&gt; <span style="color: #949494;"># A tibble: 286 × 14</span></span>
+<span class="co">#&gt;    chrom_f   gpp   rep chrom ped_sample_id samp_index gamete_index</span>
+<span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> 12          1     1 12    10                     1            1</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> 12          1     1 12    10                     1            1</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> 17          1     1 17    10                     1            1</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> 17          1     1 17    10                     1            1</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> 18          1     1 18    10                     1            1</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> 18          1     1 18    10                     1            1</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> 18          1     1 18    10                     1            1</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> 18          1     1 18    10                     1            1</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> 12          1     1 12    10                     1            2</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">10</span> 12          1     1 12    10                     1            2</span>
+<span class="co">#&gt; <span style="color: #949494;"># … with 276 more rows, and 7 more variables: gamete_segments &lt;list&gt;,</span></span>
+<span class="co">#&gt; <span style="color: #949494;">#   pop_origin &lt;chr&gt;, rs_founder_haplo &lt;int&gt;, start &lt;dbl&gt;, end &lt;dbl&gt;,</span></span>
+<span class="co">#&gt; <span style="color: #949494;">#   group_origin &lt;chr&gt;, sim_level_founder_haplo &lt;int&gt;</span></span></code></pre></div>
 <p>The table is a little wide, so we will show the first half of the
 columns and then the second half here.</p>
 <p>First half</p>
@@ -556,6 +557,134 @@ columns and then the second half here.</p>
 <span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>                6        0   9<span style="text-decoration: underline;">808</span>646. Pop2        </span>
 <span class="co">#&gt; <span style="color: #BCBCBC;">10</span>                4  9<span style="text-decoration: underline;">808</span>646. 50<span style="text-decoration: underline;">453</span>258. Pop3        </span>
 <span class="co">#&gt; <span style="color: #949494;"># … with 276 more rows</span></span></code></pre></div>
+<div class="section level3">
+<h3 id="visualizing-those-chunks-of-genome">Visualizing those chunks of genome<a class="anchor" aria-label="anchor" href="#visualizing-those-chunks-of-genome"></a>
+</h3>
+<p>We have a convenience function called
+<code>plot_simulated_chromosome_segments()</code> that let’s you quickly
+visualize the results. Let’s try it here:</p>
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">g</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plot_simulated_chromomsome_segments.html">plot_simulated_chromomsome_segments</a></span><span class="op">(</span><span class="va">Segments</span>, <span class="va">RecRates</span><span class="op">)</span>
+<span class="va">g</span></code></pre></div>
+<p><img src="gscramble-tutorial_files/figure-html/unnamed-chunk-18-1.png" width="720"></p>
+</div>
+</div>
+<div class="section level2">
+<h2 id="simulating-alleles-at-markers-within-segments">Simulating alleles at markers within segments<a class="anchor" aria-label="anchor" href="#simulating-alleles-at-markers-within-segments"></a>
+</h2>
+<p>There are a few separate steps required to make this happen, and they
+all occur within the function <code><a href="../reference/segments2markers.html">segments2markers()</a></code>. The steps
+that happen are:</p>
+<ol style="list-style-type: decimal">
+<li>The genotype matrix is reorganized according to the
+<code>group</code> specification in the <code>I_meta</code>, so that
+individuals in the same group are adjacent to one another in the
+genotype matrix.</li>
+<li>The alleles carried by the individuals within each population are
+permuted.</li>
+<li>The chromosomes carrying these permuted alleles from
+<code>Geno</code> are mapped to the chromosomes carried by the founders
+in the simulation performed by <code><a href="../reference/segregate.html">segregate()</a></code>.</li>
+<li>The alleles on the founder chromosomes are propagated to the
+descendant segments in the individuals sampled from the GSP.</li>
+<li>Missing data is dealt with. (If a site has one gene copy missing
+after the permutation and mapping described above, the other gene copy
+must be declared missing, as well).</li>
+<li>The output genotypes are formatted for return, along with some
+information about the true admixture proportions of each
+individual.</li>
+</ol>
+<p>The input to <code><a href="../reference/segments2markers.html">segments2markers()</a></code> is:</p>
+<ul>
+<li>A tibble of segments, like that returned from
+<code><a href="https://rdrr.io/r/graphics/segments.html" class="external-link">segments()</a></code>. This is the variable <code>Segments</code>
+defined above in this vignette example,</li>
+<li>The individual meta data,</li>
+<li>The marker meta data,</li>
+<li>The genotype data.</li>
+</ul>
+<p>We invoke it like this:</p>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">Markers</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/segments2markers.html">segments2markers</a></span><span class="op">(</span>
+  Segs <span class="op">=</span> <span class="va">Segments</span>,
+  Im <span class="op">=</span> <span class="va">I_meta</span>,
+  Mm <span class="op">=</span> <span class="va">M_meta</span>,
+  G <span class="op">=</span> <span class="va">Geno</span>
+<span class="op">)</span></code></pre></div>
+<p>The output is a list of three components:</p>
+<ul>
+<li>
+<p><code>$ret_geno</code> is an N x 2L matrix of returned genotypes.
+The two alleles at each locus are in two adjacent columns.</p>
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/dim.html" class="external-link">dim</a></span><span class="op">(</span><span class="va">Markers</span><span class="op">$</span><span class="va">ret_geno</span><span class="op">)</span>
+<span class="co">#&gt; [1]  78 200</span></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># genotypes of the first 10 individuals at the first 3 markers</span>
+<span class="va">Markers</span><span class="op">$</span><span class="va">ret_geno</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">6</span><span class="op">]</span>
+<span class="co">#&gt;       [,1] [,2] [,3] [,4] [,5] [,6]</span>
+<span class="co">#&gt;  [1,] "G"  "G"  "C"  "C"  "T"  "T" </span>
+<span class="co">#&gt;  [2,] "G"  "G"  "C"  "C"  "T"  "T" </span>
+<span class="co">#&gt;  [3,] "G"  "G"  "C"  "C"  "T"  "T" </span>
+<span class="co">#&gt;  [4,] "G"  "G"  "C"  "C"  "T"  "T" </span>
+<span class="co">#&gt;  [5,] "G"  "G"  "C"  "C"  "T"  "T" </span>
+<span class="co">#&gt;  [6,] "G"  "G"  "C"  "C"  "C"  "T" </span>
+<span class="co">#&gt;  [7,] "G"  "G"  "C"  "C"  "T"  "T" </span>
+<span class="co">#&gt;  [8,] "G"  "G"  "C"  "C"  "T"  "C" </span>
+<span class="co">#&gt;  [9,] "G"  "A"  "C"  "T"  "C"  "C" </span>
+<span class="co">#&gt; [10,] "G"  "A"  "C"  "C"  "C"  "C"</span></code></pre></div>
+</li>
+<li>
+<p><code>$ret_ids</code>: a tibble with IDs of the individuals
+corresponding to the rows in the <code>ret_geno</code> matrix. There are
+two columns: <code>group</code> and <code>indiv</code>. The first rows
+include the samples from the GSP. Their group is <code>ped_hybs</code>
+(meaning “sampled hybrids from the pedigree”) and their IDs are in the
+<code>indiv</code> column in the format of an <code>h-</code> followed
+by a string with replaced values of:
+<code>gpp-rep-ped_sample_id-samp_index-matrix_row</code>. Those are
+(they need explaining):</p>
+<ul>
+<li>
+<code>rep</code>:</li>
+<li>
+<code>ped</code>:</li>
+<li>
+<code>sample_id</code>:</li>
+<li>
+<code>samp_index</code>:</li>
+<li>
+<code>matrix_row</code>:</li>
+</ul>
+<p>After the individual hybrid samples from the pedigree, there are rows
+of all the remaining individuals whose genotypes after permutation were
+not involved as founders in the segregation simulation. These are given
+the name <code>permed</code> + their original IDs. The group that each
+belongs to is in the group column. Things are organized this way so that
+the whole genotype can easily be passed to ADMIXTURE and the admixture
+fractions of the hybrid individuals estimated using the
+<code>permed_*</code> individuals as samples of known cluster/group
+origin.</p>
+</li>
+<li><p><code>$hyb_Qs</code>: A tibble with the true admixture fraction
+(calculated as the total proportion of genome length from each group) of
+each simulated hybrid.</p></li>
+</ul>
+</div>
+<div class="section level2">
+<h2 id="back-to-plink-format">Back to plink format<a class="anchor" aria-label="anchor" href="#back-to-plink-format"></a>
+</h2>
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">tfile</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span><span class="op">)</span>
+<span class="fu"><a href="../reference/gscramble2plink.html">gscramble2plink</a></span><span class="op">(</span>
+  I_meta <span class="op">=</span> <span class="va">Markers</span><span class="op">$</span><span class="va">ret_ids</span>,
+  M_meta <span class="op">=</span> <span class="va">M_meta</span>,
+  Geno <span class="op">=</span> <span class="va">Markers</span><span class="op">$</span><span class="va">ret_geno</span>,
+  prefix <span class="op">=</span> <span class="va">tfile</span>
+<span class="op">)</span>
+<span class="co">#&gt; pedfile written to /var/folders/xg/mz_qt7q54yv_hwzvhskwx2c00000gp/T//RtmpdvCZdV/file97b6e6aa676.ped</span>
+<span class="co">#&gt; mapfile written to /var/folders/xg/mz_qt7q54yv_hwzvhskwx2c00000gp/T//RtmpdvCZdV/file97b6e6aa676.map</span>
+<span class="co">#&gt; [1] TRUE</span></code></pre></div>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside>
