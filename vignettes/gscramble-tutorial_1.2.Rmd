@@ -77,14 +77,15 @@ storage.mode(IntMat) <- "character"
 Missing genotype data must be denoted by the standard R missing data
 specifier, `NA`.  Don't go around calling missing data `"-1"` and expect
 it to work properly!  Change those `"-1"`'s to `NA`s, or they will be 
-regarded as an allelic type, rather than as missing data.If you do have missing data,
-let's say they are denoted as `"-1"`, then you can change all missing values to `NA`s using the following:
+regarded as an allelic type, rather than as missing data. If you do have missing data
+that are denoted as `"-1"`, for example, then you can change all those `"-1"`'s to `NA`s using the following:
 
 ```{r}
-Geno[Geno == "-1"]<-NA
+Geno[Geno == "-1"] <- NA
 ```
 
-Since there are no `"-1"` or `NA`s in the `Geno` dataset, nothing happens.
+Presently, since there are no `"-1"` entries in the `Geno` dataset, this line changes
+nothing.
 
 ### Individual meta data. `I_meta`
 
@@ -112,7 +113,7 @@ This input is a tibble of information about the markers in the `Geno` matrix.
 It can have a variety of columns in it, but it is required to have three:
 
 * `chrom`: the character name of the chromosome upon which the marker occurs.  For example, 
-`"1"`, `"X"` of `"Omy28"`, or as illustrated in `M_meta` chr12, chr17, and chr18.  
+`"1"`, `"X"` or `"Omy28"`, or as illustrated in `M_meta` chr12, chr17, and chr18.  
 **Importantly**, if you are simulating physical linkage with recombination, then
 the names of the chromosomes in this file _must_ correspond _exactly_ to
 the names of the chromosomes in `RecRates` (see next section).
@@ -213,13 +214,18 @@ knitr::include_graphics("../man/figures/F1-500.png")
 Now, for example, let’s say you are interested in simulating F1 hybrids for all pairwise combinations of populations (with the example data Pop1, Pop2, Pop3, Pop4).  F1s are symmetrical such that a Pop1-Pop2 hybrid is identical to a Pop2-Pop1 hybrid.  Accordingly, we need to specify the `RepPop` tibble to define which populations to use in each replicate of the simulation:
 
 ```{r}
-Pattern = c("Pop1", "Pop2", "Pop1", "Pop3", "Pop1", "Pop4", "Pop2", "Pop3", "Pop2", "Pop4", "Pop3", "Pop1")
-RepPopF1 <- as_tibble(data.frame(rep = rep(1:6, times = 1, each = 2),
-                                 pop = rep(c("p1", "p2"), times = 6), group = Pattern))
+Pattern = c("Pop1", "Pop2", "Pop1", "Pop3", "Pop1", "Pop4", 
+            "Pop2", "Pop3", "Pop2", "Pop4", "Pop3", "Pop4")
+RepPopF1 <- tibble(
+  rep = rep(1:6, each = 2),
+  pop = rep(c("p1", "p2"), times = 6),
+  group = Pattern
+)
 head(RepPopF1)
 ```
 
-Next, we need to define the GSP in which we are using ‘p1’ and ‘p2’ in `RepPop` to represent Pop1 and Pop2.  
+Next, we need to define the GSP in which we are using ‘p1’ and ‘p2’ in `RepPop` to represent the two
+different populations the founders belong to.  
 ```{r}
 gspF1 <- create_GSP(pop1 = "p1", pop2 = "p2", F1 = TRUE)
 
@@ -229,7 +235,13 @@ gspF1
 Building upon this simplistic GSP, let’s build something a little more ‘complex’ with F1s, F1BC1s, and F1BC2s using the built-in function `create_GSP()`.
 
 ```{r}
-gspComplex <- create_GSP(pop1 = "p1", pop2 = "p2", F1 = TRUE, F1B = TRUE, F1B2 = TRUE)
+gspComplex <- create_GSP(
+  pop1 = "p1", 
+  pop2 = "p2", 
+  F1 = TRUE, 
+  F1B = TRUE, 
+  F1B2 = TRUE
+)
 
 gspComplex
 ```
@@ -242,22 +254,32 @@ knitr::include_graphics("../man/figures/13.svg")
 
 Notice that backcrossed individuals are not symmetrical. 
 
-Now say we can simulate hybrid individuals between Pop1 and all other populations using the `RepPop` file.
+Now say we can simulate hybrid individuals between Pop1 and all other populations using the `RepPop` tibble.
 
 
 ```{r}
-Pattern = c("Pop1", "Pop2", "Pop1", "Pop3", "Pop1", "Pop4")
-RepPopComplex <- as_tibble(data.frame(rep = rep(1:3, times = 1, each = 2),
-                                 pop = rep(c("p1", "p2"), times = 3), group = Pattern))
+Pattern = c("Pop1", "Pop2", "Pop1",
+            "Pop3", "Pop1", "Pop4")
+RepPopComplex <- tibble(
+  rep = rep(1:3, each = 2),
+  pop = rep(c("p1", "p2"), times = 3),
+  group = Pattern
+)
 RepPopComplex
 ```
 
-If we are interested in Pop1-Pop2, backcrossed to Pop2 hybrids we can use a `RepPop` file that looks like this:
+If we are interested in F1 hybrids between Pop 1 and each of the other populations 
+(Pop2, Pop3, or Pop4), as well as two generations of backcrossing to each of those
+populations, we can use a `RepPop` tibble that looks like this:
 
 ```{r}
-Pattern = c("Pop2", "Pop1", "Pop3", "Pop1", "Pop4", "Pop1")
-RepPopComplex2 <- as_tibble(data.frame(rep = rep(1:3, times = 1, each = 2),
-                                 pop = rep(c("p1", "p2"), times = 3), group = Pattern))
+Pattern = c("Pop2", "Pop1", "Pop3", 
+            "Pop1", "Pop4", "Pop1")
+RepPopComplex2 <- tibble(
+  rep = rep(1:3, each = 2),
+  pop = rep(c("p1", "p2"), times = 3), 
+  group = Pattern
+)
 RepPopComplex2
 ```
 
@@ -274,8 +296,7 @@ knitr::include_graphics("../man/figures/13-member-ped.svg")
 ```
 
 You can produce this type of plot using the `gsp2dot()` function
-in the 'gscramble' package, but it requires the installation of the GraphViz `dot` software.
-
+in the 'gscramble' package, as follows, but it requires the installation of the GraphViz `dot` software.
 ```{r eval=FALSE}
 csv <- system.file("extdata/13-member-ped.csv", package = "gscramble")
 gsp_tib <- readr::read_csv(csv)
@@ -286,8 +307,11 @@ file.remove(paths[1:2])
 
 The tibble specification of that same GSP is printed here:
 ```{r}
-csv <- system.file("extdata/13-member-ped.csv", package = "gscramble")
-readr::read_csv(csv)
+GSP
+```
+and, a CSV file with the same table in it can be found using:
+```{r, eval=FALSE}
+system.file("extdata/13-member-ped.csv", package = "gscramble")
 ```
 
 ### A four-poplation GSP. `gsp4`
