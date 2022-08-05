@@ -314,7 +314,7 @@ and, a CSV file with the same table in it can be found using:
 system.file("extdata/13-member-ped.csv", package = "gscramble")
 ```
 
-### A four-poplation GSP. `gsp4`
+### A four-population GSP. `gsp4`
 
 Or, alternatively, let’s say you are interested in patterns of hybridization that are not restricted to simply two populations. 
 
