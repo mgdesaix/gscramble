@@ -13,5 +13,7 @@ seg2tib(s)
 A small helper function.
 }
 \examples{
-# first make a segment that
+# first make a segment that has pieces from a few different founders
+ V <- c(Amy = 0, Bob = 10000, Joe = 30000, Frieda = 40000)
+ seg2tib(V)
 }

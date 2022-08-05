@@ -9,6 +9,11 @@ recomb_point(M, at_least_one = TRUE)
 \arguments{
 \item{M}{a tibble that has the columns start_pos, end_pos, and rec_prob (where rec_prob is the
 probability of a recombination occurring during meiosis within the interval defined by start_pos and end_pos.}
+
+\item{at_least_one}{if this is TRUE then at least one recombination occurs
+on every chromosome (see Details).  If FALSE then the total number of recombinations is
+simulated as a Poisson r.v. with mean equal to the sum of the
+recombination fractions.}
 }
 \description{
 This function uses the observed recombination fractions such as those

@@ -15,5 +15,13 @@ other) and those haplotypes are preserved in this permutation of
 genomic material amongst the founders.}
 }
 \description{
-This was put together pretty hastily
+This is done prior to assign random genomic fragments of individuals in the
+sample to the founders of the GSP, to be dropped to the samples.
+}
+\examples{
+# first get the output of rearrange_genos
+RG <- rearrange_genos(Geno, I_meta, M_meta)
+
+# then permute by the populations
+PG <- perm_gs_by_pops(RG)
 }

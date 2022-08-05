@@ -2,7 +2,7 @@
 % Please edit documentation in R/segments2markers.R
 \name{segments2markers}
 \alias{segments2markers}
-\title{Just a big, messy wrapper to wrap up some things so Tim can use them}
+\title{Map alleles from scrambled founders to the samples segments from a GSP.}
 \usage{
 segments2markers(Segs, Im, Mm, G)
 }
@@ -16,5 +16,5 @@ segments2markers(Segs, Im, Mm, G)
 \item{G}{the marker genotype data as a matrix like \code{\link{Geno}}}
 }
 \description{
-Just a big, messy wrapper to wrap up some things so Tim can use them
+Map alleles from scrambled founders to the samples segments from a GSP.
 }
