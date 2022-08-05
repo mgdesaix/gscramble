@@ -37,3 +37,4 @@ lists that hold the founder segments that made it into the sampled individuals.
 \details{
 This is a low-level function that the user will not typically use.
 }
+\keyword{internal}

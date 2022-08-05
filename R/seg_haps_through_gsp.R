@@ -17,7 +17,7 @@
 #' @param pop_idx_sep The string to use to separate the index of the pop
 #' and the index of the founder for naming where chromosomal segments
 #' come from.  It is not recommended that this be changed.
-#' @export
+#' @keywords internal
 seg_haps_through_gsp <- function(G, M, chrom_len, pop_idx_sep = "--%--", recomb_model = "always one") {
 
   # make a copy of G and initialize gametes in the founders and segregate
