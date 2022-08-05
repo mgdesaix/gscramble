@@ -14,6 +14,8 @@
 #' @param Im the meta data for the N samples.
 #' @param Mm the meta data for the L markers.
 #' @export
+#' @examples
+#' RG <- rearrange_genos(Geno, I_meta, M_meta)
 rearrange_genos <- function(G, Im, Mm) {
   # check that Im, Mm, and the dimensions of G line up correctly
   stopifnot(ncol(G) / 2 == nrow(Mm))

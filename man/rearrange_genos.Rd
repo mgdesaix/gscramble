@@ -26,3 +26,6 @@ It returns a list.  One component is the matrix, another is the
 updated individual meta data, and the third is the marker meta
 data.
 }
+\examples{
+RG <- rearrange_genos(Genos, I_meta, M_meta)
+}
