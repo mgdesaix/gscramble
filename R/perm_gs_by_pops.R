@@ -1,12 +1,19 @@
 #' Take the output of rearrange_genos and permute everyone by population
 #'
-#' This was put together pretty hastily
+#' This is done prior to assign random genomic fragments of individuals in the
+#' sample to the founders of the GSP, to be dropped to the samples.
 #' @param GS the tibble that is the output from rearrange_genos
 #' @param preserve_haplotypes If true then the Geno data is assumed phased
 #' (first allele at an individual on one haplotype and second allele on the
 #' other) and those haplotypes are preserved in this permutation of
 #' genomic material amongst the founders.
 #' @export
+#' @examples
+#' # first get the output of rearrange_genos
+#' RG <- rearrange_genos(Geno, I_meta, M_meta)
+#'
+#' # then permute by the populations
+#' PG <- perm_gs_by_pops(RG)
 perm_gs_by_pops <- function(GS, preserve_haplotypes = FALSE) {
 
   row_groups <- NULL
