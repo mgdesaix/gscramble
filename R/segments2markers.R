@@ -1,4 +1,4 @@
-#' Just a big, messy wrapper to wrap up some things so Tim can use them
+#' Map alleles from scrambled founders to the samples segments from a GSP.
 #'
 #' @param Segs the simulated segments
 #' @param Im the individual meta data, like that in \code{\link{I_meta}}

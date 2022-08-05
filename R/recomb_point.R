@@ -32,7 +32,6 @@
 #'
 #' @param M a tibble that has the columns start_pos, end_pos, and rec_prob (where rec_prob is the
 #' probability of a recombination occurring during meiosis within the interval defined by start_pos and end_pos.
-#' @keywords internal
 #' @export
 #' @examples
 #' # for an example, create a tibble of bins, roughly 1 Mb each,

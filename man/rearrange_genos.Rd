@@ -27,5 +27,5 @@ updated individual meta data, and the third is the marker meta
 data.
 }
 \examples{
-RG <- rearrange_genos(Genos, I_meta, M_meta)
+RG <- rearrange_genos(Geno, I_meta, M_meta)
 }

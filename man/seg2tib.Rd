@@ -12,3 +12,6 @@ seg2tib(s)
 \description{
 A small helper function.
 }
+\examples{
+# first make a segment that
+}

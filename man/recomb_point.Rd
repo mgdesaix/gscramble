@@ -35,7 +35,7 @@ simulated as a Poisson r.v. with mean equal to the sum of the
 recombination fractions. Again, their placement assumes no interference.
 
 Locations within each bin are chosen uniformly.  These locations are represented
-as real number (rather than as integers) and those are used for describing segments,
+as real numbers (rather than as integers) and those are used for describing segments,
 as well.  This simplifies matters such as condensing information about multiple recombinations
 that occurred at the same base pair.  In practice, this will have negligible effects, since
 it is so unlikely that a recombination will ever occur in the same place.
@@ -56,4 +56,3 @@ M <- tibble::tibble(
 )
 recomb_point(M)
 }
-\keyword{internal}
