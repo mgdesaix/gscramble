@@ -25,7 +25,7 @@ segments2markers <- function(Segs, Im, Mm, G) {
     left_join(Segs, ., by = c("group_origin" = "group", "sim_level_founder_haplo" = "gs_column"))
 
   # break the markers up into a list of chromosomes
-  m_list <- M_meta %>%
+  m_list <- Mm %>%
     mutate(chrom_f = factor(chrom, levels = unique(chrom)), idx = 1:n()) %>%
     select(-variant_id) %>%
     split(., f = .$chrom_f)

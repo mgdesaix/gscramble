@@ -25,3 +25,4 @@ make_subscript_matrix(n, chrom, start, end, abs_column, m_list, num_markers)
 This is intended to be applied to a grouped tibble that
 has all the columns that are arguments to the function.
 }
+\keyword{internal}

@@ -10,7 +10,7 @@
 #' @param abs_column the absolute column index of the founder
 #' @param m_list a list column of markers
 #' @param num_markers  the number of markers
-#' @export
+#' @keywords internal
 make_subscript_matrix <- function(n, chrom, start, end, abs_column, m_list, num_markers) {
   ret <- lapply(1:n, function(i) {
     the_chrom <- chrom[i]
