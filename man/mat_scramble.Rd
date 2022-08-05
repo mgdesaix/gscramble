@@ -41,3 +41,26 @@ permuted.  This preserves haplotypes in the data, if there are any.
 The second approach should only be used if haplotypes are inferred in
 the individuals.
 }
+\examples{
+# make a matrix with alleles named as I.M.g, where I is individual
+# number, M is marker number, and g is either "a" or "b" depending
+# on which gene copy in the diploid it is.  4 indivs and 7 markers...
+Mat <- matrix(
+ paste(
+   rep(1:4, each = 7 * 2),
+   rep(1:7, 4 * 2),
+   rep(c("a", "b"), each = 7),
+   sep = "."
+ ),
+ nrow = 7
+)
+
+# without preserving haplotypes
+S1 <- mat_scramble(Mat)
+
+# preserving haplotypes with markers 1-7 all on one chromosome
+S2 <- mat_scramble(Mat, preserve_haplotypes = TRUE)
+
+# preserving haplotypes with markers 1-3 on one chromosome and 4-7 on another
+S3 <- mat_scramble(Mat, row_groups = list(1:3, 4:7))
+}
