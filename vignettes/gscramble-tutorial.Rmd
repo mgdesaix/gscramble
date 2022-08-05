@@ -46,7 +46,7 @@ to provide
 5. A tibble that describes a pedigree of interest within which sections of chromosomes are segregated down successive generations, which we call a "genome simulation pedigree" (`GSP`)
 6. A tibble that translates the population specifiers in the pedigree (i.e., `GSP`) with the population/group labels associated with the genetic data (i.e., `I_meta`) for different hybridization replicates (`RepPop`)
 
-Examples of these objects (which have been heavily downsampled to make them small enough to host on CRAN, illustrating 78 individuals genotyped at 100 loci distributed across 3 chromosomes [chr 12, 17, & 18] and sampled from 4 groups [Pop10, 2, 3, 4]) from a data set of invasive feral swine (Smyser et al. 2020; full dataset: https://datadryad.org/stash/dataset/doi:10.5061%2Fdryad.jsxksn05z) are included as data objects with the package. The following sections discuss each of these data inputs in detail.
+Examples of these objects (which have been heavily downsampled to make them small enough to host on CRAN, illustrating 78 individuals genotyped at 100 loci distributed across 3 chromosomes [chr 12, 17, & 18] and sampled from 4 groups [Pop1, 2, 3, 4]) from a data set of invasive feral swine (Smyser et al. 2020; full dataset: https://datadryad.org/stash/dataset/doi:10.5061%2Fdryad.jsxksn05z) are included as data objects with the package. The following sections discuss each of these data inputs in detail.
 
 ### Matrix of genotype data.  `Geno`
 
