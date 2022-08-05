@@ -15,7 +15,7 @@ NULL
 
 
 
-#' @importFrom dplyr arrange bind_rows case_when distinct everything filter group_by left_join mutate mutate_all n pull rename select summarise tally ungroup
+#' @importFrom dplyr arrange bind_rows case_when distinct everything filter group_by left_join mutate mutate_all n near pull rename select summarise tally ungroup
 #' @importFrom ggplot2 aes facet_wrap geom_rect ggplot scale_y_continuous xlab
 #' @importFrom glue glue
 #' @importFrom purrr flatten keep map map_dbl map_dfr pmap

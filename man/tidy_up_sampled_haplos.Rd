@@ -16,3 +16,4 @@ takes the waka_waka table and returns a simple tibble with results for each samp
 #'
 Not yet documented
 }
+\keyword{internal}

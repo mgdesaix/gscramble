@@ -27,5 +27,6 @@ Imports:
 Suggests: 
     knitr,
     readr,
-    rmarkdown
+    rmarkdown,
+    tidyverse
 VignetteBuilder: knitr
