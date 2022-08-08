@@ -452,7 +452,9 @@ Segments %>%
 ### Visualizing those chunks of genome
 
 We have a convenience function called `plot_simulated_chromosome_segments()` that
-let's you quickly visualize the results. Let's try it here:
+let's you quickly visualize the results. Let's try it here.  By adding the RecRates
+to the function call, we get little sparklines shows us the recombination rates across the
+chromosomes.
 ```{r, fig.width=7.5, fig.height=9}
 g <- plot_simulated_chromomsome_segments(Segments, RecRates)
 g

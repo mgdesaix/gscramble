@@ -16,7 +16,7 @@ NULL
 
 
 #' @importFrom dplyr arrange bind_rows case_when distinct everything filter group_by left_join mutate mutate_all n near pull rename select summarise tally ungroup
-#' @importFrom ggplot2 aes facet_wrap geom_rect ggplot scale_y_continuous xlab
+#' @importFrom ggplot2 aes facet_wrap geom_line geom_rect ggplot scale_y_continuous theme_bw xlab
 #' @importFrom glue glue
 #' @importFrom purrr flatten keep map map_dbl map_dfr pmap
 #' @importFrom rlang .data
@@ -46,6 +46,7 @@ if(getRversion() >= "2.15.1")  {
       "chrom_f",
       "chrom_len",
       "end",
+      "end_pos",
       "gam_tibs",
       "gamete_index",
       "gamete_segments",
@@ -67,6 +68,8 @@ if(getRversion() >= "2.15.1")  {
       "ma",
       "map_stuff",
       "matrix_row",
+      "max_rec",
+      "mid_pos",
       "pa",
       "par1",
       "par2",
@@ -84,9 +87,12 @@ if(getRversion() >= "2.15.1")  {
       "segged",
       "sex_code",
       "start",
+      "start_pos",
       "tmp_seg_names",
       "tot_length",
-      "variant_id"
+      "unit",
+      "variant_id",
+      "yval"
     )
   )
 }

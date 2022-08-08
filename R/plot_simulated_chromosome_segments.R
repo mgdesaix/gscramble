@@ -11,7 +11,7 @@
 #' of [RecRates]. If this is
 #' included, the recombination rates in cM/Mb are plotted atop the chromosomes
 #' as a little sparkline. If it is not included, then the there are
-#' no little sparklines above the chromsomes.
+#' no little sparklines above the chromosomes.
 #' @param rel_heights a vector the the relative heights of the different
 #' elements of each chromosomal unit of the plot.  This is a named vector
 #' with the following elements, listed in order of the bottom of each
@@ -29,23 +29,36 @@
 #' @param bottom_gap the y value of the bottom chromosome unit.  Basically the
 #' absolute distance between the y=0 line and the start of the plotted material.
 #' Should typically be between 0 and 1.
+#' @param spark_thick thickness of the line that draws the recombination rate
+#' sparkline.
+#' @param spark_splat fraction by which the unit gap should be reduced when
+#' there are sparklines being drawn.
 #' @export
 #' @examples
-#' # must add some
+#' s <- example_segments
+#' rr <- RecRates
+#' g <- plot_simulated_chromomsome_segments(s)
+#' g_with_sparklines <- plot_simulated_chromomsome_segments(s, rr)
 plot_simulated_chromomsome_segments <- function(
   Segs,
   RR = NULL,
   rel_heights = c(
     chrom_ht = 4,
     chrom_gap = 0.8,
-    spark_gap = 0.6 * !is.null(RR),
-    spark_box = 2.2 * !is.null(RR),
+    spark_gap = 0.2 * !is.null(RR),
+    spark_box = 2.6 * !is.null(RR),
     unit_gap = 4
   ),
-  bottom_gap = 0.3
+  bottom_gap = 0.3,
+  spark_thick = 0.2,
+  spark_splat = 0.25
 ) {
 
   rh <- rel_heights
+
+  # make the chrom gap smaller if there are sparklines
+
+  if(!is.null(RR)) rh["unit_gap"] <- rh["unit_gap"] * spark_splat
 
   NORM <- (rh["chrom_ht"] * 2) +
     rh["chrom_gap"] +
@@ -83,8 +96,7 @@ plot_simulated_chromomsome_segments <- function(
       chr_xmax = end
     )
 
-
-  ggplot() +
+  g <- ggplot() +
     geom_rect(
       data = S2 %>% filter(rep <= 4),
       mapping = aes(
@@ -102,6 +114,34 @@ plot_simulated_chromomsome_segments <- function(
       labels = as.character(chrom_ticks$chrom_f),
       minor_breaks = NULL
     ) +
-    facet_wrap(~ unit)
+    facet_wrap(~ unit) +
+    theme_bw()
+
+  # add the sparklines to them, if indicated
+  if(!is.null(RR)) {
+    # make a data set that is facetable that has the information we
+    # need for making the sparklines
+    Sp1 <- S2 %>%
+      distinct(chrom_f, chrom, unit, BY) %>%
+      left_join(RR, by = "chrom") %>%
+      ungroup() %>%
+      mutate(
+        mid_pos = (start_pos + end_pos) / 2,
+        max_rec = max(rec_prob),
+        yval = BY + ah["chrom_ht"] +  ah["chrom_gap"] + ah["chrom_ht"] + ah["spark_gap"] + (rec_prob / max_rec) * ah["spark_box"]
+      )
+
+    # then add that to the ggplot object
+    g <- g +
+      geom_line(
+        data = Sp1,
+        mapping = aes(x = mid_pos / 1e6, y = yval, group = chrom_f),
+        size = spark_thick
+      )
+
+  }
+
+
+  g
 
 }

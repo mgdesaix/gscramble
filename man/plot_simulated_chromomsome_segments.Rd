@@ -7,9 +7,11 @@
 plot_simulated_chromomsome_segments(
   Segs,
   RR = NULL,
-  rel_heights = c(chrom_ht = 4, chrom_gap = 0.8, spark_gap = 0.6 * !is.null(RR),
-    spark_box = 2.2 * !is.null(RR), unit_gap = 4),
-  bottom_gap = 0.3
+  rel_heights = c(chrom_ht = 4, chrom_gap = 0.8, spark_gap = 0.2 * !is.null(RR),
+    spark_box = 2.6 * !is.null(RR), unit_gap = 4),
+  bottom_gap = 0.3,
+  spark_thick = 0.2,
+  spark_splat = 0.25
 )
 }
 \arguments{
@@ -19,7 +21,7 @@ plot_simulated_chromomsome_segments(
 of \link{RecRates}. If this is
 included, the recombination rates in cM/Mb are plotted atop the chromosomes
 as a little sparkline. If it is not included, then the there are
-no little sparklines above the chromsomes.}
+no little sparklines above the chromosomes.}
 
 \item{rel_heights}{a vector the the relative heights of the different
 elements of each chromosomal unit of the plot.  This is a named vector
@@ -41,6 +43,12 @@ the next.
 \item{bottom_gap}{the y value of the bottom chromosome unit.  Basically the
 absolute distance between the y=0 line and the start of the plotted material.
 Should typically be between 0 and 1.}
+
+\item{spark_thick}{thickness of the line that draws the recombination rate
+sparkline.}
+
+\item{spark_splat}{fraction by which the unit gap should be reduced when
+there are sparklines being drawn.}
 }
 \description{
 This function uses the information in the tibble about segments
@@ -50,5 +58,8 @@ the population of origin of each segment or the founding
 haplotype of origin of each segment.
 }
 \examples{
-# must add some
+s <- example_segments
+rr <- RecRates
+g <- plot_simulated_chromomsome_segments(s)
+g_with_sparklines <- plot_simulated_chromomsome_segments(s, rr)
 }

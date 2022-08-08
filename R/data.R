@@ -125,3 +125,16 @@ NULL
 #' @name RepPop4
 NULL
 
+
+
+
+#' Example of a segments tibble
+#'
+#' This is the Segments object from the gscramble tutorial.
+#' It is included as a data object to use in the example for
+#' the function `plot_simulated_chromosome_segments()`.
+#' @format A tibble like that produced by the `segregate()` function.
+#' @source Made from package functions
+#' @docType data
+#' @name example_segments
+NULL
