@@ -34,6 +34,24 @@ not present, then the function will create \code{chrom_f} by using the
 order of the chromosomes from RR.
 \code{\link{RecRates}}}
 }
+\value{
+The output from this function is a tibble.  Each row represents one segment of genetic
+material amongst the sampled individuals from the genomic permutation pedigrees. The columns give
+information about the provenance and destination of that segment as follows.
+Each segment exists in one of the samples (\code{samp_index}) from a sampled individual
+with a \code{ped_sample_id} on a given \code{gpp} (the index giving the row of the request input tibble)
+in a given \code{rep} within the individual.  Further, it is on one of two gametes
+(\code{gamete_index}) that segregated into the individual, and it came from a certain founding
+population (\code{pop_origin}) that corresponds to the named groups in the genotype file (\code{group_origin}).
+And, of course, the segment occupies the space from \code{start} to \code{end} on a chromosome \code{chrom}.
+Finally, the index of the founder haplotype on the given gpp that this segement descended from is
+given in \code{rs_founder_haplotype} which is short for "rep-specific founder haplotype".  This final
+piece of information is crucial for segregating variation from the individuals in the \code{Geno} file
+onto these segments. Finally, the column \code{sim_level_founder_haplo} assigns a unique index for each founder
+haplotype. This is necessary because any simulation can involve multiple gpps and/or reps, and the founders
+in each of those must all be unique within a simuilation. so that those haplotypes
+can all, eventually, be accessed easily out of the genotype matrix.
+}
 \description{
 Given a collection of genomic simulation pedigrees and requests
 for how many simulations should be done (in the \code{request} input),
