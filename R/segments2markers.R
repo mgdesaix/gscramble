@@ -1,11 +1,64 @@
-#' Map alleles from scrambled founders to the samples segments from a GSP.
+#' Map alleles from scrambled founders to the sampled segments from a GSP.
 #'
-#' @param Segs the simulated segments
-#' @param Im the individual meta data, like that in \code{\link{I_meta}}
-#' @param Mm the marker meta data formatted like that in \code{\link{M_meta}}
-#' @param G the marker genotype data as a matrix like \code{\link{Geno}}
+#' @param Segs the simulated segments. A tibble like that returned from
+#' [segregate()].
+#' @param Im the individual meta data, like that in \code{\link{I_meta}}. A tibble with
+#' columns `group` and `indiv`.
+#' @param Mm the marker meta data formatted like that in \code{\link{M_meta}}. A tibble
+#' with columns `chrom`, `pos`, and `variant_id`.
+#' @param G the marker genotype data as a matrix like \code{\link{Geno}}.  This is
+#' a character matrix.  Each row is an individual, and each pair of columns are the
+#' alleles at a locus.  Thus it is N x 2L where N is the number of individuals
+#' and L is the number of markers.
 #' @export
+#' @examples
+#' #### First, get input segments for the function ####
+#' # We construct an example here where we will request segregation
+#' # down a GSP with two F1s and F1B backcrosses between two hypothetical
+#' # populations, A and B.
+#' set.seed(5)
+#' gsp_f1f1b <- create_GSP("A", "B", F1 = TRUE, F1B = TRUE)
+#'
+#' # We will imagine that in our marker data there are three groups
+#' # labelled "Pop1", "Pop2", and "Pop3", and we want to create the F1Bs with backcrossing
+#' # only to Pop3.
+#' reppop <- tibble::tibble(
+#'     rep = c(1, 1, 2, 2),
+#'     pop = c("A", "B", "A", "B"),
+#'     group = c("Pop3", "Pop1", "Pop3", "Pop2")
+#' )
+#'
+#' # combine those into a request
+#' request <- tibble::tibble(
+#'    gpp = list(gsp_f1f1b),
+#'    reppop = list(reppop)
+#' )
+#'
+#' # now segegate segments.  Explicitly pass the markers
+#' # in M_meta so that the order of the markers is set efficiently.
+#' segs <- segregate(request, RecRates, M_meta)
+#'
+#' #### Now, use segs in an example with segments2markers() ####
+#' # this uses several package data objects that are there for examples
+#' # and illustration.
+#' s2m_result <- segments2markers(segs, I_meta, M_meta, Geno)
 segments2markers <- function(Segs, Im, Mm, G) {
+
+
+  # first off, make sure that the request makes sense in terms of
+  # population/group labels.  In other words, if there is a group origin
+  # in Segs that does not correspond to a group in Im, then we throw an error.
+  groups_in_Seqs <- dplyr::distinct(Segs, group_origin) %>% dplyr::pull(group_origin)
+  groups_in_Im <- unique(Im$group)
+  wrongos <- setdiff(groups_in_Seqs, groups_in_Im)
+  if(length(wrongos) > 0) {
+    stop(
+      paste("Error. These group_origins exist in the Segs, but not in the Im:",
+            paste(wrongos, collapse = ", "),
+            sep = " "
+      )
+    )
+  }
 
   GS_input = rearrange_genos(G, Im, Mm)
 

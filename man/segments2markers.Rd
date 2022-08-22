@@ -2,19 +2,57 @@
 % Please edit documentation in R/segments2markers.R
 \name{segments2markers}
 \alias{segments2markers}
-\title{Map alleles from scrambled founders to the samples segments from a GSP.}
+\title{Map alleles from scrambled founders to the sampled segments from a GSP.}
 \usage{
 segments2markers(Segs, Im, Mm, G)
 }
 \arguments{
-\item{Segs}{the simulated segments}
+\item{Segs}{the simulated segments. A tibble like that returned from
+\code{\link[=segregate]{segregate()}}.}
 
-\item{Im}{the individual meta data, like that in \code{\link{I_meta}}}
+\item{Im}{the individual meta data, like that in \code{\link{I_meta}}. A tibble with
+columns \code{group} and \code{indiv}.}
 
-\item{Mm}{the marker meta data formatted like that in \code{\link{M_meta}}}
+\item{Mm}{the marker meta data formatted like that in \code{\link{M_meta}}. A tibble
+with columns \code{chrom}, \code{pos}, and \code{variant_id}.}
 
-\item{G}{the marker genotype data as a matrix like \code{\link{Geno}}}
+\item{G}{the marker genotype data as a matrix like \code{\link{Geno}}.  This is
+a character matrix.  Each row is an individual, and each pair of columns are the
+alleles at a locus.  Thus it is N x 2L where N is the number of individuals
+and L is the number of markers.}
 }
 \description{
-Map alleles from scrambled founders to the samples segments from a GSP.
+Map alleles from scrambled founders to the sampled segments from a GSP.
+}
+\examples{
+#### First, get input segments for the function ####
+# We construct an example here where we will request segregation
+# down a GSP with two F1s and F1B backcrosses between two hypothetical
+# populations, A and B.
+set.seed(5)
+gsp_f1f1b <- create_GSP("A", "B", F1 = TRUE, F1B = TRUE)
+
+# We will imagine that in our marker data there are three groups
+# labelled "Pop1", "Pop2", and "Pop3", and we want to create the F1Bs with backcrossing
+# only to Pop3.
+reppop <- tibble::tibble(
+    rep = c(1, 1, 2, 2),
+    pop = c("A", "B", "A", "B"),
+    group = c("Pop3", "Pop1", "Pop3", "Pop2")
+)
+
+# combine those into a request
+request <- tibble::tibble(
+   gpp = list(gsp_f1f1b),
+   reppop = list(reppop)
+)
+
+# now segegate segments.  Explicitly pass the markers
+# in M_meta so that the order of the markers is set efficiently.
+segs <- segregate(request, RecRates, M_meta)
+
+#### Now, use segs in an example with segments2markers() ####
+# this uses several package data objects that are there for examples
+# and illustration.
+s2m_result <- segments2markers(segs, I_meta, M_meta, Geno)
 }
