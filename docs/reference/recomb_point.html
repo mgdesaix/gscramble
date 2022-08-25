@@ -43,9 +43,6 @@ multiple chromosomes."><!-- mathjax --><script src="https://cdnjs.cloudflare.com
     <li>
       <a href="../articles/gscramble-tutorial.html">A first tutorial for `gscramble`</a>
     </li>
-    <li>
-      <a href="../articles/gscramble-tutorial_1.2.html">A first tutorial for `gscramble`</a>
-    </li>
   </ul></li>
       </ul><ul class="nav navbar-nav navbar-right"></ul></div><!--/.nav-collapse -->
   </div><!--/.container -->
@@ -81,6 +78,13 @@ multiple chromosomes.</p>
 <dd><p>a tibble that has the columns start_pos, end_pos, and rec_prob (where rec_prob is the
 probability of a recombination occurring during meiosis within the interval defined by start_pos and end_pos.</p></dd>
 
+
+<dt>at_least_one</dt>
+<dd><p>if this is TRUE then at least one recombination occurs
+on every chromosome (see Details).  If FALSE then the total number of recombinations is
+simulated as a Poisson r.v. with mean equal to the sum of the
+recombination fractions.</p></dd>
+
 </dl></div>
     <div id="details">
     <h2>Details</h2>
@@ -97,7 +101,7 @@ randomly according to the <code>rec_probs</code> but without interference.</p>
 simulated as a Poisson r.v. with mean equal to the sum of the
 recombination fractions. Again, their placement assumes no interference.</p>
 <p>Locations within each bin are chosen uniformly.  These locations are represented
-as real number (rather than as integers) and those are used for describing segments,
+as real numbers (rather than as integers) and those are used for describing segments,
 as well.  This simplifies matters such as condensing information about multiple recombinations
 that occurred at the same base pair.  In practice, this will have negligible effects, since
 it is so unlikely that a recombination will ever occur in the same place.</p>
@@ -118,7 +122,7 @@ it is so unlikely that a recombination will ever occur in the same place.</p>
 <span class="r-in">    rec_prob <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">ends</span><span class="op">)</span>, <span class="fl">0.01</span>, <span class="fl">0.004</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-in"><span class="op">)</span></span>
 <span class="r-in"><span class="fu">recomb_point</span><span class="op">(</span><span class="va">M</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1]  10303561  67981023 130792018</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1]  10296180  67971549 130797997</span>
 </code></pre></div>
     </div>
   </div>
@@ -133,7 +137,7 @@ it is so unlikely that a recombination will ever occur in the same place.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

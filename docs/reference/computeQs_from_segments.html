@@ -40,9 +40,6 @@ individual."><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs
     <li>
       <a href="../articles/gscramble-tutorial.html">A first tutorial for `gscramble`</a>
     </li>
-    <li>
-      <a href="../articles/gscramble-tutorial_1.2.html">A first tutorial for `gscramble`</a>
-    </li>
   </ul></li>
       </ul><ul class="nav navbar-nav navbar-right"></ul></div><!--/.nav-collapse -->
   </div><!--/.container -->
@@ -137,15 +134,24 @@ that originate from the group in <code>group_origin</code>.</p></li>
 <span class="r-in"></span>
 <span class="r-in"><span class="co">#### Now we can run those through computeQs_from_segments() ####</span></span>
 <span class="r-in"><span class="va">Qs</span> <span class="op">&lt;-</span> <span class="fu">computeQs_from_segments</span><span class="op">(</span><span class="va">simSegs</span><span class="op">)</span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in filter(., !near(tot_length, tot_len_by_max, tol = 1e-04)):</span> Problem while computing `..1 = !near(tot_length, tot_len_by_max, tol =</span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> 1e-04)`.</span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> The error occurred in group 1: gpp = 1, rep = 1, ped_sample_id = "4",</span>
-<span class="r-err co"><span class="r-pr">#&gt;</span>   samp_index = 1.</span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">Caused by error in `near()`:</span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">!</span> could not find function "near"</span>
 <span class="r-in"></span>
 <span class="r-in"><span class="va">Qs</span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'Qs' not found</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 12 × 9</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      gpp   rep ped_sample_id samp_index pop_origin group_origin group_length</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span>     1     1 4                      1 A          grp3           194<span style="text-decoration: underline;">086</span>448 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span>     1     1 4                      1 B          grp1           194<span style="text-decoration: underline;">086</span>448 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span>     1     1 5                      1 A          grp3           372<span style="text-decoration: underline;">323</span>876.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span>     1     1 5                      1 B          grp1            15<span style="text-decoration: underline;">849</span>020.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span>     1     1 5                      2 A          grp3           209<span style="text-decoration: underline;">935</span>468.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span>     1     1 5                      2 B          grp1           178<span style="text-decoration: underline;">237</span>428.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span>     1     2 4                      1 A          grp3           194<span style="text-decoration: underline;">086</span>448 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span>     1     2 4                      1 B          grp2           194<span style="text-decoration: underline;">086</span>448 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span>     1     2 5                      1 A          grp3           325<span style="text-decoration: underline;">654</span>769.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span>     1     2 5                      1 B          grp2            62<span style="text-decoration: underline;">518</span>127.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">11</span>     1     2 5                      2 A          grp3           256<span style="text-decoration: underline;">604</span>575.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">12</span>     1     2 5                      2 B          grp2           131<span style="text-decoration: underline;">568</span>321.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 2 more variables: tot_length &lt;dbl&gt;, admixture_fraction &lt;dbl&gt;</span></span>
 </code></pre></div>
     </div>
   </div>
@@ -160,7 +166,7 @@ that originate from the group in <code>group_origin</code>.</p></li>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

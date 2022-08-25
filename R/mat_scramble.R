@@ -1,4 +1,4 @@
-#` Scramble a matrix of genotype data
+#' Scramble a matrix of genotype data
 #'
 #' This function assumes that M is a matrix with L rows (number of markers) and
 #' 2 * N (N = number of individuals) columns.

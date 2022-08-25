@@ -41,9 +41,6 @@ haplotype of origin of each segment."><!-- mathjax --><script src="https://cdnjs
     <li>
       <a href="../articles/gscramble-tutorial.html">A first tutorial for `gscramble`</a>
     </li>
-    <li>
-      <a href="../articles/gscramble-tutorial_1.2.html">A first tutorial for `gscramble`</a>
-    </li>
   </ul></li>
       </ul><ul class="nav navbar-nav navbar-right"></ul></div><!--/.nav-collapse -->
   </div><!--/.container -->
@@ -71,9 +68,11 @@ haplotype of origin of each segment.</p>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">plot_simulated_chromomsome_segments</span><span class="op">(</span>
   <span class="va">Segs</span>,
   RR <span class="op">=</span> <span class="cn">NULL</span>,
-  rel_heights <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>chrom_ht <span class="op">=</span> <span class="fl">4</span>, chrom_gap <span class="op">=</span> <span class="fl">0.8</span>, spark_gap <span class="op">=</span> <span class="fl">0.6</span> <span class="op">*</span> <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NULL.html" class="external-link">is.null</a></span><span class="op">(</span><span class="va">RR</span><span class="op">)</span>,
-    spark_box <span class="op">=</span> <span class="fl">2.2</span> <span class="op">*</span> <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NULL.html" class="external-link">is.null</a></span><span class="op">(</span><span class="va">RR</span><span class="op">)</span>, unit_gap <span class="op">=</span> <span class="fl">4</span><span class="op">)</span>,
-  bottom_gap <span class="op">=</span> <span class="fl">0.3</span>
+  rel_heights <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>chrom_ht <span class="op">=</span> <span class="fl">4</span>, chrom_gap <span class="op">=</span> <span class="fl">0.8</span>, spark_gap <span class="op">=</span> <span class="fl">0.2</span> <span class="op">*</span> <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NULL.html" class="external-link">is.null</a></span><span class="op">(</span><span class="va">RR</span><span class="op">)</span>,
+    spark_box <span class="op">=</span> <span class="fl">2.6</span> <span class="op">*</span> <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NULL.html" class="external-link">is.null</a></span><span class="op">(</span><span class="va">RR</span><span class="op">)</span>, unit_gap <span class="op">=</span> <span class="fl">4</span><span class="op">)</span>,
+  bottom_gap <span class="op">=</span> <span class="fl">0.3</span>,
+  spark_thick <span class="op">=</span> <span class="fl">0.2</span>,
+  spark_splat <span class="op">=</span> <span class="fl">0.25</span>
 <span class="op">)</span></code></pre></div>
     </div>
 
@@ -88,7 +87,7 @@ haplotype of origin of each segment.</p>
 of <a href="RecRates.html">RecRates</a>. If this is
 included, the recombination rates in cM/Mb are plotted atop the chromosomes
 as a little sparkline. If it is not included, then the there are
-no little sparklines above the chromsomes.</p></dd>
+no little sparklines above the chromosomes.</p></dd>
 
 
 <dt>rel_heights</dt>
@@ -113,12 +112,24 @@ the next.</p></li>
 absolute distance between the y=0 line and the start of the plotted material.
 Should typically be between 0 and 1.</p></dd>
 
+
+<dt>spark_thick</dt>
+<dd><p>thickness of the line that draws the recombination rate
+sparkline.</p></dd>
+
+
+<dt>spark_splat</dt>
+<dd><p>fraction by which the unit gap should be reduced when
+there are sparklines being drawn.</p></dd>
+
 </dl></div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># must add some</span></span>
-<span class="r-in"></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">s</span> <span class="op">&lt;-</span> <span class="va">example_segments</span></span>
+<span class="r-in"><span class="va">rr</span> <span class="op">&lt;-</span> <span class="va">RecRates</span></span>
+<span class="r-in"><span class="va">g</span> <span class="op">&lt;-</span> <span class="fu">plot_simulated_chromomsome_segments</span><span class="op">(</span><span class="va">s</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">g_with_sparklines</span> <span class="op">&lt;-</span> <span class="fu">plot_simulated_chromomsome_segments</span><span class="op">(</span><span class="va">s</span>, <span class="va">rr</span><span class="op">)</span></span>
 </code></pre></div>
     </div>
   </div>
@@ -133,7 +144,7 @@ Should typically be between 0 and 1.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

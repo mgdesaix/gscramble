@@ -2,16 +2,7 @@
 % Please edit documentation in R/mat_scramble.R
 \name{mat_scramble}
 \alias{mat_scramble}
-\title{This function assumes that M is a matrix with L rows (number of markers) and
-2 * N (N = number of individuals) columns.
-There are two ways that the data might be permuted.  In the first,
-obtained with \code{preserve_haplotypes = FALSE},
-the position of missing data within the matrix is held constant, but all
-non-missing sites within a row (i.e. all gene copies at a locus) get
-scrambled amongst the samples.  In the second way, just the columns are
-permuted.  This preserves haplotypes in the data, if there are any.
-The second approach should only be used if haplotypes are inferred in
-the individuals.}
+\title{Scramble a matrix of genotype data}
 \usage{
 mat_scramble(M, preserve_haplotypes = !is.null(row_groups), row_groups = NULL)
 }

@@ -37,9 +37,6 @@
     <li>
       <a href="../articles/gscramble-tutorial.html">A first tutorial for `gscramble`</a>
     </li>
-    <li>
-      <a href="../articles/gscramble-tutorial_1.2.html">A first tutorial for `gscramble`</a>
-    </li>
   </ul></li>
       </ul><ul class="nav navbar-nav navbar-right"></ul></div><!--/.nav-collapse -->
   </div><!--/.container -->
@@ -54,18 +51,74 @@
     </div>
 
     <table class="ref-index"><colgroup><col class="alias"><col class="title"></colgroup><tbody><tr><th colspan="2">
-          <h2 id="all-functions">All functions <a href="#all-functions" class="anchor" aria-hidden="true"></a></h2>
-          <p class="section-desc"></p>
+          <h2 id="high-level-simulation-functions">High level simulation functions <a href="#high-level-simulation-functions" class="anchor" aria-hidden="true"></a></h2>
+          <p class="section-desc"></p><p>These are functions that are intended for use by the user when preparing inputs for a gscramble simulation and for conducting those simulation.</p>
         </th>
       </tr></tbody><tbody><tr><td>
-          <p><code><a href="GSP.html">GSP</a></code> </p>
+          <p><code><a href="create_GSP.html">create_GSP()</a></code> </p>
         </td>
-        <td><p>Tibble holding specification for a 13 member genomic simulation pedigree</p></td>
+        <td><p>Create a GSP from user inputs about what type of hybrids from which populations to create hybrids</p></td>
       </tr><tr><td>
-          <p><code><a href="GSP_opts.html">GSP_opts</a></code> </p>
+          <p><code><a href="segregate.html">segregate()</a></code> </p>
         </td>
-        <td><p>Tibble holding specification for a 5 member genomic permutation pedigree.</p></td>
+        <td><p>Segregate segments down genomic simulation pedigrees</p></td>
       </tr><tr><td>
+          <p><code><a href="segments2markers.html">segments2markers()</a></code> </p>
+        </td>
+        <td><p>Map alleles from scrambled founders to the sampled segments from a GSP.</p></td>
+      </tr></tbody><tbody><tr><th colspan="2">
+          <h2 id="functions-for-summarizing-and-visualizing-simulation-results-or-inputs">Functions for summarizing and visualizing simulation results or inputs <a href="#functions-for-summarizing-and-visualizing-simulation-results-or-inputs" class="anchor" aria-hidden="true"></a></h2>
+          <p class="section-desc"></p><p>These are just a few functions to summarize the results from gscramble simulations or to visualize GSPs.</p>
+        </th>
+      </tr></tbody><tbody><tr><td>
+          <p><code><a href="computeQs_from_segments.html">computeQs_from_segments()</a></code> </p>
+        </td>
+        <td><p>return the admixture fractions of sampled individuals</p></td>
+      </tr><tr><td>
+          <p><code><a href="plot_simulated_chromomsome_segments.html">plot_simulated_chromomsome_segments()</a></code> </p>
+        </td>
+        <td><p>Plot the simulated chromosomes of an individual</p></td>
+      </tr><tr><td>
+          <p><code><a href="gsp2dot.html">gsp2dot()</a></code> </p>
+        </td>
+        <td><p>Write a dot file to represent a genome simulation pedigree</p></td>
+      </tr></tbody><tbody><tr><th colspan="2">
+          <h2 id="data-input-and-output-functions">Data input and output functions <a href="#data-input-and-output-functions" class="anchor" aria-hidden="true"></a></h2>
+          <p class="section-desc"></p><p>These functions help to get data in PLINK format into gscramble, and also converting gscramble objects into PLINK files.</p>
+        </th>
+      </tr></tbody><tbody><tr><td>
+          <p><code><a href="plink2gscramble.html">plink2gscramble()</a></code> </p>
+        </td>
+        <td><p>read plink-formatted .map and .ped files into gscramble format</p></td>
+      </tr><tr><td>
+          <p><code><a href="gscramble2plink.html">gscramble2plink()</a></code> </p>
+        </td>
+        <td><p>Write gscramble I_meta, M_meta, and Geno to a plink file</p></td>
+      </tr></tbody><tbody><tr><th colspan="2">
+          <h2 id="functions-for-checking-the-formatting-and-validity-of-inputs">Functions for checking the formatting and validity of inputs <a href="#functions-for-checking-the-formatting-and-validity-of-inputs" class="anchor" aria-hidden="true"></a></h2>
+          <p class="section-desc"></p><p>These functions, some of which are used internally by other functions, can let the user check to see if their inputs are OK.</p>
+        </th>
+      </tr></tbody><tbody><tr><td>
+          <p><code><a href="check_chrom_lengths.html">check_chrom_lengths()</a></code> </p>
+        </td>
+        <td><p>check that the chromosome lengths are acceptable given recombination rates</p></td>
+      </tr><tr><td>
+          <p><code><a href="check_sampleID.html">check_sampleID()</a></code> </p>
+        </td>
+        <td><p>Check that individual IDs are in the same order in the genotype and the individual metadata tibbles.</p></td>
+      </tr><tr><td>
+          <p><code><a href="check_gsp_for_validity_and_saturation.html">check_gsp_for_validity_and_saturation()</a></code> </p>
+        </td>
+        <td><p>Check that GSP does not reuse genetic material and yet uses all of it</p></td>
+      </tr><tr><td>
+          <p><code><a href="check_pedigree_for_inbreeding.html">check_pedigree_for_inbreeding()</a></code> </p>
+        </td>
+        <td><p>Check the a GSP (in prepped list format) for inbreeding loops</p></td>
+      </tr></tbody><tbody><tr><th colspan="2">
+          <h2 id="example-data-objects">Example data objects <a href="#example-data-objects" class="anchor" aria-hidden="true"></a></h2>
+          <p class="section-desc"></p><p>These data objects are provided as examples of the inputs to gscramble. They are used in the vignettes as well.</p>
+        </th>
+      </tr></tbody><tbody><tr><td>
           <p><code><a href="Geno.html">Geno</a></code> </p>
         </td>
         <td><p>Genotype matrix of 78 individuals and 100 SNP markers</p></td>
@@ -82,6 +135,14 @@
         </td>
         <td><p>Recombination rate data for many roughly 1 Mb bins</p></td>
       </tr><tr><td>
+          <p><code><a href="gsp4.html">gsp4</a></code> </p>
+        </td>
+        <td><p>Tibble holding specification for a 7 member genomic permutation pedigree.</p></td>
+      </tr><tr><td>
+          <p><code><a href="GSP.html">GSP</a></code> </p>
+        </td>
+        <td><p>Tibble holding specification for a 13 member genomic simulation pedigree</p></td>
+      </tr><tr><td>
           <p><code><a href="RepPop1.html">RepPop1</a></code> </p>
         </td>
         <td><p>A reppop tibble for an example</p></td>
@@ -90,49 +151,25 @@
         </td>
         <td><p>A reppop tibble for an example</p></td>
       </tr><tr><td>
-          <p><code><a href="check_chrom_lengths.html">check_chrom_lengths()</a></code> </p>
+          <p><code><a href="GSP_opts.html">GSP_opts</a></code> </p>
         </td>
-        <td><p>check that the chromosome lengths are acceptable given recombination rates</p></td>
+        <td><p>Tibble holding specification for a 5 member genomic permutation pedigree.</p></td>
       </tr><tr><td>
-          <p><code><a href="check_gsp_for_validity_and_saturation.html">check_gsp_for_validity_and_saturation()</a></code> </p>
+          <p><code><a href="example_segments.html">example_segments</a></code> </p>
         </td>
-        <td><p>Check that GSP does not reuse genetic material and yet uses all of it</p></td>
-      </tr><tr><td>
-          <p><code><a href="check_pedigree_for_inbreeding.html">check_pedigree_for_inbreeding()</a></code> </p>
-        </td>
-        <td><p>Check the a GSP (in prepped list format) for inbreeding loops</p></td>
-      </tr><tr><td>
-          <p><code><a href="computeQs_from_segments.html">computeQs_from_segments()</a></code> </p>
-        </td>
-        <td><p>return the admixture fractions of sampled individuals</p></td>
-      </tr><tr><td>
-          <p><code><a href="create_GSP.html">create_GSP()</a></code> </p>
-        </td>
-        <td><p>Create a GSP from user inputs about what type of hybrids from which populations to create hybrids</p></td>
-      </tr><tr><td>
-          <p><code><a href="drop_segs_down_gsp.html">drop_segs_down_gsp()</a></code> </p>
-        </td>
-        <td><p>High level function for dropping segments down a GSP</p></td>
-      </tr><tr><td>
-          <p><code><a href="full_analysis.html">full_analysis()</a></code> </p>
-        </td>
-        <td><p>A full analysis of the included feral pig data</p></td>
-      </tr><tr><td>
-          <p><code><a href="gscramble2plink.html">gscramble2plink()</a></code> </p>
-        </td>
-        <td><p>Write gscramble I_meta, M_meta, and Geno to a plink file</p></td>
-      </tr><tr><td>
-          <p><code><a href="gsp2dot.html">gsp2dot()</a></code> </p>
-        </td>
-        <td><p>Write a dot file to represent a genome simulation pedigree</p></td>
+        <td><p>Example of a segments tibble</p></td>
       </tr><tr><td>
           <p><code><a href="gsp3.html">gsp3</a></code> </p>
         </td>
         <td><p>Tibble holding specification for a 5 member genomic permutation pedigree.</p></td>
-      </tr><tr><td>
-          <p><code><a href="gsp4.html">gsp4</a></code> </p>
+      </tr></tbody><tbody><tr><th colspan="2">
+          <h2 id="low-level-functions">Low-level functions <a href="#low-level-functions" class="anchor" aria-hidden="true"></a></h2>
+          <p class="section-desc"></p><p>These are functions that are not intended for use by the general user, but they are included in the documentation for the interest of developers and they are exported in the package to help with debugging and development.</p>
+        </th>
+      </tr></tbody><tbody><tr><td>
+          <p><code><a href="drop_segs_down_gsp.html">drop_segs_down_gsp()</a></code> </p>
         </td>
-        <td><p>Tibble holding specification for a 7 member genomic permutation pedigree.</p></td>
+        <td><p>High level function for dropping segments down a GSP</p></td>
       </tr><tr><td>
           <p><code><a href="make_subscript_matrix.html">make_subscript_matrix()</a></code> </p>
         </td>
@@ -140,28 +177,11 @@
       </tr><tr><td>
           <p><code><a href="mat_scramble.html">mat_scramble()</a></code> </p>
         </td>
-        <td><p>This function assumes that M is a matrix with L rows (number of markers) and
-2 * N (N = number of individuals) columns.
-There are two ways that the data might be permuted.  In the first,
-obtained with <code>preserve_haplotypes = FALSE</code>,
-the position of missing data within the matrix is held constant, but all
-non-missing sites within a row (i.e. all gene copies at a locus) get
-scrambled amongst the samples.  In the second way, just the columns are
-permuted.  This preserves haplotypes in the data, if there are any.
-The second approach should only be used if haplotypes are inferred in
-the individuals.</p></td>
+        <td><p>Scramble a matrix of genotype data</p></td>
       </tr><tr><td>
           <p><code><a href="perm_gs_by_pops.html">perm_gs_by_pops()</a></code> </p>
         </td>
         <td><p>Take the output of rearrange_genos and permute everyone by population</p></td>
-      </tr><tr><td>
-          <p><code><a href="plink2gscramble.html">plink2gscramble()</a></code> </p>
-        </td>
-        <td><p>read plink-formatted .map and .ped files into gscramble format</p></td>
-      </tr><tr><td>
-          <p><code><a href="plot_simulated_chromomsome_segments.html">plot_simulated_chromomsome_segments()</a></code> </p>
-        </td>
-        <td><p>Plot the simulated chromosomes of an individual</p></td>
       </tr><tr><td>
           <p><code><a href="prep_gsp_for_hap_dropping.html">prep_gsp_for_hap_dropping()</a></code> </p>
         </td>
@@ -171,6 +191,10 @@ the individuals.</p></td>
         </td>
         <td><p>rearrange genotypes into separate columns for each haplotype.</p></td>
       </tr><tr><td>
+          <p><code><a href="recomb_point.html">recomb_point()</a></code> </p>
+        </td>
+        <td><p>Randomly sample the positions of recombinations on a chromosome</p></td>
+      </tr><tr><td>
           <p><code><a href="seg2tib.html">seg2tib()</a></code> </p>
         </td>
         <td><p>Takes a gamete in segment format and returns a tibble with Pop and indiv_index</p></td>
@@ -178,14 +202,6 @@ the individuals.</p></td>
           <p><code><a href="seg_haps_through_gsp.html">seg_haps_through_gsp()</a></code> </p>
         </td>
         <td><p>Segregate haplotypes through a genome simulation pedigree list</p></td>
-      </tr><tr><td>
-          <p><code><a href="segments2markers.html">segments2markers()</a></code> </p>
-        </td>
-        <td><p>Just a big, messy wrapper to wrap up some things so Tim can use them</p></td>
-      </tr><tr><td>
-          <p><code><a href="segregate.html">segregate()</a></code> </p>
-        </td>
-        <td><p>Segregate segments down genomic simulation pedigrees</p></td>
       </tr><tr><td>
           <p><code><a href="sim_level_founder_haplos.html">sim_level_founder_haplos()</a></code> </p>
         </td>
@@ -213,7 +229,7 @@ Not yet documented</p></td>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>
