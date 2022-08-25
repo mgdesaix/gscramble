@@ -3,6 +3,7 @@
 export(check_chrom_lengths)
 export(check_gsp_for_validity_and_saturation)
 export(check_pedigree_for_inbreeding)
+export(check_sampleID)
 export(computeQs_from_segments)
 export(create_GSP)
 export(drop_segs_down_gsp)
