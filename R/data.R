@@ -51,7 +51,12 @@ NULL
 #' within the bin for chromosomes in pigs.
 #'
 #' @format A tibble with four columns: chrom, chrom_len, start_pos, end_pos, and rec_prob.
-#' @source Must add, inluding how I computed it from Torterau.
+#' @source These rates were estimated in: Tortereau, Flavie, et al. "A high density
+#' recombination map of the pig reveals a correlation between sex-specific
+#' recombination and GC content." BMC genomics 13.1 (2012): 1-12. It is available
+#' for download from \url{https://static-content.springer.com/esm/art%3A10.1186%2F1471-2164-13-586/MediaObjects/12864_2012_4363_MOESM1_ESM.txt}.
+#' After downloading the data were processed to remove inconsistencies with the
+#' marker data set used for M_meta and Geno.
 #' @docType data
 #' @name RecRates
 NULL
@@ -93,13 +98,14 @@ NULL
 #' @name gsp3
 NULL
 
-#' Tibble holding specification for a 5 member genomic permutation pedigree.
+#' A list of tibbles specifying the pedigrees available from `createGSP()`
 #'
-#' This has 3 founders
+#' This is a list that is used by the function `createGSP()`.  There are 15
+#' different genomic permutation pedigrees, specified as tibbles, in this
+#' list.
 #'
-#' Need to document it a little more....
 #' @format A list of 15 tibbles
-#' @source Rachael and Tim
+#' @source Written by package authors Rachael and Tim
 #' @docType data
 #' @name GSP_opts
 NULL

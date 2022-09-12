@@ -2,8 +2,19 @@ Package: gscramble
 Type: Package
 Title: What the Package Does (Title Case)
 Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
+Authors@R:
+  c(
+    person(given = c("Eric", "C."), "Anderson", , "eric.anderson@noaa.gov", role = c("aut", "cre"),
+      comment = c(ORCID = "0000-0003-1326-0840")
+    ),
+    person(given = c("Rachael", "M."), "Giglio", , "rachael.giglio@usda.gov", role = c("aut"),
+      comment = c(ORCID = "000-0003-4183-3546")
+    ),
+    person(given = c("Timothy", "J."), "Smyser", , "timothy.j.smyser@usda.gov", role = c("aut"),
+      comment = c(ORCID = "0000-0003-4542-3077")
+    )
+  )
+Maintainer: <eric.anderson@noaa.gov>
 Description: More about what it does (maybe more than one line)
     Use four spaces when indenting paragraphs within the Description.
 License: CC0

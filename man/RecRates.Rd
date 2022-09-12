@@ -8,7 +8,12 @@
 A tibble with four columns: chrom, chrom_len, start_pos, end_pos, and rec_prob.
 }
 \source{
-Must add, inluding how I computed it from Torterau.
+These rates were estimated in: Tortereau, Flavie, et al. "A high density
+recombination map of the pig reveals a correlation between sex-specific
+recombination and GC content." BMC genomics 13.1 (2012): 1-12. It is available
+for download from \url{https://static-content.springer.com/esm/art\%3A10.1186\%2F1471-2164-13-586/MediaObjects/12864_2012_4363_MOESM1_ESM.txt}.
+After downloading the data were processed to remove inconsistencies with the
+marker data set used for M_meta and Geno.
 }
 \description{
 Chromosome, start position and end position and probability of recombination

@@ -75,3 +75,11 @@ reference:
   - tidy_up_sampled_haplos
   - xover
 
+
+
+articles:
+- title: Main vignettes
+  navbar: ~
+  contents:
+  - gscramble-tutorial
+  - about-createGSP

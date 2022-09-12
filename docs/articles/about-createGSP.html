@@ -50,10 +50,10 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="../articles/about-createGSP.html">Pedigrees Available from create_GSP()</a>
+      <a href="../articles/gscramble-tutorial.html">A first tutorial for `gscramble`</a>
     </li>
     <li>
-      <a href="../articles/gscramble-tutorial.html">A first tutorial for `gscramble`</a>
+      <a href="../articles/about-createGSP.html">Pedigrees Available from create_GSP()</a>
     </li>
   </ul>
 </li>
@@ -75,7 +75,7 @@
                         <h4 data-toc-skip class="author">Rachel
 Giglio</h4>
             
-            <h4 data-toc-skip class="date">2022-08-25</h4>
+            <h4 data-toc-skip class="date">2022-09-12</h4>
       
       
       <div class="hidden name"><code>about-createGSP.Rmd</code></div>
@@ -84,6 +84,33 @@ Giglio</h4>
 
     
     
+<p>The function <code><a href="../reference/create_GSP.html">create_GSP()</a></code> allows the user to quickly
+create several different pedigree structures that are “saturated” in the
+sense of using all the genomic material of the founders. There are 15
+different pedigrees, and they can be specified by the user according to
+whether the user wants to have any of the following four hybrid
+categories to be present amongst the simulated descendants:</p>
+<ul>
+<li>
+<code>F1</code>: a first generation F1 hybrid—the product of mating
+between two parentals, one from population p1 and the other from
+population p2.</li>
+<li>
+<code>F2</code>: the product of a mating between two F1s</li>
+<li>
+<code>F1B</code>: an F1-backcross—the product of a mating between an
+F1 and a parental (non-admixed) individual from population p1.</li>
+<li>
+<code>F1B2</code>: a second-generation F1-backcross—the product of a
+mating between an F1B and another parental from population p1.</li>
+</ul>
+<p>The following images show the pedigrees created by
+<code><a href="../reference/create_GSP.html">create_GSP()</a></code> with different inputs (<code>TRUE</code> or
+<code>FALSE</code>) for the four parameters, <code>F1</code>,
+<code>F2</code>, <code>F1B</code>, <code>F1B2</code>, to the
+function.</p>
+<p>See the documentation <code><a href="../reference/create_GSP.html">?create_GSP</a></code> for more
+information.</p>
 <div class="section level3">
 <h3 id="f1-true-f2-false-f1b-false-f1b2-false">F1 = TRUE,      F2 = FALSE,      F1B = FALSE,      F1B2 = FALSE,
     <a class="anchor" aria-label="anchor" href="#f1-true-f2-false-f1b-false-f1b2-false"></a>
@@ -186,7 +213,7 @@ Giglio</h4>
 
       <footer><div class="copyright">
   <p></p>
-<p>Developed by The package maintainer.</p>
+<p>Developed by Eric C. Anderson, Rachael M. Giglio, Timothy J. Smyser.</p>
 </div>
 
 <div class="pkgdown">
