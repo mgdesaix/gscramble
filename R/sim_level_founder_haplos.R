@@ -4,7 +4,7 @@
 #' to come up with a unique index for each found haplotype, so that those haplotypes
 #' can all, eventually, be accessed easily out of the genotype matrix.
 #' Along the way, this function does some light checking to make sure that the
-#' `rs_founder_haplo` values are dense within `gpp` and `rep` as they should be.
+#' `rs_founder_haplo` values are dense within `gpp` and `index` as they should be.
 #' @return This function returns a result that is basically the output of `segregate()` with
 #' an additional column added to it:  `sim_level_founder_haplo`.  This is the index
 #' of the haplotype within each `group_origin` that should be used. For details of the
@@ -24,7 +24,7 @@
 #' # labelled "grp1", "grp2", and "grp3", and we want to create the F1Bs with backcrossing
 #' # only to grp3.
 #' reppop <- tibble::tibble(
-#'   rep = c(1, 1, 2, 2),
+#'   index = c(1, 1, 2, 2),
 #'   pop = c("A", "B", "A", "B"),
 #'   group = c("grp3", "grp1", "grp3", "grp2")
 #' )
@@ -44,7 +44,7 @@
 #' fh
 sim_level_founder_haplos <- function(S) {
   tmp <- S %>%
-    group_by(group_origin, gpp, rep, rs_founder_haplo) %>%
+    group_by(group_origin, gpp, index, rs_founder_haplo) %>%
     tally() %>%
     select(-n)
 
@@ -52,7 +52,7 @@ sim_level_founder_haplos <- function(S) {
   problemos <- tmp %>%
     filter(rs_founder_haplo != 1:n())
   if(nrow(problemos) > 0) {
-    warning("Bad news!  rs_founder_haplos are not dense within group_origin, gpp, and rep!")
+    warning("Bad news!  rs_founder_haplos are not dense within group_origin, gpp, and index!")
     print(problemos)
     stop("Bailing out!")
   }
@@ -64,6 +64,6 @@ sim_level_founder_haplos <- function(S) {
 
   # and now we return those by joining them onto the original S
   S %>%
-    left_join(new_vals, by = c("gpp", "rep", "group_origin", "rs_founder_haplo")) %>%
+    left_join(new_vals, by = c("gpp", "index", "group_origin", "rs_founder_haplo")) %>%
     ungroup()
 }

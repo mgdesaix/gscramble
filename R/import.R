@@ -62,6 +62,7 @@ if(getRversion() >= "2.15.1")  {
       "haplo",
       "id",
       "idx",
+      "index",
       "indiv",
       "link_pos",
       "m_subscript_matrix",

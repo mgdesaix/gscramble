@@ -14,7 +14,7 @@ the package data \code{\link{GSP}}.}
 \code{\link{RecRates}}}
 
 \item{Reps}{the number of times to do the simulation.  Different replicates
-are denoted by the rep column in the output tibble.}
+are denoted by the index column in the output tibble.}
 }
 \description{
 This one asks for the number of reps to do, and it also

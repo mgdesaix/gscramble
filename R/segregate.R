@@ -8,16 +8,16 @@
 #' Each element of the gpp column is a tibble giving a genomic simulation
 #' pedigree as documented as the input for `prep_gsp_for_hap_dropping()`.
 #' Each element of the "reppop" column is a tibble with columns
-#' `rep`, `pop`, `group`, to indicate which of the founding
+#' `index`, `pop`, `group`, to indicate which of the founding
 #' populations ("A", "B", etc.) correspond to the different groups
 #' (from the `group` column in, for example, the meta data for individuals
 #' in your genotype data set, like the data object `I_meta`).
 #' Because it is quite likely that you might wish to iterate
 #' the segregation procedure multiple
 #' times in a single simulation, you can specify that by doing multiple
-#' "reps" (replicates) of the procedure.  **BIG NOTE**: The reps that you
+#' "reps" (replicates) of the procedure.  **BIG NOTE**: The values in the index column that you
 #' choose must start at 1 and should be dense within.  In other words, if
-#' the max value in the reps column is N, then every integer from 1 to N
+#' the max value in the index column is N, then every integer from 1 to N
 #' must be in there.
 #' @param RR the recombination rates in the format of the package data
 #' @param MM the marker meta data tibble (like M_meta).  If this is NULL (the default) that
@@ -33,16 +33,16 @@
 #' information about the provenance and destination of that segment as follows.
 #' Each segment exists in one of the samples (`samp_index`) from a sampled individual
 #' with a `ped_sample_id` on a given `gpp` (the index giving the row of the request input tibble)
-#' in a given `rep` within the individual.  Further, it is on one of two gametes
+#' in a given `index` within the individual.  Further, it is on one of two gametes
 #' (`gamete_index`) that segregated into the individual, and it came from a certain founding
 #' population (`pop_origin`) that corresponds to the named groups in the genotype file (`group_origin`).
 #' And, of course, the segment occupies the space from `start` to `end` on a chromosome `chrom`.
 #' Finally, the index of the founder haplotype on the given gpp that this segement descended from is
-#' given in `rs_founder_haplotype` which is short for "rep-specific founder haplotype".  This final
+#' given in `rs_founder_haplotype` which is short for "rep-specific founder haplotype". This final
 #' piece of information is crucial for segregating variation from the individuals in the `Geno` file
 #' onto these segments. Finally, the column `sim_level_founder_haplo` assigns a unique index for each founder
-#' haplotype. This is necessary because any simulation can involve multiple gpps and/or reps, and the founders
-#' in each of those must all be unique within a simuilation. so that those haplotypes
+#' haplotype. This is necessary because any simulation can involve multiple gpps and/or indexes of gpps,
+#' and the founders in each of those must all be unique within a simulation. so that those haplotypes
 #' can all, eventually, be accessed easily out of the genotype matrix.
 #' @export
 #' @examples
@@ -55,7 +55,7 @@
 #' # labelled "grp1", "grp2", and "grp3", and we want to create the F1Bs with backcrossing
 #' # only to grp3.
 #' reppop <- tibble::tibble(
-#'     rep = c(1, 1, 2, 2),
+#'     index = c(1, 1, 2, 2),
 #'     pop = c("A", "B", "A", "B"),
 #'     group = c("grp3", "grp1", "grp3", "grp2")
 #' )
@@ -90,13 +90,13 @@ segregate <- function(request, RR, MM = NULL) {
   ret <- lapply(idx, function(i) {
     # number of reps to do is the maximum number listed in the request
 
-    Reps <- max(request$reppop[[i]]$rep)
+    Reps <- max(request$reppop[[i]]$index)
     tmp <- drop_segs_down_gsp(GSP = request$gpp[[i]],
                        RR = RR,
                        Reps = Reps)
 
     # now, we join the group specification on there
-    left_join(tmp, request$reppop[[i]], by = c("rep" = "rep", "pop_origin" = "pop")) %>%
+    left_join(tmp, request$reppop[[i]], by = c("index" = "index", "pop_origin" = "pop")) %>%
       rename(group_origin = group)
   }) %>%
     bind_rows(.id = "gpp") %>%
@@ -120,7 +120,7 @@ segregate <- function(request, RR, MM = NULL) {
   # arrange and return
   ret_tmp %>%
       select(chrom_f, everything()) %>%
-      arrange(gpp, rep, ped_sample_id, samp_index, gamete_index, chrom_f, start)
+      arrange(gpp, index, ped_sample_id, samp_index, gamete_index, chrom_f, start)
 }
 
 

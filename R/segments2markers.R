@@ -23,7 +23,7 @@
 #' # labelled "Pop1", "Pop2", and "Pop3", and we want to create the F1Bs with backcrossing
 #' # only to Pop3.
 #' reppop <- tibble::tibble(
-#'     rep = c(1, 1, 2, 2),
+#'     index = c(1, 1, 2, 2),
 #'     pop = c("A", "B", "A", "B"),
 #'     group = c("Pop3", "Pop1", "Pop3", "Pop2")
 #' )
@@ -86,7 +86,7 @@ segments2markers <- function(Segs, Im, Mm, G) {
 
   # sprinkle the variants in there:
   full_pick_mat <- Segs2 %>%
-    group_by(gpp, rep, ped_sample_id, samp_index, gamete_index) %>%
+    group_by(gpp, index, ped_sample_id, samp_index, gamete_index) %>%
     summarise(
       m_subscript_matrix = list(
         make_subscript_matrix(
@@ -128,10 +128,10 @@ segments2markers <- function(Segs, Im, Mm, G) {
   pPSI <- plinkize(ped_sampled_indivs)
 
   # first, get the IDs of the gametes in ped_sampled_indivs
-  # the format here is h-gpp-rep-ped_sample_id-samp_index-matrix_row
+  # the format here is h-gpp-index-ped_sample_id-samp_index-matrix_row
   psi_IDs <- Segs2 %>%
     ungroup() %>%
-    select(gpp, rep, ped_sample_id, samp_index) %>%
+    select(gpp, index, ped_sample_id, samp_index) %>%
     distinct() %>%
     mutate(matrix_row = 1:n(),
            h = "h") %>%
@@ -142,9 +142,9 @@ segments2markers <- function(Segs, Im, Mm, G) {
   # now, make a column like that in the trueQs
   trueQs2 <- trueQs %>%
     ungroup() %>%
-    distinct(gpp, rep, ped_sample_id, samp_index) %>%
+    distinct(gpp, index, ped_sample_id, samp_index) %>%
     mutate(matrix_row = 1:n()) %>%
-    left_join(trueQs, ., by = c("gpp", "rep", "ped_sample_id", "samp_index")) %>%
+    left_join(trueQs, ., by = c("gpp", "index", "ped_sample_id", "samp_index")) %>%
     mutate(h = "h") %>%
     unite(col = "indiv", h, gpp:samp_index, matrix_row, sep = "-", remove = FALSE) %>%
     select(-h) %>%

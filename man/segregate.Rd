@@ -11,16 +11,16 @@ segregate(request, RR, MM = NULL)
 Each element of the gpp column is a tibble giving a genomic simulation
 pedigree as documented as the input for \code{prep_gsp_for_hap_dropping()}.
 Each element of the "reppop" column is a tibble with columns
-\code{rep}, \code{pop}, \code{group}, to indicate which of the founding
+\code{index}, \code{pop}, \code{group}, to indicate which of the founding
 populations ("A", "B", etc.) correspond to the different groups
 (from the \code{group} column in, for example, the meta data for individuals
 in your genotype data set, like the data object \code{I_meta}).
 Because it is quite likely that you might wish to iterate
 the segregation procedure multiple
 times in a single simulation, you can specify that by doing multiple
-"reps" (replicates) of the procedure.  \strong{BIG NOTE}: The reps that you
+"reps" (replicates) of the procedure.  \strong{BIG NOTE}: The values in the index column that you
 choose must start at 1 and should be dense within.  In other words, if
-the max value in the reps column is N, then every integer from 1 to N
+the max value in the index column is N, then every integer from 1 to N
 must be in there.}
 
 \item{RR}{the recombination rates in the format of the package data}
@@ -40,16 +40,16 @@ material amongst the sampled individuals from the genomic permutation pedigrees.
 information about the provenance and destination of that segment as follows.
 Each segment exists in one of the samples (\code{samp_index}) from a sampled individual
 with a \code{ped_sample_id} on a given \code{gpp} (the index giving the row of the request input tibble)
-in a given \code{rep} within the individual.  Further, it is on one of two gametes
+in a given \code{index} within the individual.  Further, it is on one of two gametes
 (\code{gamete_index}) that segregated into the individual, and it came from a certain founding
 population (\code{pop_origin}) that corresponds to the named groups in the genotype file (\code{group_origin}).
 And, of course, the segment occupies the space from \code{start} to \code{end} on a chromosome \code{chrom}.
 Finally, the index of the founder haplotype on the given gpp that this segement descended from is
-given in \code{rs_founder_haplotype} which is short for "rep-specific founder haplotype".  This final
+given in \code{rs_founder_haplotype} which is short for "rep-specific founder haplotype". This final
 piece of information is crucial for segregating variation from the individuals in the \code{Geno} file
 onto these segments. Finally, the column \code{sim_level_founder_haplo} assigns a unique index for each founder
-haplotype. This is necessary because any simulation can involve multiple gpps and/or reps, and the founders
-in each of those must all be unique within a simuilation. so that those haplotypes
+haplotype. This is necessary because any simulation can involve multiple gpps and/or indexes of gpps,
+and the founders in each of those must all be unique within a simulation. so that those haplotypes
 can all, eventually, be accessed easily out of the genotype matrix.
 }
 \description{
@@ -68,7 +68,7 @@ gsp_f1f1b <- create_GSP("A", "B", F1 = TRUE, F1B = TRUE)
 # labelled "grp1", "grp2", and "grp3", and we want to create the F1Bs with backcrossing
 # only to grp3.
 reppop <- tibble::tibble(
-    rep = c(1, 1, 2, 2),
+    index = c(1, 1, 2, 2),
     pop = c("A", "B", "A", "B"),
     group = c("grp3", "grp1", "grp3", "grp2")
 )

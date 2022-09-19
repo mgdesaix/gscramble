@@ -20,7 +20,7 @@ This takes the output of \code{segregate()} and deals with the multiple gpp's an
 to come up with a unique index for each found haplotype, so that those haplotypes
 can all, eventually, be accessed easily out of the genotype matrix.
 Along the way, this function does some light checking to make sure that the
-\code{rs_founder_haplo} values are dense within \code{gpp} and \code{rep} as they should be.
+\code{rs_founder_haplo} values are dense within \code{gpp} and \code{index} as they should be.
 }
 \examples{
 #### Get output from segregate to use as input ####
@@ -33,7 +33,7 @@ gsp_f1f1b <- create_GSP("A", "B", F1 = TRUE, F1B = TRUE)
 # labelled "grp1", "grp2", and "grp3", and we want to create the F1Bs with backcrossing
 # only to grp3.
 reppop <- tibble::tibble(
-  rep = c(1, 1, 2, 2),
+  index = c(1, 1, 2, 2),
   pop = c("A", "B", "A", "B"),
   group = c("grp3", "grp1", "grp3", "grp2")
 )
