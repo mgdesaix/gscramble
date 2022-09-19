@@ -36,9 +36,9 @@
 #' @return This function returns a ggplot object.  Each facet of the plot shows
 #' the chromosomes of a different sampled individual from a particular replicate
 #' simulation from a particular genome simulation pedigree.  The facets are titled
-#' like: `GSP 1, Rep 2, ID 8[3]`, which means that the chromosomes shown in the panel
+#' like: `GSP 1, Idx 2, ID 8[3]`, which means that the chromosomes shown in the panel
 #' are from the third sampled set of chromosomes from the individual with ID 8 from the
-#' second replicate simulation from genome simulation pedigree 1.
+#' simulation from genome simulation pedigree 1 with index 2.
 #' @examples
 #' s <- example_segments
 #' rr <- RecRates
@@ -94,7 +94,7 @@ plot_simulated_chromomsome_segments <- function(
   # gamete_index = 2 goes on the top of the pair.
   S2 <- S %>%
     mutate(
-      unit = paste0("GSP ", gpp, ", Rep ", rep, ", ID: ", ped_sample_id, "[", samp_index, "]"),
+      unit = paste0("GSP ", gpp, ", Idx ", index, ", ID: ", ped_sample_id, "[", samp_index, "]"),
       chr_ymin = BY + ((gamete_index == 2) * (ah["chrom_ht"] + ah["chrom_gap"])),
       chr_ymax = BY + ah["chrom_ht"] + ((gamete_index == 2) * (ah["chrom_ht"] + ah["chrom_gap"])),
       chr_xmin = start,
@@ -103,7 +103,7 @@ plot_simulated_chromomsome_segments <- function(
 
   g <- ggplot() +
     geom_rect(
-      data = S2 %>% filter(rep <= 4),
+      data = S2,
       mapping = aes(
         xmin = chr_xmin/1e6,
         xmax = chr_xmax/1e6,

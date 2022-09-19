@@ -54,9 +54,9 @@ there are sparklines being drawn.}
 This function returns a ggplot object.  Each facet of the plot shows
 the chromosomes of a different sampled individual from a particular replicate
 simulation from a particular genome simulation pedigree.  The facets are titled
-like: \verb{GSP 1, Rep 2, ID 8[3]}, which means that the chromosomes shown in the panel
+like: \verb{GSP 1, Idx 2, ID 8[3]}, which means that the chromosomes shown in the panel
 are from the third sampled set of chromosomes from the individual with ID 8 from the
-second replicate simulation from genome simulation pedigree 1.
+simulation from genome simulation pedigree 1 with index 2.
 }
 \description{
 This function uses the information in the tibble about segments

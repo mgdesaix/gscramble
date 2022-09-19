@@ -36,7 +36,7 @@ gsp_f1f1b <- create_GSP("A", "B", F1 = TRUE, F1B = TRUE)
 # labelled "Pop1", "Pop2", and "Pop3", and we want to create the F1Bs with backcrossing
 # only to Pop3.
 reppop <- tibble::tibble(
-    rep = c(1, 1, 2, 2),
+    index = c(1, 1, 2, 2),
     pop = c("A", "B", "A", "B"),
     group = c("Pop3", "Pop1", "Pop3", "Pop2")
 )

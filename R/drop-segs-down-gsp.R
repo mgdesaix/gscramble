@@ -8,7 +8,7 @@
 #' @param RR the recombination rates in the format of the package data
 #' \code{\link{RecRates}}
 #' @param Reps the number of times to do the simulation.  Different replicates
-#' are denoted by the rep column in the output tibble.
+#' are denoted by the index column in the output tibble.
 #' @export
 #' @examples
 #' simSegs <- drop_segs_down_gsp(GSP, RecRates, 4)
@@ -41,8 +41,8 @@ drop_segs_down_gsp <- function(GSP, RR, Reps) {
                              .f = function(G, M, C) seg_haps_through_gsp(G = G, M = M, chrom_len = C))
         )
     }) %>%
-      bind_rows(.id = "rep") %>%
-      mutate(rep = as.integer(rep))
+      bind_rows(.id = "index") %>%
+      mutate(index = as.integer(index))
   )
 
   # now we tidy up the segged elements, to have a column where we retain just the samples.
@@ -55,12 +55,12 @@ drop_segs_down_gsp <- function(GSP, RR, Reps) {
   # columns and we can easily see all the segments in the samples.
   # This is the data frame that we will return.
   Res2 %>%
-    select(rep, chrom, ped_samples) %>%
+    select(index, chrom, ped_samples) %>%
     unnest(ped_samples) %>%
     mutate(gam_tibs = map(gamete_segments, seg2tib)) %>%
     unnest(gam_tibs) %>%
     separate(tmp_seg_names, into = c("pop_origin", "rs_founder_haplo")) %>%
     mutate(rs_founder_haplo = as.integer(rs_founder_haplo)) %>%
-    arrange(rep, ped_sample_id, samp_index, gamete_index, chrom, start)
+    arrange(index, ped_sample_id, samp_index, gamete_index, chrom, start)
 
 }

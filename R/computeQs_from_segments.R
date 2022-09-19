@@ -9,9 +9,9 @@
 #' genome length in each individual to make sure it checks out.
 #' @return
 #' This function returns a tibble with the following columns:
-#' - `gpp`: the genomic simulation pedigree within which the individual sample
+#' - `gpp`: the genomic simulation pedigree within which the individual sample was
 #'     simulated.
-#' - `rep`: the number of replicate of the simulation
+#' - `index`: the index which gives which instance of the GSP the sample is from
 #' - `ped_sample_id`: the id number of that the sampled individual had in the
 #'     genomic simulation pedigree.
 #' - `samp_index`: the index of the sample taken.  Some individuals in some
@@ -26,7 +26,7 @@
 #'     that were mapped onto the simple pedigree `pop_origin`s by the reppop
 #'     request.
 #' - `group_length`: the total length of segments from this group in this individual
-#'     in this rep from this gpp (in bases).
+#'     in this reppop index from this gpp (in bases).
 #' - `tot_length`: the total number of bases from all origins carried by this
 #'     individual.
 #' - `admixture_fraction`: the fraction of all bases in the simulated individual
@@ -43,7 +43,7 @@
 #' # labelled "grp1", "grp2", and "grp3", and we want to create the F1Bs with backcrossing
 #' # only to grp3.
 #' reppop <- tibble::tibble(
-#'   rep = c(1, 1, 2, 2),
+#'   index = c(1, 1, 2, 2),
 #'   pop = c("A", "B", "A", "B"),
 #'   group = c("grp3", "grp1", "grp3", "grp2")
 #' )
@@ -64,9 +64,9 @@
 #' Qs
 computeQs_from_segments <- function(S, check_total_length = TRUE) {
   tmp <- S %>%
-    group_by(gpp, rep, ped_sample_id, samp_index, pop_origin, group_origin) %>%
+    group_by(gpp, index, ped_sample_id, samp_index, pop_origin, group_origin) %>%
     summarise(group_length = sum(end - start)) %>%
-    group_by(gpp, rep, ped_sample_id, samp_index) %>%
+    group_by(gpp, index, ped_sample_id, samp_index) %>%
     mutate(tot_length = sum(group_length))
 
   if(check_total_length == TRUE) {

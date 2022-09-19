@@ -15,9 +15,9 @@ genome length in each individual to make sure it checks out.}
 \value{
 This function returns a tibble with the following columns:
 \itemize{
-\item \code{gpp}: the genomic simulation pedigree within which the individual sample
+\item \code{gpp}: the genomic simulation pedigree within which the individual sample was
 simulated.
-\item \code{rep}: the number of replicate of the simulation
+\item \code{index}: the index which gives which instance of the GSP the sample is from
 \item \code{ped_sample_id}: the id number of that the sampled individual had in the
 genomic simulation pedigree.
 \item \code{samp_index}: the index of the sample taken.  Some individuals in some
@@ -32,7 +32,7 @@ the \code{group_length} originated from.  These are the groups of samples
 that were mapped onto the simple pedigree \code{pop_origin}s by the reppop
 request.
 \item \code{group_length}: the total length of segments from this group in this individual
-in this rep from this gpp (in bases).
+in this reppop index from this gpp (in bases).
 \item \code{tot_length}: the total number of bases from all origins carried by this
 individual.
 \item \code{admixture_fraction}: the fraction of all bases in the simulated individual
@@ -56,7 +56,7 @@ gsp_f1f1b <- create_GSP("A", "B", F1 = TRUE, F1B = TRUE)
 # labelled "grp1", "grp2", and "grp3", and we want to create the F1Bs with backcrossing
 # only to grp3.
 reppop <- tibble::tibble(
-  rep = c(1, 1, 2, 2),
+  index = c(1, 1, 2, 2),
   pop = c("A", "B", "A", "B"),
   group = c("grp3", "grp1", "grp3", "grp2")
 )
