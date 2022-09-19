@@ -3,16 +3,15 @@
 \docType{data}
 \name{GSP_opts}
 \alias{GSP_opts}
-\title{Tibble holding specification for a 5 member genomic permutation pedigree.}
+\title{A list of tibbles specifying the pedigrees available from \code{createGSP()}}
 \format{
 A list of 15 tibbles
 }
 \source{
-Rachael and Tim
+Written by package authors Rachael and Tim
 }
 \description{
-This has 3 founders
-}
-\details{
-Need to document it a little more....
+This is a list that is used by the function \code{createGSP()}.  There are 15
+different genomic permutation pedigrees, specified as tibbles, in this
+list.
 }

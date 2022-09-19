@@ -74,6 +74,24 @@ make_plots <- function(i) {
 #dump <- lapply(1:15, function(i) cat(make_plots(i)))
 ```
 
+The function `create_GSP()` allows the user to quickly create several different
+pedigree structures that are "saturated" in the sense of using all the genomic material
+of the founders.  There are 15 different pedigrees, and they can be specified by the user
+according to whether the user wants to have any of the following four hybrid categories
+to be present amongst the simulated descendants:
+
+* `F1`:  a first generation F1 hybrid---the product of mating between two parentals, one from
+population p1 and the other from population p2.
+* `F2`:  the product of a mating between two F1s
+* `F1B`: an F1-backcross---the product of a mating between an F1 and a parental (non-admixed) individual
+from population p1.
+* `F1B2`: a second-generation F1-backcross---the product of a mating between an F1B and another parental
+from population p1.
+
+The following images show the pedigrees created by `create_GSP()` with different inputs (`TRUE` or `FALSE`)
+for the four parameters, `F1`, `F2`, `F1B`, `F1B2`, to the function.  
+
+See the documentation `?create_GSP` for more information.
 
 ###  F1 = TRUE, &nbsp;&nbsp;&nbsp;&nbsp; F2 = FALSE, &nbsp;&nbsp;&nbsp;&nbsp; F1B = FALSE, &nbsp;&nbsp;&nbsp;&nbsp; F1B2 = FALSE, &nbsp;&nbsp;&nbsp;&nbsp; 
 

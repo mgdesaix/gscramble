@@ -48,6 +48,9 @@ to provide
 
 Examples of these objects (which have been heavily downsampled to make them small enough to host on CRAN, illustrating 78 individuals genotyped at 100 loci distributed across 3 chromosomes [chr 12, 17, & 18] and sampled from 4 groups [Pop1, 2, 3, 4]) from a data set of invasive feral swine (Smyser et al. 2020; full dataset: https://datadryad.org/stash/dataset/doi:10.5061%2Fdryad.jsxksn05z) are included as data objects with the package. The following sections discuss each of these data inputs in detail.
 
+For an example of how to read such data from PLINK files see [this section](#readplink).
+
+
 ### Matrix of genotype data.  `Geno`
 
 The genotype data must be provided in a matrix.  If there are $N$ individuals and
@@ -553,3 +556,22 @@ gscramble2plink(
 )
 ```
 
+
+## Reading from plink format {#readplink}
+
+If the marker data you wish to use for simulation in gscramble is in PLINK format,
+the function `plink2gscramble()` will read a `.map` and `.ped` file pair
+into a list of objects like `Geno`, `I_meta`, and `M_meta`.
+
+Note that this function can handle gzipped files, as well (i.e., `.map.gz` and `.ped.gz`).
+However, it cannot read PLINK binary files (i.e., `.bim`, `.bed` files).
+
+Its use is as follows, reading some example data from the package:
+```{r}
+mapfile <- system.file("extdata/example-plink.map.gz", package = "gscramble")
+pedfile <- system.file("extdata/example-plink.ped.gz", package = "gscramble")
+
+GS_data <- plink2gscramble(mapfile, pedfile)
+
+names(GS_data)
+```
