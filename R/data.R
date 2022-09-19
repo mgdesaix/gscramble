@@ -81,7 +81,6 @@ NULL
 NULL
 
 
-
 #' Tibble holding specification for a 7 member genomic permutation pedigree.
 #'
 #' This has 4 founders, each one from a different population, and it provides
