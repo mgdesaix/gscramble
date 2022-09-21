@@ -21,6 +21,11 @@
 
 check_reppop<-function(reppop){
   Flag<-FALSE
+  #check to see that reppop is a tibble
+  if(!is_tibble(reppop)){
+    print("ERROR: RepPop needs to be a tibble.")
+    Flag<-TRUE
+  }
   #check that three columns exist 'index', 'pop', 'group'
   if(!setequal(colnames(reppop), c('index','pop','group'))){
     print("ERROR: There should be 3 columns with the headings 'index', 'pop', and 'group'.")
@@ -37,6 +42,6 @@ check_reppop<-function(reppop){
     Flag<-TRUE
   }
   if(Flag == FALSE){
-    print("Your RepPop is formatted correctly and ready to go!")
+    print("Your RepPop is formatted correctly and is ready to go!")
   }
 }
