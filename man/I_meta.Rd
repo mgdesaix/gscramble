@@ -3,14 +3,16 @@
 \docType{data}
 \name{I_meta}
 \alias{I_meta}
-\title{Meta data for 329 individuals}
+\title{Metadata for 78 individuals}
 \format{
-A tibble with three columns: chrom, pos, and variant_id.
+A tibble with two columns: group and indiv.
 }
 \source{
-Must add...
+USDA-APHIS-WS-National Wildlife Research Center Feral Swine Genetic Archive
 }
 \description{
-Individuals IDs and group specifications for 329 individuals
-whose genotypes are in \code{\link{Geno}}
+The tibble 'I_meta' contains the Individuals IDs and group specifications for 78 individuals. Each row of 'I_meta'
+contains the metadata for an individual. 'I_meta' has two columns, a 'group' column with the group or population assignment
+for a given individual and an 'indiv' column with the individual sample IDs. The information in each column are stored as characters.
+The order of the individual IDs corresponds to the genotypes found in \code{\link{Geno}}.
 }

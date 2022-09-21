@@ -5,23 +5,21 @@
 \alias{Geno}
 \title{Genotype matrix of 78 individuals and 100 SNP markers}
 \format{
-A character matrix.Each row represents an individual and
+A character matrix. Each row represents an individual and columns contain the genotypes for individuals
+in a "two-column" format where two adjacent columns make up a locus with an allele in each column.
 }
 \source{
-Must add...
+USDA-APHIS-WS-National Wildlife Research Center Feral Swine Genetic Archive
 }
 \description{
 This dataset represents 3 distinct populations of feral swine in the United States.
 To make this dataset computationally efficient, only 3 chromosomes (12, 17, 18) from the pig genome were used.
 Further, loci were reduced to the 100 most informative loci for distinguishing the 3 populations.
-The genotype matrix is in a standard "two-column"
-format genotype data matrix for a diploid species
+Each row of the genotype matrix includes the genotypes for a single individual.
+The genotype matrix is in a standard "two-column" format for a diploid species
 where two adjacent columns make up a locus and each column of a locus contains an allele.
 Genotype data is stored in the character class.
 Missing data is represented by NAs.
-Individual IDs and population assignment can be found in \code{\link{I_meta}}
+Individual IDs and population assignment information can be found in \code{\link{I_meta}}
 Locus and chromosome information for genotypes can be found in \code{\link{M_meta}}
-}
-\details{
-Need to document it a little more....
 }
