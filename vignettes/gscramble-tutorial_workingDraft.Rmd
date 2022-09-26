@@ -1,5 +1,5 @@
 ---
-title: "A first tutorial for `gscramble`"
+title: "A WORKING first tutorial for `gscramble`"
 resource_files:
   - ../man/figures/F1-500.png
   - ../man/figures/13.svg
@@ -9,7 +9,7 @@ output:
   rmarkdown::html_vignette:
     toc: true
 vignette: >
-  %\VignetteIndexEntry{A first tutorial for `gscramble`}
+  %\VignetteIndexEntry{A WORKING first tutorial for `gscramble`}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -235,7 +235,7 @@ specifying tibbles that accompany the GSPs of interest.
 ```{r}
 Pattern = c("Pop1", "Pop2")
 RepPopSimpleF1 <- tibble(
-  rep = rep(1:1, each = 2),
+  index = rep(1:1, each = 2),
   pop = rep(c("p1", "p2"), times = 1),
   group = Pattern
 )
@@ -253,7 +253,7 @@ add a little more complexity working within the same GSP, we could modify the
 Pattern = c("Pop1", "Pop2", "Pop1",
             "Pop3", "Pop1", "Pop4")
 RepPopSimpleF1_b <- tibble(
-  rep = rep(1:3, each = 2),
+  index = rep(1:3, each = 2),
   pop = rep(c("p1", "p2"), times = 3),
   group = Pattern
 )
@@ -269,7 +269,7 @@ to use in each replicate of the simulation:
 Pattern = c("Pop1", "Pop2", "Pop1", "Pop3", "Pop1", "Pop4", 
             "Pop2", "Pop3", "Pop2", "Pop4", "Pop3", "Pop4")
 RepPopSimpleF1_c <- tibble(
-  rep = rep(1:6, each = 2),
+  index = rep(1:6, each = 2),
   pop = rep(c("p1", "p2"), times = 6),
   group = Pattern
 )
@@ -308,7 +308,7 @@ populations, we can use a `RepPop` tibble that looks like this:
 Pattern = c("Pop1", "Pop2", "Pop1", 
             "Pop3", "Pop1", "Pop4")
 RepPopComplex1 <- tibble(
-  rep = rep(1:3, each = 2),
+  index = rep(1:3, each = 2),
   pop = rep(c("p1", "p2"), times = 3), 
   group = Pattern
 )

@@ -220,7 +220,7 @@ Building up this pattern of hybridization between Pop1 and Pop2, now we can simu
 Pattern = c("Pop1", "Pop2", "Pop1",
             "Pop3", "Pop1", "Pop4")
 RepPopComplex <- tibble(
-  rep = rep(1:3, each = 2),
+  index = rep(1:3, each = 2),
   pop = rep(c("p1", "p2"), times = 3),
   group = Pattern
 )
@@ -235,7 +235,7 @@ populations, we can use a `RepPop` tibble that looks like this:
 Pattern = c("Pop2", "Pop1", "Pop3", 
             "Pop1", "Pop4", "Pop1")
 RepPopComplex2 <- tibble(
-  rep = rep(1:3, each = 2),
+  index = rep(1:3, each = 2),
   pop = rep(c("p1", "p2"), times = 3), 
   group = Pattern
 )
@@ -252,7 +252,7 @@ Now, for example, let’s say you are interested in simulating F1 hybrids for al
 Pattern = c("Pop1", "Pop2", "Pop1", "Pop3", "Pop1", "Pop4", 
             "Pop2", "Pop3", "Pop2", "Pop4", "Pop3", "Pop4")
 RepPopF1 <- tibble(
-  rep = rep(1:6, each = 2),
+  index = rep(1:6, each = 2),
   pop = rep(c("p1", "p2"), times = 6),
   group = Pattern
 )
@@ -352,7 +352,7 @@ I_meta %>%
 ```
 
 To define how individuals among groups combine to form hybrids, you must use a tibble
-with columns `rep`, `pop`, `group`, to indicate which of the founding
+with columns `index`, `pop`, `group`, to indicate which of the founding
 populations ("A", "B", etc.) correspond to the different groups (from the `group` column in, for example,
 `I_meta`) in your genotype data set.
 
@@ -361,8 +361,8 @@ times in a single simulation, you can specify that by doing multiple "reps" (rep
 procedure. 
 
 An example might help.  Suppose that we wish to do a simulation with the pedigree in `GSP` (13 individuals,
-6 of which are founders: 3 from population "A" and 3 from population "B").  For the first rep, we might want
-to map "A" to Pop1 and "B" to Pop2, and in the second rep we might want to map "A" to Pop4, and "B" to
+6 of which are founders: 3 from population "A" and 3 from population "B").  For the first index, we might want
+to map "A" to Pop1 and "B" to Pop2, and in the second index we might want to map "A" to Pop4, and "B" to
 Pop 3.  (Note, at this point, genetic material from 3 individuals from each of those populations will have
 been "consumed" from each of these populations and segregated, without replacement, into the samples from the
 genomic simulation pedigree.)
@@ -427,7 +427,7 @@ The output from that is a big tibble.  Each row represents one segment of geneti
 material amongst the sampled individuals from the genomic permutation pedigrees.
 Each segment exists in one of the samples (`samp_index`) from a sampled individual
 with a `ped_sample_id` on a given `gpp` (the index giving the row of the request input tibble)
-in a given `rep` within the individual.  Further, it is on one of two gametes
+in a given `index` within the individual.  Further, it is on one of two gametes
 (`gamete_index`) that segregated into the individual, and it came from a certain founding
 population (`pop_origin`) that corresponds to the named groups in the genotype file (`group_origin`).
 And, of course, the segment occupies the space from `start` to `end` on a chromosome `chrom`.
@@ -520,9 +520,9 @@ The output is a list of three components:
     in the `ret_geno` matrix.  There are two columns: `group` and `indiv`.  The first
     rows include the samples from the GSP.  Their group is `ped_hybs` (meaning
     "sampled hybrids from the pedigree") and their IDs are in the `indiv` column in the
-    format of an `h-` followed by a string with replaced values of: `gpp-rep-ped_sample_id-samp_index-matrix_row`.
+    format of an `h-` followed by a string with replaced values of: `gpp-index-ped_sample_id-samp_index-matrix_row`.
     Those are (they need explaining):
-    - `rep`:
+    - `index`:
     - `ped`:
     - `sample_id`:
     - `samp_index`:
