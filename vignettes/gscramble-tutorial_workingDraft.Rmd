@@ -30,7 +30,7 @@ library(tidyverse)
 
 `gscramble` operates only for diploid species.  The main functions in `gscramble` require that genetic data
 be provided in R objects (matrices/tibbles/etc.) with particular formatting.  We describe the formats of
-those objects here.  Later we describe functions for reading data from PLINK format (and perhaps others,
+those objects here.  Later we describe functions for reading data from PLINK (.ped / .map) format (and perhaps others,
 in the future) into these necessary objects for `gscramble`.
 
 The main required objects (loosely aligning with .bed/.fam/.bim file structure of binary PLINK files) are:
@@ -40,13 +40,18 @@ The main required objects (loosely aligning with .bed/.fam/.bim file structure o
 3. A tibble of meta data about the markers in the genotype data (`M_meta`)
 
 On top of those, if you want to simulate hybrid individuals according to a pedigree, you will need
-to provide
+to provide:
 
 4. A tibble that describes the rates of genetic recombination along the chromosomes. (`RecRates`)
 5. A tibble that describes a pedigree of interest within which sections of chromosomes are segregated down successive generations, which we call a "genome simulation pedigree" (`GSP`)
 6. A tibble that translates the population specifiers in the pedigree (i.e., `GSP`) with the population/group labels associated with the genetic data (i.e., `I_meta`) for different hybridization replicates (`RepPop`)
 
 Examples of these objects (which have been heavily downsampled to make them small enough to host on CRAN, illustrating 78 individuals genotyped at 100 loci distributed across 3 chromosomes [chr 12, 17, & 18] and sampled from 4 groups [Pop1, 2, 3, 4]) from a data set of invasive feral swine (Smyser et al. 2020; full dataset: https://datadryad.org/stash/dataset/doi:10.5061%2Fdryad.jsxksn05z) are included as data objects with the package. The following sections discuss each of these data inputs in detail.
+
+For an example of how to read such data from PLINK files see [this section](#readplink).
+
+
+
 
 ### Matrix of genotype data.  `Geno`
 
@@ -210,7 +215,7 @@ same GSP and discuss the structure of a GSP in light of those two pieces of info
 knitr::include_graphics("../man/figures/F1-500.png")
 ```
 
-Let's develop this basic example of simulating F1 hybrids.  The first step would be to define the GSP in which we are using ‘p1’ and ‘p2’ in an associated `RepPop` to represent the two
+Let's develop this basic example of simulating F1 hybrids.  The first step would be to define the GSP in which we are describing sources as ‘p1’ and ‘p2’, and then we will need an associated `RepPop` to represent the two
 different populations the founders belong to.    
 
 ```{r}
@@ -223,7 +228,7 @@ To accompany this GSP, we next need to define the groups
 that we are interested in hybridizing - in this case Pop1 and Pop2 - with a `RepPop` tibble.
 
 We will fully describe `RepPop` tibbles below.  Given that GSPs need to be accompanied
-by a `RepPop` tibble to define the groups to be hybridized, let's introduce `RepPops` by
+by a `RepPop` tibble that defines the groups to be hybridized, let's introduce the `RepPop` objectby
 specifying tibbles that accompany the GSPs of interest.   
 
 
