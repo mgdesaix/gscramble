@@ -35,14 +35,14 @@ in the future) into these necessary objects for `gscramble`.
 
 The main required objects (loosely aligning with .bed/.fam/.bim file structure of binary PLINK files) are:
 
-1. A matrix of genotype data. (`Geno` as example data included with the package)
+1. A matrix of genotype data (`Geno` as example data included with the package)
 2. A tibble of meta data about the individuals in the genotype data (`I_meta`)
 3. A tibble of meta data about the markers in the genotype data (`M_meta`)
 
 On top of those, if you want to simulate hybrid individuals according to a pedigree, you will need
 to provide:
 
-4. A tibble that describes the rates of genetic recombination along the chromosomes. (`RecRates`)
+4. A tibble that describes the rates of genetic recombination along the chromosomes (`RecRates`)
 5. A tibble that describes a pedigree of interest within which sections of chromosomes are segregated down successive generations, which we call a "genome simulation pedigree" (`GSP`)
 6. A tibble that translates the population specifiers in the pedigree (i.e., `GSP`) with the population/group labels associated with the genetic data (i.e., `I_meta`) for different hybridization replicates (`RepPop`)
 
@@ -227,9 +227,9 @@ gspF1
 To accompany this GSP, we next need to define the groups 
 that we are interested in hybridizing - in this case Pop1 and Pop2 - with a `RepPop` tibble.
 
-We will fully describe `RepPop` tibbles below.  Given that GSPs need to be accompanied
-by a `RepPop` tibble that defines the groups to be hybridized, let's introduce the `RepPop` objectby
-specifying tibbles that accompany the GSPs of interest.   
+We will fully describe `RepPop` tibbles below.  However, GSPs need to be accompanied
+by a `RepPop` tibble that defines the groups to be hybridized.  Accordingly, let's lightly introduce 
+the `RepPop` object here by specifying the tibble that accompanies this F1 GSP.   
 
 
 ```{r}
@@ -274,6 +274,7 @@ RepPopSimpleF1_c <- tibble(
   group = Pattern
 )
 head(RepPopSimpleF1_c)
+
 ```
 
 
@@ -376,10 +377,9 @@ knitr::include_graphics("../man/figures/gsp4-700.png")
 
 When you create a genomic simulation pedigree, you will typically denote the
 groups/populations/clusters that the founders come from with short names, like "A" or "B".
-However, the actual group names used in your genotype data set might be different. In our example
-data for this R package, we have 4 groups, with individuals associated with each of
-those groups as defined in `I_meta`.  To illustrate how many individuals are included
-in each of these groups in the example data:
+However, the actual group names used in your genotype dataset (as specified in `I_meta`) might be different. In our example
+data for this R package, we have 4 groups.  To quickly illustrate how many individuals are included
+in each of these example groups:
 
 ```{r}
 I_meta %>%
@@ -387,17 +387,17 @@ I_meta %>%
 ```
 
 To define how individuals among groups combine to form hybrids, you must use a tibble
-with columns `rep`, `pop`, `group`, to indicate which of the founding
+with columns `index`, `pop`, `group`, to indicate which of the founding
 populations ("A", "B", etc.) correspond to the different groups (from the `group` column in, for example,
-`I_meta`) in your genotype data set.
+`I_meta`) in your genotype data set; thus, the `RepPop` serves to translate/align your `I_meta` with your `GSP`.
 
 Because it is quite likely that you might wish to iterate the segregation procedure multiple
-times in a single simulation, you can specify that by doing multiple "reps" (replicates) of the
-procedure. 
+times in a single simulation, you can specify that by doing multiple replicates of the
+procedure as defined in the `index` column (1:nReplicates). 
 
 An example might help.  Suppose that we wish to do a simulation with the pedigree in `GSP` (13 individuals,
-6 of which are founders: 3 from population "A" and 3 from population "B").  For the first rep, we might want
-to map "A" to Pop1 and "B" to Pop2, and in the second rep we might want to map "A" to Pop4, and "B" to
+6 of which are founders: 3 from population "A" and 3 from population "B").  For the first replicate (`index` = 1), we might want
+to map "A" to Pop1 and "B" to Pop2, and in the second replicate (`index` = 2) we might want to map "A" to Pop4, and "B" to
 Pop 3.  (Note, at this point, genetic material from 3 individuals from each of those populations will have
 been "consumed" from each of these populations and segregated, without replacement, into the samples from the
 genomic simulation pedigree.)
@@ -409,7 +409,7 @@ The `RepPop` tibble that would specify this is given in the package variable `Re
 RepPop1
 ```
 
-For another example, imagine that we want to do three replicates creating the
+For another example, imagine that we want to do three replicates (`index` = 1:3) creating the
 admixed individuals sampled from the genomic permutation pedigree, `gsp4`.
 The RepPop tibble for that might look like this:
 
@@ -444,8 +444,8 @@ But, let's start simple, specifying only a reasonably simple genomic permutation
 with Pop1 as the focal group (in backcrosses), hybridizing with Pop2.  The tools
 described below are not that interesting for the most simplistic GSP (gspF1) in that 
 the simulation of F1s does not provide the opportunity to illustrate recombination.
-
-So, producing F1s, F1BC1s, F2BC1s with gspComplex...
+Accordingly, we are illustrating `segregate()` with the slightly more complex gspComplex, producing
+F1s, F1BC1s, F2BC1s ...
 
 ```{r}
 Input_tibble <- tibble(
@@ -479,7 +479,7 @@ And, of course, the segment occupies the space from `start` to `end` on a chromo
 Finally, the index of the founder haplotype on the given gpp that this segement descended from is
 given in `rs_founder_haplotype` which is short for "rep-specific founder haplotype".  This final
 piece of information is crucial for segregating variation from the individuals in the `Geno` file
-onto these segments.  We take that up in the next section, but first we will look at the results
+onto these segments.  We take that up in the next section, but let's first look at the results
 that we have here.
 
 First, here is a listing of the top of the `Segments` we produced above.  
@@ -541,7 +541,7 @@ in the genotype matrix.
 chromosomes carried by the founders in the simulation performed by `segregate()`. 
 4. The alleles on the founder chromosomes are propagated to the descendant segments
 in the individuals sampled from the GSP.
-5. Missing data is dealt with.  (If a site has one gene copy missing after the permutation
+5. Missing data is dealt with (if a site has one gene copy missing after the permutation
 and mapping described above, the other gene copy must be declared missing, as well).
 6. The output genotypes are formatted for return, along with some information about
 the true admixture proportions of each individual.
@@ -566,7 +566,7 @@ Markers <- segments2markers(
 
 The output is a list of three components:
 
-* `$ret_geno` is an N x 2L matrix of returned genotypes. The two alleles at each
+* `Markers$ret_geno` is an N x 2L matrix of returned genotypes. The two alleles at each
     locus are in two adjacent columns.
     ```{r}
     dim(Markers$ret_geno)
@@ -576,16 +576,33 @@ The output is a list of three components:
     Markers$ret_geno[1:10, 1:6]
     ```
 * `$ret_ids`: a tibble with IDs of the individuals corresponding to the rows
-    in the `ret_geno` matrix.  There are two columns: `group` and `indiv`.  The first
-    rows include the samples from the GSP.  Their group is `ped_hybs` (meaning
+    in the `ret_geno` matrix.  
+  
+    ```{r}
+    # Individual IDs for the first 10 individuals
+    Markers$ret_ids[1:10,]
+    ```
+
+
+    There are two columns: `group` and `indiv`.  The first
+    rows include the samples simulated as specified in the GSP.  Their group is `ped_hybs` (meaning
     "sampled hybrids from the pedigree") and their IDs are in the `indiv` column in the
     format of an `h-` followed by a string with replaced values of: `gpp-rep-ped_sample_id-samp_index-matrix_row`.
-    Those are (they need explaining):
-    - `rep`:
-    - `ped`:
-    - `sample_id`:
-    - `samp_index`:
-    - `matrix_row`:
+    Let's break down the nomenclature we used to label simulated gentype.  Recall with this
+    simulation, we specified only a single `GSP` (in the Input_tibble gpp = list(gspComplex).  
+    With this `gspComplex`, we are using 3 founders from Pop1 and 1 founder from Pop2
+    to simulate one F1 (Individual #5 as described with `gspComplex` above), one F1BC1
+    (Individual #6) and two F1BC2s (Individual #7).  Within the illustration of `gspComplex`,
+    as called from the Input_tibble...
+    
+    Those are:
+    - `index`: the `index` value from the `RepPop` object (only a single `index` in this example)
+    - `ped`: the number corresponding to the unique GSP used in the simulation (recall that you can specify multiple GSPs by passing `segregate()` a
+list named `gpp` which holds the genomic permutation pedigrees used in the simulation, but we only passed 1 GSP in that list),
+    - `sample_id`: corresponding sample number from the GSP (recall that multiple individuals simulated within the pedigree [non-founders] may share the same sample number, but these
+    IDs correspond to #5, #6, and two #7s with `gspComplex`)
+    - `samp_index`: indexing of individuals within `sample_id`s (one #5[F1], one #6 [F1BC1], and two #7s [F1BC2])
+    - `matrix_row`: the row number of the genotype matrix
     
     After the individual hybrid samples from the pedigree, there are rows of all the
     remaining individuals whose genotypes after permutation were not involved as
@@ -638,6 +655,59 @@ Markers <- segments2markers(
 
 
 ## Back to plink format
+
+Now that we have illustrated the application of gscramble with this simple dataset 
+and the included R objects `Geno`, `I_meta`, and `M_meta`, you are probably eager to try
+gscramble with data of your own.  Use the function `plink2gscramble()` to directly input 
+genotypes in the PLINK (.ped / .map) format.  You must pass the function `plink2gscramble()`
+both the .ped and corresponding .map files as illustrated below.  If your data is in a binary
+PLINK format (.bed / .bim / .fam), first use PLINK (option `--recode`) to export
+.ped and .map files that are accessible for gscramble's `plink2gscramble()`.
+
+```{r}
+
+# with .ped / .map files
+
+plinkIN <- plink2gscramble(ped = "gscrambleTutorial.ped", map = "gscrambleTutorial.map")
+ls(plinkIN)
+str(plinkIN)
+
+dim(plinkIN$Geno)
+plinkIN$Geno[1:3,1:10]
+
+rm(plinkIN)
+
+# identifical result with corresponding .ped.gz / .map.gz files
+
+map_plink <- system.file("extdata/example-plink.map.gz", package = "gscramble")
+ped_plink <- system.file("extdata/example-plink.ped.gz", package = "gscramble")
+
+plinkIN <- plink2gscramble(map_plink, ped_plink)
+dim(plinkIN$Geno)
+dim(plinkIN$I_meta)
+dim(plinkIN$M_meta)
+
+```
+
+
+
+
+
+```{r}
+
+
+# will likely want to write the results to a directory in your
+# home directory somewhere, like `prefix = ~/my_stuff/gscram-sim-1`, etc.
+tfile <- tempfile()
+gscramble2plink(
+  I_meta = Markers$ret_ids,
+  M_meta = M_meta,
+  Geno = Markers$ret_geno,
+  prefix = tfile
+)
+```
+
+
 
 ```{r}
 # note, we are only using a temporary file here for the output
