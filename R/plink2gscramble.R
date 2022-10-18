@@ -11,6 +11,11 @@
 #' The function assumes that the second column of this file is unique across
 #' all family IDs. If this is not the case, the function throws a warning.
 #' It is assumed that missing genotypes are denoted by 0's in this file.
+#' @param prefix  If map and ped are not given as explicit paths to the
+#' file, you can give the prefix, and it will search for the two files
+#' with the .ped and .map extensions on the end of the prefix.
+#' @param gz_ext Logical.  If TRUE, and specifying files by prefix, this
+#' will add a .gz extension to the map and ped files.
 #' @return A list with three components:
 #'   - `I_meta`: meta data about the individuals in the file.  This will
 #'   include the columns of `group` (value of the first column of the
@@ -27,12 +32,40 @@
 #'   are coded as `NA`.
 #' @export
 #' @examples
-#' map_plink <- system.file("extdata/example-plink.map.gz", package = "gscramble")
 #' ped_plink <- system.file("extdata/example-plink.ped.gz", package = "gscramble")
+#' map_plink <- system.file("extdata/example-plink.map.gz", package = "gscramble")
 #'
-#' result <- plink2gscramble(map_plink, ped_plink)
+#' result <- plink2gscramble(ped_plink, map_plink)
 
-plink2gscramble <- function(map, ped) {
+plink2gscramble <- function(ped = NULL, map = NULL, prefix = NULL, gz_ext = FALSE) {
+
+  # some error checking
+  if(!(
+     (is.null(prefix) && !is.null(map) && !is.null(ped)) ||
+     (!is.null(prefix) && is.null(map) && is.null(ped))
+    )) {
+    stop("Either ped and map must be specified, and not prefix.  Or prefix must be specified, but neither ped nor map")
+  }
+  if(!is.null(prefix) && length(prefix) != 1) {
+    stop("prefix must be a single path prefix, not multiple ones in a vector")
+  }
+  if(!is.null(ped) && length(ped) != 1) {
+    stop("ped must be a single path, not multiple ones in a vector")
+  }
+  if(!is.null(map) && length(map) != 1) {
+    stop("map must be a single path prefix, not multiple ones in a vector")
+  }
+
+  if(!is.null(prefix)) {
+    ped <- paste0(prefix, ".ped")
+    map <- paste0(prefix, ".map")
+
+    if(gz_ext) {
+      ped <- paste0(ped, ".gz")
+      map <- paste0(map, ".gz")
+    }
+  }
+
 
   # read the map file
   maptib <- readr::read_tsv(

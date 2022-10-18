@@ -4,17 +4,24 @@
 \alias{plink2gscramble}
 \title{read plink-formatted .map and .ped files into gscramble format}
 \usage{
-plink2gscramble(map, ped)
+plink2gscramble(ped = NULL, map = NULL, prefix = NULL, gz_ext = FALSE)
 }
 \arguments{
-\item{map}{path to the plink \code{.map} file holding information about
-the markers.  This file can be gzipped}
-
 \item{ped}{path to the plink \code{.ped} file holding information about the
 individuals and their genotypes.  This file can also be gzipped.
 The function assumes that the second column of this file is unique across
 all family IDs. If this is not the case, the function throws a warning.
 It is assumed that missing genotypes are denoted by 0's in this file.}
+
+\item{map}{path to the plink \code{.map} file holding information about
+the markers.  This file can be gzipped}
+
+\item{prefix}{If map and ped are not given as explicit paths to the
+file, you can give the prefix, and it will search for the two files
+with the .ped and .map extensions on the end of the prefix.}
+
+\item{gz_ext}{Logical.  If TRUE, and specifying files by prefix, this
+will add a .gz extension to the map and ped files.}
 }
 \value{
 A list with three components:
@@ -41,8 +48,8 @@ specifier of each individual is assumed to be the first column
 (the FID column) in the .ped file.
 }
 \examples{
-map_plink <- system.file("extdata/example-plink.map.gz", package = "gscramble")
 ped_plink <- system.file("extdata/example-plink.ped.gz", package = "gscramble")
+map_plink <- system.file("extdata/example-plink.map.gz", package = "gscramble")
 
-result <- plink2gscramble(map_plink, ped_plink)
+result <- plink2gscramble(ped_plink, map_plink)
 }

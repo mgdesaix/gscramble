@@ -22,7 +22,7 @@ NULL
 #' @importFrom rlang .data
 #' @importFrom stats rpois runif setNames
 #' @importFrom stringr str_c
-#' @importFrom tibble as_tibble enframe tibble
+#' @importFrom tibble as_tibble enframe is_tibble tibble
 #' @importFrom tidyr separate nest unite unnest
 #' @importFrom utils write.table
 NULL

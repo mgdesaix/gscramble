@@ -665,31 +665,44 @@ PLINK format (.bed / .bim / .fam), first use PLINK (option `--recode`) to export
 .ped and .map files that are accessible for gscramble's `plink2gscramble()`.
 
 ```{r}
-
+####### These lines are not portable, since gscrambleTutorial.ped and
+####### gscrambleTutorial.map are not available 
 # with .ped / .map files
 
-plinkIN <- plink2gscramble(ped = "gscrambleTutorial.ped", map = "gscrambleTutorial.map")
-ls(plinkIN)
-str(plinkIN)
+#plinkIN <- plink2gscramble(ped = "gscrambleTutorial.ped", map = "gscrambleTutorial.map")
+#ls(plinkIN)
+#str(plinkIN)
 
-dim(plinkIN$Geno)
-plinkIN$Geno[1:3,1:10]
+#dim(plinkIN$Geno)
+#plinkIN$Geno[1:3,1:10]
 
-rm(plinkIN)
+#rm(plinkIN)
 
 # identifical result with corresponding .ped.gz / .map.gz files
+###### End non-portable lines
 
 map_plink <- system.file("extdata/example-plink.map.gz", package = "gscramble")
 ped_plink <- system.file("extdata/example-plink.ped.gz", package = "gscramble")
 
-plinkIN <- plink2gscramble(map_plink, ped_plink)
+plinkIN <- plink2gscramble(ped_plink, map_plink)
 dim(plinkIN$Geno)
 dim(plinkIN$I_meta)
 dim(plinkIN$M_meta)
 
 ```
 
+Or, if you want to just pass the prefix to the ped and the map files, you
+could do like:
+```{r}
+prefix <- system.file("extdata/example-plink.map.gz", package = "gscramble")
+prefix <- str_replace(prefix, "\\.map\\.gz", "")
 
+plinkPRE <- plink2gscramble(prefix = prefix, gz_ext = TRUE)
+dim(plinkPRE$Geno)
+dim(plinkPRE$I_meta)
+dim(plinkPRE$M_meta)
+```
+Where, we use the `gz_ext = TRUE` option because here, our files are gzipped with the `.gz` extension.
 
 
 
