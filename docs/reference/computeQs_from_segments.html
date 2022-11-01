@@ -35,7 +35,7 @@ individual."><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu"><li>
-      <a href="../articles/gscramble-tutorial.html">A first tutorial for `gscramble`</a>
+      <a href="../articles/gscramble-tutorial.html">A WORKING first tutorial for `gscramble`</a>
     </li>
     <li>
       <a href="../articles/about-createGSP.html">Pedigrees Available from create_GSP()</a>
@@ -81,9 +81,9 @@ genome length in each individual to make sure it checks out.</p></dd>
     <h2>Value</h2>
     
 
-<p>This function returns a tibble with the following columns:</p><ul><li><p><code>gpp</code>: the genomic simulation pedigree within which the individual sample
+<p>This function returns a tibble with the following columns:</p><ul><li><p><code>gpp</code>: the genomic simulation pedigree within which the individual sample was
 simulated.</p></li>
-<li><p><code>rep</code>: the number of replicate of the simulation</p></li>
+<li><p><code>index</code>: the index which gives which instance of the GSP the sample is from</p></li>
 <li><p><code>ped_sample_id</code>: the id number of that the sampled individual had in the
 genomic simulation pedigree.</p></li>
 <li><p><code>samp_index</code>: the index of the sample taken.  Some individuals in some
@@ -98,7 +98,7 @@ the <code>group_length</code> originated from.  These are the groups of samples
 that were mapped onto the simple pedigree <code>pop_origin</code>s by the reppop
 request.</p></li>
 <li><p><code>group_length</code>: the total length of segments from this group in this individual
-in this rep from this gpp (in bases).</p></li>
+in this reppop index from this gpp (in bases).</p></li>
 <li><p><code>tot_length</code>: the total number of bases from all origins carried by this
 individual.</p></li>
 <li><p><code>admixture_fraction</code>: the fraction of all bases in the simulated individual
@@ -117,7 +117,7 @@ that originate from the group in <code>group_origin</code>.</p></li>
 <span class="r-in"><span class="co"># labelled "grp1", "grp2", and "grp3", and we want to create the F1Bs with backcrossing</span></span>
 <span class="r-in"><span class="co"># only to grp3.</span></span>
 <span class="r-in"><span class="va">reppop</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span></span>
-<span class="r-in">  rep <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">2</span><span class="op">)</span>,</span>
+<span class="r-in">  index <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">2</span><span class="op">)</span>,</span>
 <span class="r-in">  pop <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"A"</span>, <span class="st">"B"</span><span class="op">)</span>,</span>
 <span class="r-in">  group <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"grp3"</span>, <span class="st">"grp1"</span>, <span class="st">"grp3"</span>, <span class="st">"grp2"</span><span class="op">)</span></span>
 <span class="r-in"><span class="op">)</span></span>
@@ -137,7 +137,7 @@ that originate from the group in <code>group_origin</code>.</p></li>
 <span class="r-in"></span>
 <span class="r-in"><span class="va">Qs</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 12 × 9</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      gpp   rep ped_sample_id samp_index pop_origin group_origin group_length</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      gpp index ped_sample_id samp_index pop_origin group_origin group_length</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span>     1     1 4                      1 A          grp3           194<span style="text-decoration: underline;">086</span>448 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span>     1     1 4                      1 B          grp1           194<span style="text-decoration: underline;">086</span>448 </span>

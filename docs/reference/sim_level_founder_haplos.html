@@ -3,7 +3,7 @@
 to come up with a unique index for each found haplotype, so that those haplotypes
 can all, eventually, be accessed easily out of the genotype matrix.
 Along the way, this function does some light checking to make sure that the
-rs_founder_haplo values are dense within gpp and rep as they should be."><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
+rs_founder_haplo values are dense within gpp and index as they should be."><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]--></head><body data-spy="scroll" data-target="#toc">
@@ -36,7 +36,7 @@ rs_founder_haplo values are dense within gpp and rep as they should be."><!-- ma
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu"><li>
-      <a href="../articles/gscramble-tutorial.html">A first tutorial for `gscramble`</a>
+      <a href="../articles/gscramble-tutorial.html">A WORKING first tutorial for `gscramble`</a>
     </li>
     <li>
       <a href="../articles/about-createGSP.html">Pedigrees Available from create_GSP()</a>
@@ -61,7 +61,7 @@ rs_founder_haplo values are dense within gpp and rep as they should be."><!-- ma
 to come up with a unique index for each found haplotype, so that those haplotypes
 can all, eventually, be accessed easily out of the genotype matrix.
 Along the way, this function does some light checking to make sure that the
-<code>rs_founder_haplo</code> values are dense within <code>gpp</code> and <code>rep</code> as they should be.</p>
+<code>rs_founder_haplo</code> values are dense within <code>gpp</code> and <code>index</code> as they should be.</p>
     </div>
 
     <div id="ref-usage">
@@ -96,7 +96,7 @@ other columns in the output tibble, see the documentation for <code><a href="seg
 <span class="r-in"><span class="co"># labelled "grp1", "grp2", and "grp3", and we want to create the F1Bs with backcrossing</span></span>
 <span class="r-in"><span class="co"># only to grp3.</span></span>
 <span class="r-in"><span class="va">reppop</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span></span>
-<span class="r-in">  rep <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">2</span><span class="op">)</span>,</span>
+<span class="r-in">  index <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">2</span><span class="op">)</span>,</span>
 <span class="r-in">  pop <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"A"</span>, <span class="st">"B"</span><span class="op">)</span>,</span>
 <span class="r-in">  group <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"grp3"</span>, <span class="st">"grp1"</span>, <span class="st">"grp3"</span>, <span class="st">"grp2"</span><span class="op">)</span></span>
 <span class="r-in"><span class="op">)</span></span>
@@ -115,7 +115,7 @@ other columns in the output tibble, see the documentation for <code><a href="seg
 <span class="r-in"><span class="va">fh</span> <span class="op">&lt;-</span> <span class="fu">sim_level_founder_haplos</span><span class="op">(</span><span class="va">simSegs</span><span class="op">)</span></span>
 <span class="r-in"><span class="va">fh</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 52 × 15</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    chrom_f   gpp   rep chrom ped_sample_id samp_index gamete_index</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    chrom_f   gpp index chrom ped_sample_id samp_index gamete_index</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> 12          1     1 12    4                      1            1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> 17          1     1 17    4                      1            1</span>

@@ -35,7 +35,7 @@ specifier of each individual is assumed to be the first column
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu"><li>
-      <a href="../articles/gscramble-tutorial.html">A first tutorial for `gscramble`</a>
+      <a href="../articles/gscramble-tutorial.html">A WORKING first tutorial for `gscramble`</a>
     </li>
     <li>
       <a href="../articles/about-createGSP.html">Pedigrees Available from create_GSP()</a>
@@ -63,22 +63,33 @@ specifier of each individual is assumed to be the first column
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">plink2gscramble</span><span class="op">(</span><span class="va">map</span>, <span class="va">ped</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">plink2gscramble</span><span class="op">(</span>ped <span class="op">=</span> <span class="cn">NULL</span>, map <span class="op">=</span> <span class="cn">NULL</span>, prefix <span class="op">=</span> <span class="cn">NULL</span>, gz_ext <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <dl><dt>map</dt>
-<dd><p>path to the plink <code>.map</code> file holding information about
-the markers.  This file can be gzipped</p></dd>
-
-
-<dt>ped</dt>
+    <dl><dt>ped</dt>
 <dd><p>path to the plink <code>.ped</code> file holding information about the
 individuals and their genotypes.  This file can also be gzipped.
 The function assumes that the second column of this file is unique across
 all family IDs. If this is not the case, the function throws a warning.
 It is assumed that missing genotypes are denoted by 0's in this file.</p></dd>
+
+
+<dt>map</dt>
+<dd><p>path to the plink <code>.map</code> file holding information about
+the markers.  This file can be gzipped</p></dd>
+
+
+<dt>prefix</dt>
+<dd><p>If map and ped are not given as explicit paths to the
+file, you can give the prefix, and it will search for the two files
+with the .ped and .map extensions on the end of the prefix.</p></dd>
+
+
+<dt>gz_ext</dt>
+<dd><p>Logical.  If TRUE, and specifying files by prefix, this
+will add a .gz extension to the map and ped files.</p></dd>
 
 </dl></div>
     <div id="value">
@@ -102,10 +113,10 @@ are coded as <code>NA</code>.</p></li>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">map_plink</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata/example-plink.map.gz"</span>, package <span class="op">=</span> <span class="st">"gscramble"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">ped_plink</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata/example-plink.ped.gz"</span>, package <span class="op">=</span> <span class="st">"gscramble"</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">ped_plink</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata/example-plink.ped.gz"</span>, package <span class="op">=</span> <span class="st">"gscramble"</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">map_plink</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata/example-plink.map.gz"</span>, package <span class="op">=</span> <span class="st">"gscramble"</span><span class="op">)</span></span>
 <span class="r-in"></span>
-<span class="r-in"><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu">plink2gscramble</span><span class="op">(</span><span class="va">map_plink</span>, <span class="va">ped_plink</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu">plink2gscramble</span><span class="op">(</span><span class="va">ped_plink</span>, <span class="va">map_plink</span><span class="op">)</span></span>
 </code></pre></div>
     </div>
   </div>

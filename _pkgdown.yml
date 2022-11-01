@@ -39,6 +39,7 @@ reference:
   - check_sampleID
   - check_gsp_for_validity_and_saturation
   - check_pedigree_for_inbreeding
+  - check_reppop
 - title: "Example data objects"
   desc: >
     These data objects are provided as examples of the inputs to gscramble.
