@@ -705,23 +705,8 @@ dim(plinkPRE$M_meta)
 Where, we use the `gz_ext = TRUE` option because here, our files are gzipped with the `.gz` extension.
 
 
-
-```{r}
-
-
-# will likely want to write the results to a directory in your
-# home directory somewhere, like `prefix = ~/my_stuff/gscram-sim-1`, etc.
-tfile <- tempfile()
-gscramble2plink(
-  I_meta = Markers$ret_ids,
-  M_meta = M_meta,
-  Geno = Markers$ret_geno,
-  prefix = tfile
-)
-```
-
-
-
+When it is time to write out a set of plink files, you can use
+`gscramble2plink()`:
 ```{r}
 # note, we are only using a temporary file here for the output
 # because this is in the vignette of an R package.  You, yourself,
