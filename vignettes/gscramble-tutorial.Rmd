@@ -400,7 +400,8 @@ populations ("A", "B", etc.) correspond to the different groups (from the `group
 
 Because it is quite likely that you might wish to iterate the segregation procedure multiple
 times in a single simulation, you can specify that by doing multiple replicates of the
-procedure as defined in the `index` column (1:nReplicates). 
+procedure as defined in the `index` column (1:nReplicates). (Note that the `index` column
+must be of type integer).
 
 An example might help.  Suppose that we wish to do a simulation with the pedigree in `GSP` (13 individuals,
 6 of which are founders: 3 from population "A" and 3 from population "B").  For the first replicate (`index` = 1), we might want

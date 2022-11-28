@@ -12,12 +12,6 @@
 #' @return This function will return an error message if reppop is not formatted properly. If no issues exist,
 #' a message will be returned stating that the reppop is formatted properly.
 #' @keywords internal
-#' @examples
-#' # The example uses the built in dataset RepPop1
-#' # to use the check_reppop function
-#'
-#' check_reppop(RepPop1)
-#'
 
 
 check_reppop <- function(reppop, request_idx) {

@@ -23,11 +23,4 @@ checks the RepPop for errors that would result in errors while using segregate()
 three columns with the names ('index','pop', and 'group'), that the class of each column is correct, and that your indices
 (column 'index') starts with 1 and all other indices are in consecutive order.
 }
-\examples{
-# The example uses the built in dataset RepPop1
-# to use the check_reppop function
-
-check_reppop(RepPop1)
-
-}
 \keyword{internal}

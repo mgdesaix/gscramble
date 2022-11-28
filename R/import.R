@@ -15,7 +15,7 @@ NULL
 
 
 
-#' @importFrom dplyr arrange bind_rows case_when distinct everything filter group_by left_join mutate mutate_all n near pull rename select summarise tally ungroup
+#' @importFrom dplyr arrange bind_rows case_when distinct everything filter group_by lead left_join mutate mutate_all n near pull rename select slice summarise tally ungroup
 #' @importFrom ggplot2 aes facet_wrap geom_line geom_rect ggplot scale_y_continuous theme_bw xlab
 #' @importFrom glue glue
 #' @importFrom purrr flatten keep map map_dbl map_dfr pmap
@@ -69,8 +69,10 @@ if(getRversion() >= "2.15.1")  {
       "ma",
       "map_stuff",
       "matrix_row",
+      "max_end_pos",
       "max_rec",
       "mid_pos",
+      "next_start",
       "pa",
       "par1",
       "par2",

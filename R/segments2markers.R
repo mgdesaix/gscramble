@@ -23,7 +23,7 @@
 #' # labelled "Pop1", "Pop2", and "Pop3", and we want to create the F1Bs with backcrossing
 #' # only to Pop3.
 #' reppop <- tibble::tibble(
-#'     index = c(1, 1, 2, 2),
+#'     index = as.integer(c(1, 1, 2, 2)),
 #'     pop = c("A", "B", "A", "B"),
 #'     group = c("Pop3", "Pop1", "Pop3", "Pop2")
 #' )
