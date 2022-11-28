@@ -24,8 +24,8 @@
 
 check_sampleID<-function(geno_data,ind_meta){
 
-if(setequal(rownames(geno_data),ind_meta[[2]]) == TRUE) print("IDs in genotype data object match individual metadata IDs.")
-if(setequal(rownames(geno_data),ind_meta[[2]]) == FALSE) print("ERROR: IDs in genotype data object do not match individual metadata IDs. Check that the order of individuals matches in these two data objects and that your genotype data object has rownames.")
+if(identical(rownames(geno_data),ind_meta[[2]]) == TRUE) print("IDs in genotype data object match individual metadata IDs.")
+if(identical(rownames(geno_data),ind_meta[[2]]) == FALSE) print("ERROR: IDs in genotype data object do not match individual metadata IDs. Check that the order of individuals matches in these two data objects and that your genotype data object has rownames.")
 if(nrow(geno_data) != nrow(ind_meta)) print("ERROR: There number of individuals in the genotype data object differs from the number of individuals in the individual meta data file.")
 
 }
