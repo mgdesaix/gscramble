@@ -30,7 +30,7 @@ library(tidyverse)
 
 `gscramble` operates only for diploid species.  The main functions in `gscramble` require that genetic data
 be provided in R objects (matrices/tibbles/etc.) with particular formatting.  We describe the formats of
-those objects here.  Later we describe functions for reading data from PLINK (.ped / .map) format (and perhaps others,
+those objects here.  Later, in the section, [To and From plink Format], we describe functions for reading data from PLINK (.ped / .map) format (and perhaps others,
 in the future) into these necessary objects for `gscramble`.
 
 The main required objects (loosely aligning with .bed/.fam/.bim file structure of binary PLINK files) are:
@@ -46,9 +46,10 @@ to provide:
 5. A tibble that describes a pedigree of interest within which sections of chromosomes are segregated down successive generations, which we call a "genome simulation pedigree" (`GSP`)
 6. A tibble that translates the population specifiers in the pedigree (i.e., `GSP`) with the population/group labels associated with the genetic data (i.e., `I_meta`) for different hybridization replicates (`RepPop`)
 
-Examples of these objects (which have been heavily downsampled to make them small enough to host on CRAN, illustrating 78 individuals genotyped at 100 loci distributed across 3 chromosomes [chr 12, 17, & 18] and sampled from 4 groups [Pop1, 2, 3, 4]) from a data set of invasive feral swine (Smyser et al. 2020; full dataset: https://datadryad.org/stash/dataset/doi:10.5061%2Fdryad.jsxksn05z) are included as data objects with the package. The following sections discuss each of these data inputs in detail.
-
-For an example of how to read such data from PLINK files see [this section](#readplink).
+Examples of these objects (which have been heavily downsampled to make them small enough to host on CRAN) illustrating 78 individuals genotyped at 100 loci distributed across 3 chromosomes (chr 12, 17, & 18) and sampled from 4 groups (Pop1, 2, 3, 4) from a data set of invasive feral swine, 
+are included as data objects with the package. The full data set, from
+which the package data were downsampled, was used
+in Smyser et al. (2020), and is available at https://datadryad.org/stash/dataset/doi:10.5061%2Fdryad.jsxksn05z
 
 
 
@@ -62,6 +63,9 @@ in the first row and first column `Geno[1,1]` is the first allele for the first 
 for the first individual. In the first row and second column `Geno[1,2]` is the second
 allele for the first locus for the first individual. In the first row and third column `Geno[1,3]`
 is the first allele at the second locus for the first individual, and so on.  
+
+The names/IDs of the individuals must be included as the the rownames of the
+matrix of genotypes.
 
 Here is an example of data on the first 6 loci in the first 4 individuals from the
 package data `Geno`:
@@ -79,7 +83,7 @@ matrix shape of the data, by doing this:
 storage.mode(IntMat) <- "character"
 ```
 
-Missing genotype data must be denoted by the standard R missing data
+Missing genotype data must be denoted by the standard R missing-data
 specifier, `NA`.  Don't go around calling missing data `"-1"` and expect
 it to work properly!  Change those `"-1"`'s to `NA`s, or they will be 
 regarded as an allelic type, rather than as missing data. If you do have missing data
@@ -118,7 +122,7 @@ This input is a tibble of information about the markers in the `Geno` matrix.
 It can have a variety of columns in it, but it is required to have three:
 
 * `chrom`: the character name of the chromosome upon which the marker occurs.  For example, 
-`"1"`, `"X"` or `"Omy28"`, or as illustrated in `M_meta` chr12, chr17, and chr18.  
+`"1"`, `"X"` or `"Omy28"`, or as illustrated in `M_meta`: `"chr12"`, `"chr17"`, and `"chr18"`.  
 **Importantly**, if you are simulating physical linkage with recombination, then
 the names of the chromosomes in this file _must_ correspond _exactly_ to
 the names of the chromosomes in `RecRates` (see next section).
@@ -167,13 +171,16 @@ i. The start point of a bin should be 1 greater than the end point of the preced
 ii. The positions of all the markers (in `M_meta`) should be included amongst the bin
 intervals defined by `start_pos` and `end_pos`.  Most crucially in this regard, the
 smallest `start_pos` should be less than the smallest `pos` in `M_meta` and the greatest
-`end_pos` should be greater than or equal to the largest `pos` in `M_meta`. Otherwise, recombination
+`end_pos` should be greater than or equal to the largest `pos` in `M_meta`. To enforce
+the latter, it is required that the `end_pos` of the rightmost bin on each chromosome
+must be 1 greater than the chromosome length.  Otherwise, recombination
 might never be possible between some pairs of markers in the data set.
 iii. The chromosome length in `chrom_len` **must** exceed the position of every marker
 on the chromosome in `M_meta`.  If this is not the case
 then it would be possible that some markers would be dropped from the data set, possibly
 with unexpected or bad results. You can check for errors in this
-regard using the function `check_chrom_lengths()`.
+regard by making sure that you pass your marker meta data (`M_meta` in this example)
+to the `MM` option of the `segregate()` function (see below).
 
 ```{r}
 head(RecRates)
@@ -548,16 +555,28 @@ the true admixture proportions of each individual.
 
 The input to `segments2markers()` is:
 
-* A tibble of segments, like that returned from `segments()`.  This is the variable
-`Segments` defined above in this vignette example,
+* A tibble of segments, like that returned from `segments()`.  We could use the variable
+`Segments` defined above in this vignette example, but we will re-run the `segregate()`
+step, here, explicitly including the marker meta data. (This is helpful because it
+re-orders chromosomes, if necessary, and checks that all the markers are included
+within the bounds of the recombination rate bins).
 * The individual meta data,
 * The marker meta data,
 * The genotype data.
 
 We invoke it like this:
 ```{r}
+set.seed(15) # for reproducibility
+# re-run segment segregation, explicitly passing it the
+# marker meta data
+Segments2 <- segregate(
+  request = Input_tibble,
+  RR = RecRates,
+  MM = M_meta
+)
+
 Markers <- segments2markers(
-  Segs = Segments,
+  Segs = Segments2,
   Im = I_meta,
   Mm = M_meta,
   G = Geno
@@ -654,7 +673,7 @@ Markers <- segments2markers(
 ```
 
 
-## Back to plink format
+## To and From plink Format
 
 Now that we have illustrated the application of gscramble with this simple dataset 
 and the included R objects `Geno`, `I_meta`, and `M_meta`, you are probably eager to try

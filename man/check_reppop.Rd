@@ -4,11 +4,13 @@
 \alias{check_reppop}
 \title{check that the RepPop is formatted correctly}
 \usage{
-check_reppop(reppop)
+check_reppop(reppop, request_idx)
 }
 \arguments{
 \item{reppop}{a tibble with the information used to define how individuals among groups combine to form
 hybrids. It must consist of the columns (index, pop, group).}
+
+\item{request_idx}{The index of the request}
 }
 \value{
 This function will return an error message if reppop is not formatted properly. If no issues exist,
@@ -28,3 +30,4 @@ three columns with the names ('index','pop', and 'group'), that the class of eac
 check_reppop(RepPop1)
 
 }
+\keyword{internal}

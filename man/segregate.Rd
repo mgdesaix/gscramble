@@ -31,8 +31,9 @@ the levels of a chrom_f column so that we can sort the rows of the output
 correctly, with respect to markers in the Genotype data frame.  This will
 let us more efficiently subscript the markers out of the matrix. If MM is
 not present, then the function will create \code{chrom_f} by using the
-order of the chromosomes from RR.
-\code{\link{RecRates}}}
+order of the chromosomes from RR. If MM is not NULL, then the function
+will also check to make sure that the markers are within the extent of the
+recombination rate bins, giving an error otherwise.}
 }
 \value{
 The output from this function is a tibble.  Each row represents one segment of genetic

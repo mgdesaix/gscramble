@@ -8,9 +8,10 @@
 #'
 #' @param reppop a tibble with the information used to define how individuals among groups combine to form
 #' hybrids. It must consist of the columns (index, pop, group).
+#' @param request_idx The index of the request
 #' @return This function will return an error message if reppop is not formatted properly. If no issues exist,
 #' a message will be returned stating that the reppop is formatted properly.
-#' @export
+#' @keywords internal
 #' @examples
 #' # The example uses the built in dataset RepPop1
 #' # to use the check_reppop function
@@ -19,29 +20,31 @@
 #'
 
 
-check_reppop<-function(reppop){
+check_reppop <- function(reppop, request_idx) {
+
   Flag<-FALSE
+  msg <- ""
+
   #check to see that reppop is a tibble
-  if(!is_tibble(reppop)){
-    print("ERROR: RepPop needs to be a tibble.")
-    Flag<-TRUE
+  if (!is_tibble(reppop)){
+    msg <- paste(msg, "\tRepPop needs to be a tibble.", sep = "\n")
+    Flag <- TRUE
   }
   #check that three columns exist 'index', 'pop', 'group'
-  if(!setequal(colnames(reppop), c('index','pop','group'))){
-    print("ERROR: There should be 3 columns with the headings 'index', 'pop', and 'group'.")
-    Flag<-TRUE
+  if (!setequal(colnames(reppop), c('index','pop','group'))){
+    msg <- paste(msg, "\tThere should be 3 columns with the headings 'index', 'pop', and 'group'.", sep = "\n")
+    Flag <- TRUE
   }
-  #check that columns are "integer", "character", "character"
-  if(!setequal(sapply(reppop,function(x) class(x)),c("integer","character","character"))){
-    print("ERROR: The class of each column in RepPop should be 'integer','character','character'.")
-    Flag<-TRUE
+  if (!is.integer(reppop$index)) {
+    msg <- paste(msg, "\treppop$index must be an integer vector", sep = "\n")
+    Flag <- TRUE
   }
   #check that the index starts at one and goes in numerical order
-  if(!setequal(unique(reppop$index),1:length(unique(reppop$index)))){
-    print("ERROR: The index in RepPop must start with 1 and integers must be in consecutive order.")
-    Flag<-TRUE
+  if (!identical(unique(reppop$index),1:length(unique(reppop$index)))) {
+    msg <- paste(msg, "\tThe index in RepPop must start with 1 and integers must be in consecutive order.", sep = "\n")
+    Flag <- TRUE
   }
-  if(Flag == FALSE){
-    print("Your RepPop is formatted correctly and is ready to go!")
+  if (Flag == TRUE) {
+    stop(paste("RepPop not formatted correctly in row  ", request_idx, " of the request tibble:",  msg))
   }
 }

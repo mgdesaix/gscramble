@@ -26,8 +26,9 @@
 #' correctly, with respect to markers in the Genotype data frame.  This will
 #' let us more efficiently subscript the markers out of the matrix. If MM is
 #' not present, then the function will create `chrom_f` by using the
-#' order of the chromosomes from RR.
-#' \code{\link{RecRates}}
+#' order of the chromosomes from RR. If MM is not NULL, then the function
+#' will also check to make sure that the markers are within the extent of the
+#' recombination rate bins, giving an error otherwise.
 #' @return The output from this function is a tibble.  Each row represents one segment of genetic
 #' material amongst the sampled individuals from the genomic permutation pedigrees. The columns give
 #' information about the provenance and destination of that segment as follows.
@@ -77,19 +78,28 @@
 #' result2
 segregate <- function(request, RR, MM = NULL) {
 
-  # ERROR CHECKING (gotta do)
-  # Write a function to do a variety of things...
-    # is tibble
-    # check that reps requested are dense (no missing numbers in there...)
-    # etc.
+  # ERROR CHECKING
+  # first make sure that RR is formatted properly
+  check_rec_rates_formatting(RR)
+
+  # then, if MM is not NULL check to make sure that no marker
+  # positions exceed the chrom lengths
+  if(!is.null(MM)) {
+    check_chrom_lengths(MM, RR)
+  }
+
 
   # just lapply over the rows of request and bind_rows() the outputs together
   idx <- 1:nrow(request)
   names(idx) <- idx
 
   ret <- lapply(idx, function(i) {
-    # number of reps to do is the maximum number listed in the request
 
+    # check that the reppop is correctly formatted
+    check_reppop(request$reppop[[i]], i)
+
+
+    # number of reps to do is the maximum number listed in the request
     Reps <- max(request$reppop[[i]]$index)
     tmp <- drop_segs_down_gsp(GSP = request$gpp[[i]],
                        RR = RR,

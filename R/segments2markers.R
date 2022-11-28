@@ -60,6 +60,13 @@ segments2markers <- function(Segs, Im, Mm, G) {
     )
   }
 
+  # also, check to make sure that the rownames of G correspond to Im
+  if(!identical(rownames(G), Im$indiv)) {
+    stop("rownames of G not concordant with indiv column in Im.  They must be identical")
+  }
+
+
+
   GS_input = rearrange_genos(G, Im, Mm)
 
   # compute the true Q values for the ped-sampled individuals

@@ -20,23 +20,26 @@
 #'
 #' check_chrom_lengths(M_meta,RecRates)
 #'
-check_chrom_lengths<-function(meta,rec){
-  Flag<-FALSE
-  chrom_list<-unique(meta$chrom)
+check_chrom_lengths <- function(meta, rec) {
+  Flag <- FALSE
+  chrom_list <- unique(meta$chrom)
+  msg <- ""
 
   for(i in 1:length(chrom_list)){
 
-    meta_last_pos<-max(meta$pos[which(meta$chrom == chrom_list[i])])
-    chrom_length<-rec$chrom_len[which(rec$chrom == chrom_list[i])[1]]
+    meta_last_pos <- max(meta$pos[which(meta$chrom == chrom_list[i])])
+    chrom_length <- rec$chrom_len[which(rec$chrom == chrom_list[i])[1]]
 
     if(chrom_length < meta_last_pos){
-      print(paste("Length of chrom ", chrom_list[i]," from recombination map has to be equal to or exceed the final position from the meta file" ))
+      m <- paste("\tLength of chrom ", chrom_list[i]," from recombination map has to be equal to or exceed the final position from the meta file" )
+      msg <- paste(msg, m, sep = "\n")
       Flag <- TRUE
     }
-    if(chrom_length >= meta_last_pos){
-      print(paste("The length of chromosome ", chrom_list[i], " is formatted properly"))
-    }
+
+
 
   }
-  if(Flag == TRUE)stop("Exit function check_chrom_lengths")
+  if(Flag == TRUE) {
+    stop(paste("Markers not fully contained within recombination rates bins: ", msg))
+  }
 }
