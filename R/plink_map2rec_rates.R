@@ -153,7 +153,8 @@ plink_map2rec_rates <- function(
         new_tib = map(.x = data, .f = add_final_row)
       ) %>%
       select(-data) %>%
-      unnest(cols = c(chrom, new_tib))
+      unnest(cols = c(chrom, new_tib)) %>%
+      ungroup()
 
   }
 

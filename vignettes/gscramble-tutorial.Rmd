@@ -148,7 +148,7 @@ head(M_meta)
 This is a tibble that gives information about the rate of recombinations
 in the genome.  This is necessary if simulating linked markers.  It is not required
 in `gscramble` to know a crossover rate nor a recombination rate between every adjacent pair
-of markers (though if you have that information, you can provide it in `RecRates`, [see below]).
+of markers (though if you have that information, you can provide it in `RecRates`, see below).
 Rather, the rate of recombination can be specified in terms of the 
 per-meiosis probability of recombination in a number of (preferably relatively short---for
 example, one megabase or less) bins. `RecRates` is a tibble which is required to have four columns:
@@ -186,6 +186,11 @@ to the `MM` option of the `segregate()` function (see below).
 head(RecRates)
 ```
 
+#### Making a `RecRates`-like tibble from a plink map file
+
+The package includes a function `plink_map2rec_rates()` that will turn a plink map
+file into a tibble formatted like `RecRates`.  Read the documentation for it
+with `?plink_map2rec_rates`.
 
 ### Genome Simulation Pedigree. `GSP`
 
