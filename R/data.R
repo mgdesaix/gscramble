@@ -69,6 +69,26 @@ NULL
 #' @name RecRates
 NULL
 
+
+#' Lengths of the three chromosomes used in the example data set
+#'
+#' These are for the example of how to use `plink_map2rec_rates()`.
+#'
+#' @format A tibble with two columns: `chrom` and `bp`.
+#' @source These lengths were taken from the maximal values in
+#' Tortereau, Flavie, et al. "A high density
+#' recombination map of the pig reveals a correlation between sex-specific
+#' recombination and GC content." BMC genomics 13.1 (2012): 1-12. It is available
+#' for download from \url{https://static-content.springer.com/esm/art%3A10.1186%2F1471-2164-13-586/MediaObjects/12864_2012_4363_MOESM1_ESM.txt}.
+#' After downloading the data were processed to remove inconsistencies with the
+#' marker data set used for M_meta and Geno.
+#' @docType data
+#' @name example_chrom_lengths
+NULL
+
+
+
+
 #' Tibble holding specification for a 13 member genomic simulation pedigree
 #'
 #' The CSV version of this is in `extdata/13-member-ped.csv`.

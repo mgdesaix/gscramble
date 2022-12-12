@@ -1,0 +1,146 @@
+---
+title: "Making a PLINK formatted Map"
+output: html_notebook
+---
+
+We started from the Torterau map, but now it would be nice to
+make a map that was marker-focused so we can show how it can
+be turned into a bin-focused sort of map that works with gscramble.
+
+So, I want to make it something that is pretty close to what we get
+from the bins, assuming uniform recombination within the bins.  
+
+The way we will do this is we will turn the RecRates into something
+that has a single column of positions, then we will bind_rows the
+markers in there, and then we will fractionize recombination rates out
+of those bins and things.
+
+```{r}
+library(tidyverse)
+library(gscramble)
+```
+
+
+Reformatting the RecRates:
+```{r}
+r2 <- RecRates %>%
+  select(-chrom_len, -end_pos) %>%
+  rename(pos = start_pos)
+```
+
+Binding on the markers and sorting:
+```{r}
+mb <- bind_rows(r2, M_meta) %>%
+  arrange(chrom, pos) %>%
+  mutate(
+    p2 = ifelse(is.na(rec_prob), NA, pos),
+    p_up = p2,
+    p_down = p2
+  ) %>%
+  fill(p_up, .direction = "up") %>%
+  fill(p_down, .direction = "down")
+
+# and then we need a function that will operate on chromomes
+interval_rec_probs <- function(p, rp, pd, pu) {
+  n <- length(p)
+  ret <- rep(-99, n)
+  i <- 1
+  while(i <= n) {
+    if(!is.na(rp[i])) {
+      ret[i] <- rp[i]
+    } else {
+      tot <- pu[i] - pd[i]
+      rtot <- rp[i - 1]
+      ret[i - 1] <- rtot * (p[i] - p[i - 1]) / tot;
+      flag = FALSE
+      while(is.na(rp[i]) && i < n) {
+        ret[i] <- rtot * (p[i + 1] - p[i]) / tot
+        i <- i + 1
+        flag = TRUE
+      }
+      if(flag) {
+        i <- i - 1
+      }
+    }
+    i <- i + 1
+  }
+  ret
+}
+
+filled_rates <- mb %>%
+  group_by(chrom) %>%
+  mutate(nrp = interval_rec_probs(pos, rec_prob, p_down, p_up), .after = rec_prob)
+
+# and then once we have those we can just add them.
+# this assumes that the marker is not at position 1.
+get_marker_recombs <- function(p, r, v) {
+  sum <- 0
+  n <- length(p)
+  ol <- sum(!is.na(v)) + 1
+  m <- 1
+  ret_p <- rep(NA, ol)
+  ret_r <- rep(NA, ol)
+  ret_v <- rep(NA, ol)
+  
+  ret_p[1] <- p[1]
+  for(i in 1:n) {
+    sum = sum + r[i]
+    if(!is.na(v[i])) {
+      ret_r[m] <- sum
+      m <- m + 1
+      ret_p[m] <- p[i]
+      ret_v[m] <- v[i]
+      sum <- 0
+    }
+  }
+  tibble(
+    pos = ret_p,
+    var = ret_v,
+    rec = ret_r
+  )
+}
+
+close_to_done <- filled_rates %>%
+  group_by(chrom) %>%
+  dplyr::do(get_marker_recombs(p = .$pos, r = .$nrp, v = .$variant_id))
+
+```
+
+Now, we can check the sum of the recomb rates to make sure that we are close:
+```{r}
+close_to_done %>%
+  group_by(chrom) %>%
+  summarise(sum = sum(rec, na.rm = TRUE))
+```
+
+And we compare that to the sum of all the bins:
+```{r}
+RecRates %>%
+  group_by(chrom) %>%
+  summarise(sum = sum(rec_prob))
+```
+
+Which looks good.  We are going to miss some on the ends because
+the chromosome extends beyond the last marker.
+
+The last thing we need to do is shift the recombination rates by 1, because
+in plink that is supposed to be the position of the marker in Morgans.
+
+```{r}
+ready_to_write <- close_to_done %>%
+  group_by(chrom) %>%
+  mutate(M = lag(rec)) %>%
+  select(chrom, var, M, pos) %>%
+  filter(!is.na(var)) %>% 
+  mutate(M = cumsum(M)) %>%
+  ungroup()
+
+write_tsv(
+  ready_to_write,
+  file = "../inst/extdata/example-plink-with-morgans.map.gz", 
+  col_names = FALSE
+)
+```
+
+
+
