@@ -5,13 +5,13 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>A WORKING first tutorial for `gscramble` • gscramble</title>
+<title>A first tutorial for `gscramble` • gscramble</title>
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
 <script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
-<script src="../pkgdown.js"></script><meta property="og:title" content="A WORKING first tutorial for `gscramble`">
+<script src="../pkgdown.js"></script><meta property="og:title" content="A first tutorial for `gscramble`">
 <meta property="og:description" content="gscramble">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -50,7 +50,7 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="../articles/gscramble-tutorial.html">A WORKING first tutorial for `gscramble`</a>
+      <a href="../articles/gscramble-tutorial.html">A first tutorial for `gscramble`</a>
     </li>
     <li>
       <a href="../articles/about-createGSP.html">Pedigrees Available from create_GSP()</a>
@@ -71,8 +71,7 @@
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1 data-toc-skip>A WORKING first tutorial for
-<code>gscramble</code>
+      <h1 data-toc-skip>A first tutorial for <code>gscramble</code>
 </h1>
             
       
@@ -100,10 +99,11 @@
 <p><code>gscramble</code> operates only for diploid species. The main
 functions in <code>gscramble</code> require that genetic data be
 provided in R objects (matrices/tibbles/etc.) with particular
-formatting. We describe the formats of those objects here. Later we
-describe functions for reading data from PLINK (.ped / .map) format (and
-perhaps others, in the future) into these necessary objects for
-<code>gscramble</code>.</p>
+formatting. We describe the formats of those objects here. Later, in the
+section, <a href="#to-and-from-plink-format">To and From plink
+Format</a>, we describe functions for reading data from PLINK (.ped /
+.map) format (and perhaps others, in the future) into these necessary
+objects for <code>gscramble</code>.</p>
 <p>The main required objects (loosely aligning with .bed/.fam/.bim file
 structure of binary PLINK files) are:</p>
 <ol style="list-style-type: decimal">
@@ -128,13 +128,12 @@ with the genetic data (i.e., <code>I_meta</code>) for different
 hybridization replicates (<code>RepPop</code>)</li>
 </ol>
 <p>Examples of these objects (which have been heavily downsampled to
-make them small enough to host on CRAN, illustrating 78 individuals
-genotyped at 100 loci distributed across 3 chromosomes [chr 12, 17,
-&amp; 18] and sampled from 4 groups [Pop1, 2, 3, 4]) from a data set of
-invasive feral swine (Smyser et al. 2020; full dataset: <a href="https://datadryad.org/stash/dataset/doi:10.5061%2Fdryad.jsxksn05z" class="external-link uri">https://datadryad.org/stash/dataset/doi:10.5061%2Fdryad.jsxksn05z</a>)
-are included as data objects with the package. The following sections
-discuss each of these data inputs in detail.</p>
-<p>For an example of how to read such data from PLINK files see <a href="#readplink">this section</a>.</p>
+make them small enough to host on CRAN) illustrating 78 individuals
+genotyped at 100 loci distributed across 3 chromosomes (chr 12, 17,
+&amp; 18) and sampled from 4 groups (Pop1, 2, 3, 4) from a data set of
+invasive feral swine, are included as data objects with the package. The
+full data set, from which the package data were downsampled, was used in
+Smyser et al. (2020), and is available at <a href="https://datadryad.org/stash/dataset/doi:10.5061%2Fdryad.jsxksn05z" class="external-link uri">https://datadryad.org/stash/dataset/doi:10.5061%2Fdryad.jsxksn05z</a></p>
 <div class="section level3">
 <h3 id="matrix-of-genotype-data--geno">Matrix of genotype data. <code>Geno</code><a class="anchor" aria-label="anchor" href="#matrix-of-genotype-data--geno"></a>
 </h3>
@@ -147,6 +146,8 @@ first row and second column <code>Geno[1,2]</code> is the second allele
 for the first locus for the first individual. In the first row and third
 column <code>Geno[1,3]</code> is the first allele at the second locus
 for the first individual, and so on.</p>
+<p>The names/IDs of the individuals must be included as the the rownames
+of the matrix of genotypes.</p>
 <p>Here is an example of data on the first 6 loci in the first 4
 individuals from the package data <code>Geno</code>:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
@@ -168,7 +169,7 @@ matrix to be characters without losing the matrix shape of the data, by
 doing this:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/mode.html" class="external-link">storage.mode</a></span><span class="op">(</span><span class="va">IntMat</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">"character"</span></code></pre></div>
-<p>Missing genotype data must be denoted by the standard R missing data
+<p>Missing genotype data must be denoted by the standard R missing-data
 specifier, <code>NA</code>. Don’t go around calling missing data
 <code>"-1"</code> and expect it to work properly! Change those
 <code>"-1"</code>’s to <code>NA</code>s, or they will be regarded as an
@@ -224,8 +225,9 @@ is required to have three:</p>
 <li>
 <code>chrom</code>: the character name of the chromosome upon which
 the marker occurs. For example, <code>"1"</code>, <code>"X"</code> or
-<code>"Omy28"</code>, or as illustrated in <code>M_meta</code> chr12,
-chr17, and chr18.<br><strong>Importantly</strong>, if you are simulating physical linkage
+<code>"Omy28"</code>, or as illustrated in <code>M_meta</code>:
+<code>"chr12"</code>, <code>"chr17"</code>, and
+<code>"chr18"</code>.<br><strong>Importantly</strong>, if you are simulating physical linkage
 with recombination, then the names of the chromosomes in this file
 <em>must</em> correspond <em>exactly</em> to the names of the
 chromosomes in <code>RecRates</code> (see next section).</li>
@@ -266,11 +268,11 @@ recombinations in the genome. This is necessary if simulating linked
 markers. It is not required in <code>gscramble</code> to know a
 crossover rate nor a recombination rate between every adjacent pair of
 markers (though if you have that information, you can provide it in
-<code>RecRates</code>, [see below]). Rather, the rate of recombination
-can be specified in terms of the per-meiosis probability of
-recombination in a number of (preferably relatively short—for example,
-one megabase or less) bins. <code>RecRates</code> is a tibble which is
-required to have four columns:</p>
+<code>RecRates</code>, see below). Rather, the rate of recombination can
+be specified in terms of the per-meiosis probability of recombination in
+a number of (preferably relatively short—for example, one megabase or
+less) bins. <code>RecRates</code> is a tibble which is required to have
+four columns:</p>
 <ul>
 <li>
 <code>chrom</code>: the chromosome on which the bin occurs. Note
@@ -301,14 +303,18 @@ included amongst the bin intervals defined by <code>start_pos</code> and
 <code>start_pos</code> should be less than the smallest <code>pos</code>
 in <code>M_meta</code> and the greatest <code>end_pos</code> should be
 greater than or equal to the largest <code>pos</code> in
-<code>M_meta</code>. Otherwise, recombination might never be possible
-between some pairs of markers in the data set.</li>
+<code>M_meta</code>. To enforce the latter, it is required that the
+<code>end_pos</code> of the rightmost bin on each chromosome must be 1
+greater than the chromosome length. Otherwise, recombination might never
+be possible between some pairs of markers in the data set.</li>
 <li>The chromosome length in <code>chrom_len</code>
 <strong>must</strong> exceed the position of every marker on the
 chromosome in <code>M_meta</code>. If this is not the case then it would
 be possible that some markers would be dropped from the data set,
 possibly with unexpected or bad results. You can check for errors in
-this regard using the function <code><a href="../reference/check_chrom_lengths.html">check_chrom_lengths()</a></code>.</li>
+this regard by making sure that you pass your marker meta data
+(<code>M_meta</code> in this example) to the <code>MM</code> option of
+the <code><a href="../reference/segregate.html">segregate()</a></code> function (see below).</li>
 </ol>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">RecRates</span><span class="op">)</span>
@@ -321,6 +327,15 @@ this regard using the function <code><a href="../reference/check_chrom_lengths.h
 <span class="co">#&gt; <span style="color: #BCBCBC;">4</span> 12     63<span style="text-decoration: underline;">582</span>536   2<span style="text-decoration: underline;">097</span>504 3<span style="text-decoration: underline;">308</span>663 0.005<span style="text-decoration: underline;">57</span> </span>
 <span class="co">#&gt; <span style="color: #BCBCBC;">5</span> 12     63<span style="text-decoration: underline;">582</span>536   3<span style="text-decoration: underline;">308</span>664 4<span style="text-decoration: underline;">021</span>031 0.017<span style="text-decoration: underline;">9</span>  </span>
 <span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 12     63<span style="text-decoration: underline;">582</span>536   4<span style="text-decoration: underline;">021</span>032 5<span style="text-decoration: underline;">026</span>780 0.011<span style="text-decoration: underline;">5</span></span></code></pre></div>
+<div class="section level4">
+<h4 id="making-a-recrates-like-tibble-from-a-plink-map-file">Making a <code>RecRates</code>-like tibble from a plink map
+file<a class="anchor" aria-label="anchor" href="#making-a-recrates-like-tibble-from-a-plink-map-file"></a>
+</h4>
+<p>The package includes a function <code><a href="../reference/plink_map2rec_rates.html">plink_map2rec_rates()</a></code>
+that will turn a plink map file into a tibble formatted like
+<code>RecRates</code>. Read the documentation for it with
+<code><a href="../reference/plink_map2rec_rates.html">?plink_map2rec_rates</a></code>.</p>
+</div>
 </div>
 <div class="section level3">
 <h3 id="genome-simulation-pedigree--gsp">Genome Simulation Pedigree. <code>GSP</code><a class="anchor" aria-label="anchor" href="#genome-simulation-pedigree--gsp"></a>
@@ -586,9 +601,24 @@ must use a tibble with columns <code>index</code>, <code>pop</code>,
 genotype data set; thus, the <code>RepPop</code> serves to
 translate/align your <code>I_meta</code> with your <code>GSP</code>.</p>
 <p>Because it is quite likely that you might wish to iterate the
-segregation procedure multiple times in a single simulation, you can
+segregation procedure multiple times in a single simulation—each time
+assigning new genetic material to the founders of the pedigree—you can
 specify that by doing multiple replicates of the procedure as defined in
-the <code>index</code> column (1:nReplicates).</p>
+the <code>index</code> column. The <code>index</code> column must be of
+type integer, and it must include all values from 1 up to the number of
+simulation replicates desired. Rows with the same value, <span class="math inline">\(i\)</span>, say, of <code>index</code> give the
+desired mappings from founding pops (“A”, “B”, etc) in the GSP to
+different groups in the genotype data for the <span class="math inline">\(i^{\mathrm{th}}\)</span> replicates of the
+simulation.</p>
+<p>Each different replicate is made by drawing genetic material
+<em>without replacement</em> from the genotypes (<code>Geno</code> in
+the example data) and placing that genetic material into the founders of
+the GSP. Sampling of alleles from the haplotypes within Geno into the
+founders of the GSP is always done without replacement within the
+specification of a particular RepPop. (Thus, for example, if you have
+indexes from 1 to 20, with each one mapping three A founders to
+individuals in Pop1 and four B founders to individuals in Pop2, then you
+will need to have genotypes from at least <span class="math inline">\(20\times 3\)</span> individuals in Pop1 and <span class="math inline">\(20\times 4\)</span> individuals in Pop2).</p>
 <p>An example might help. Suppose that we wish to do a simulation with
 the pedigree in <code>GSP</code> (13 individuals, 6 of which are
 founders: 3 from population “A” and 3 from population “B”). For the
@@ -658,7 +688,7 @@ permutation pedigrees can be requested. This is done by passing
 parallel column named <code>reppop</code>, which holds the RepPop
 tibbles for each of those genomic permutation pedigrees.</p>
 <p>But, let’s start simple, specifying only a reasonably simple genomic
-permutation pedigrees (gspComplex) and a <code>RepPop</code> tibble with
+permutation pedigree (gspComplex) and a <code>RepPop</code> tibble with
 Pop1 as the focal group (in backcrosses), hybridizing with Pop2. The
 tools described below are not that interesting for the most simplistic
 GSP (gspF1) in that the simulation of F1s does not provide the
@@ -816,16 +846,29 @@ individual.</li>
 <p>The input to <code><a href="../reference/segments2markers.html">segments2markers()</a></code> is:</p>
 <ul>
 <li>A tibble of segments, like that returned from
-<code><a href="https://rdrr.io/r/graphics/segments.html" class="external-link">segments()</a></code>. This is the variable <code>Segments</code>
-defined above in this vignette example,</li>
+<code><a href="https://rdrr.io/r/graphics/segments.html" class="external-link">segments()</a></code>. We could use the variable <code>Segments</code>
+defined above in this vignette example, but we will re-run the
+<code><a href="../reference/segregate.html">segregate()</a></code> step, here, explicitly including the marker
+meta data. (This is helpful because it re-orders chromosomes, if
+necessary, and checks that all the markers are included within the
+bounds of the recombination rate bins).</li>
 <li>The individual meta data,</li>
 <li>The marker meta data,</li>
 <li>The genotype data.</li>
 </ul>
 <p>We invoke it like this:</p>
 <div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">Markers</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/segments2markers.html">segments2markers</a></span><span class="op">(</span>
-  Segs <span class="op">=</span> <span class="va">Segments</span>,
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">15</span><span class="op">)</span> <span class="co"># for reproducibility</span>
+<span class="co"># re-run segment segregation, explicitly passing it the</span>
+<span class="co"># marker meta data</span>
+<span class="va">Segments2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/segregate.html">segregate</a></span><span class="op">(</span>
+  request <span class="op">=</span> <span class="va">Input_tibble</span>,
+  RR <span class="op">=</span> <span class="va">RecRates</span>,
+  MM <span class="op">=</span> <span class="va">M_meta</span>
+<span class="op">)</span>
+
+<span class="va">Markers</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/segments2markers.html">segments2markers</a></span><span class="op">(</span>
+  Segs <span class="op">=</span> <span class="va">Segments2</span>,
   Im <span class="op">=</span> <span class="va">I_meta</span>,
   Mm <span class="op">=</span> <span class="va">M_meta</span>,
   G <span class="op">=</span> <span class="va">Geno</span>
@@ -964,7 +1007,7 @@ tibbles for each of those genomic permutation pedigrees.</p>
 <span class="op">)</span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="back-to-plink-format">Back to plink format<a class="anchor" aria-label="anchor" href="#back-to-plink-format"></a>
+<h2 id="to-and-from-plink-format">To and From plink Format<a class="anchor" aria-label="anchor" href="#to-and-from-plink-format"></a>
 </h2>
 <p>Now that we have illustrated the application of gscramble with this
 simple dataset and the included R objects <code>Geno</code>,
@@ -1019,22 +1062,9 @@ you could do like:</p>
 <span class="co">#&gt; [1] 100   4</span></code></pre></div>
 <p>Where, we use the <code>gz_ext = TRUE</code> option because here, our
 files are gzipped with the <code>.gz</code> extension.</p>
+<p>When it is time to write out a set of plink files, you can use
+<code><a href="../reference/gscramble2plink.html">gscramble2plink()</a></code>:</p>
 <div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-
-<span class="co"># will likely want to write the results to a directory in your</span>
-<span class="co"># home directory somewhere, like `prefix = ~/my_stuff/gscram-sim-1`, etc.</span>
-<span class="va">tfile</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span><span class="op">)</span>
-<span class="fu"><a href="../reference/gscramble2plink.html">gscramble2plink</a></span><span class="op">(</span>
-  I_meta <span class="op">=</span> <span class="va">Markers</span><span class="op">$</span><span class="va">ret_ids</span>,
-  M_meta <span class="op">=</span> <span class="va">M_meta</span>,
-  Geno <span class="op">=</span> <span class="va">Markers</span><span class="op">$</span><span class="va">ret_geno</span>,
-  prefix <span class="op">=</span> <span class="va">tfile</span>
-<span class="op">)</span>
-<span class="co">#&gt; pedfile written to /var/folders/xg/mz_qt7q54yv_hwzvhskwx2c00000gp/T//RtmpjJioDA/file14bc76c84ece0.ped</span>
-<span class="co">#&gt; mapfile written to /var/folders/xg/mz_qt7q54yv_hwzvhskwx2c00000gp/T//RtmpjJioDA/file14bc76c84ece0.map</span>
-<span class="co">#&gt; [1] TRUE</span></code></pre></div>
-<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># note, we are only using a temporary file here for the output</span>
 <span class="co"># because this is in the vignette of an R package.  You, yourself,</span>
 <span class="co"># will likely want to write the results to a directory in your</span>
@@ -1046,8 +1076,8 @@ files are gzipped with the <code>.gz</code> extension.</p>
   Geno <span class="op">=</span> <span class="va">Markers</span><span class="op">$</span><span class="va">ret_geno</span>,
   prefix <span class="op">=</span> <span class="va">tfile</span>
 <span class="op">)</span>
-<span class="co">#&gt; pedfile written to /var/folders/xg/mz_qt7q54yv_hwzvhskwx2c00000gp/T//RtmpjJioDA/file14bc75853fcb0.ped</span>
-<span class="co">#&gt; mapfile written to /var/folders/xg/mz_qt7q54yv_hwzvhskwx2c00000gp/T//RtmpjJioDA/file14bc75853fcb0.map</span>
+<span class="co">#&gt; pedfile written to /var/folders/xg/mz_qt7q54yv_hwzvhskwx2c00000gp/T//RtmpQYrWgm/file73b83a86ab6a.ped</span>
+<span class="co">#&gt; mapfile written to /var/folders/xg/mz_qt7q54yv_hwzvhskwx2c00000gp/T//RtmpQYrWgm/file73b83a86ab6a.map</span>
 <span class="co">#&gt; [1] TRUE</span></code></pre></div>
 </div>
   </div>

@@ -8,11 +8,11 @@
 A tibble
 }
 \source{
-Tim made it up!
+Created by the developers.
 }
 \description{
 This has 3 founders
 }
 \details{
-Need to document it a little more....
+For details on the columns, see the documentation for \code{\link{GSP}}.
 }

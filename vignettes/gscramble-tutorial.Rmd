@@ -1,5 +1,5 @@
 ---
-title: "A WORKING first tutorial for `gscramble`"
+title: "A first tutorial for `gscramble`"
 resource_files:
   - ../man/figures/F1-500.png
   - ../man/figures/13.svg
@@ -9,7 +9,7 @@ output:
   rmarkdown::html_vignette:
     toc: true
 vignette: >
-  %\VignetteIndexEntry{A WORKING first tutorial for `gscramble`}
+  %\VignetteIndexEntry{A first tutorial for `gscramble`}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -404,9 +404,22 @@ populations ("A", "B", etc.) correspond to the different groups (from the `group
 `I_meta`) in your genotype data set; thus, the `RepPop` serves to translate/align your `I_meta` with your `GSP`.
 
 Because it is quite likely that you might wish to iterate the segregation procedure multiple
-times in a single simulation, you can specify that by doing multiple replicates of the
-procedure as defined in the `index` column (1:nReplicates). (Note that the `index` column
-must be of type integer).
+times in a single simulation---each time assigning new genetic material to the founders
+of the pedigree---you can specify that by doing multiple replicates of the
+procedure as defined in the `index` column. The `index` column
+must be of type integer, and it must include all values from 1 up to the number of
+simulation replicates desired.  Rows with the same value, $i$, say, of `index` give the desired
+mappings from founding pops ("A", "B", etc) in the GSP to different groups in the
+genotype data for the $i^{\mathrm{th}}$ replicates of the simulation.
+
+Each different replicate is made by drawing genetic material _without replacement_
+from the genotypes (`Geno` in the example data) and placing that genetic material
+into the founders of the GSP.  Sampling of alleles from the haplotypes within
+Geno into the founders of the GSP is always done without replacement within the
+specification of a particular RepPop.  (Thus, for example, if you have indexes from
+1 to 20, with each one mapping three A founders to individuals in Pop1 and four B
+founders to individuals in Pop2, then you will need to have genotypes from at least $20\times 3$
+individuals in Pop1 and $20\times 4$ individuals in Pop2).
 
 An example might help.  Suppose that we wish to do a simulation with the pedigree in `GSP` (13 individuals,
 6 of which are founders: 3 from population "A" and 3 from population "B").  For the first replicate (`index` = 1), we might want
@@ -453,7 +466,8 @@ list column named `gpp`, which holds the genomic permutation pedigrees,
 and a parallel column named `reppop`, which holds the RepPop tibbles for each 
 of those genomic permutation pedigrees.  
 
-But, let's start simple, specifying only a reasonably simple genomic permutation pedigrees (gspComplex) and a `RepPop` tibble
+But, let's start simple, specifying only a reasonably simple genomic
+permutation pedigree (gspComplex) and a `RepPop` tibble
 with Pop1 as the focal group (in backcrosses), hybridizing with Pop2.  The tools
 described below are not that interesting for the most simplistic GSP (gspF1) in that 
 the simulation of F1s does not provide the opportunity to illustrate recombination.

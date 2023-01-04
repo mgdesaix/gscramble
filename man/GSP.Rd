@@ -3,16 +3,46 @@
 \docType{data}
 \name{GSP}
 \alias{GSP}
-\title{Tibble holding specification for a 13 member genomic simulation pedigree}
+\title{Example Genomic Simulation Pedigree (GSP) with 13 members}
 \format{
 A tibble
 }
 \source{
-I just made it up!
+Created by the developers.
 }
 \description{
-The CSV version of this is in \code{extdata/13-member-ped.csv}.
+A GSP is a pedigree with no inbreeding which specifies
+This is a relatively complex GSP.  The tibble \code{GSP} specifies its
+structure using the following columns:
+\itemize{
+\item \code{ind}: the numeric identifier for the individual specific to the row
+(we will call that the "focal individual").
+\item \code{par1}: numeric identifier of the first parent of the focal individual.
+Must be NA for pedigree founders.
+\item \code{par2}: numeric identifier of the second parent of the focal individual.
+Must be NA for pedigree founders.
+\item \code{ipar1}: the number of gametes that will be incoming from the first parent
+to the focal individual. Must be NA for pedigree founders. Note that this
+must be equal to \code{ipar2}.
+\item \code{ipar2}: the number of gametes that will be incoming from the second parent
+to the focal individual. Must be NA for pedigree founders. Note that this
+must be equal to \code{ipar1}.
+\item \code{hap1}: character name for the first haplotype of a founder (if the focal
+individual is a founder).  Must be NA for pedigree non-founders.
+\item \code{hap2}: character name for the second haplotype of a founder (if the focal
+individual is a founder).  Must be NA for pedigree non-founders.
+\item \code{hpop1}: character ID of the population from which haplotype 1 comes from.
+Must be NA for pedigree non-founders.
+\item \code{hpop2}: character ID of the population from which haplotype 2 comes from.
+Must be NA for pedigree non-founders.
+\item \code{sample}: character ID for the sample from the focal individual. NA if no samples
+are taken from the focal individual, and must be NA for any pedigree founders.
+\item \code{osample}: numeric value giving the number or samples that are taken from this
+individual.  \code{osample} must be less than or equal to \code{ipar1} and \code{ipar2}. If
+\code{osample} is less than \code{ipar1} and \code{ipar2}, then some gametes must get passed
+on to descendants of the focal individual.
+}
 }
 \details{
-Need to document it a little more....
+The CSV version of this is in \code{extdata/13-member-ped.csv}.
 }

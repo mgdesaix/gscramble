@@ -35,7 +35,7 @@ of segments down through the pedigrees"><!-- mathjax --><script src="https://cdn
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu"><li>
-      <a href="../articles/gscramble-tutorial.html">A WORKING first tutorial for `gscramble`</a>
+      <a href="../articles/gscramble-tutorial.html">A first tutorial for `gscramble`</a>
     </li>
     <li>
       <a href="../articles/about-createGSP.html">Pedigrees Available from create_GSP()</a>
@@ -97,8 +97,9 @@ the levels of a chrom_f column so that we can sort the rows of the output
 correctly, with respect to markers in the Genotype data frame.  This will
 let us more efficiently subscript the markers out of the matrix. If MM is
 not present, then the function will create <code>chrom_f</code> by using the
-order of the chromosomes from RR.
-<code><a href="RecRates.html">RecRates</a></code></p></dd>
+order of the chromosomes from RR. If MM is not NULL, then the function
+will also check to make sure that the markers are within the extent of the
+recombination rate bins, giving an error otherwise.</p></dd>
 
 </dl></div>
     <div id="value">
@@ -134,7 +135,7 @@ can all, eventually, be accessed easily out of the genotype matrix.</p>
 <span class="r-in"><span class="co"># labelled "grp1", "grp2", and "grp3", and we want to create the F1Bs with backcrossing</span></span>
 <span class="r-in"><span class="co"># only to grp3.</span></span>
 <span class="r-in"><span class="va">reppop</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span></span>
-<span class="r-in">    index <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">2</span><span class="op">)</span>,</span>
+<span class="r-in">    index <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/integer.html" class="external-link">as.integer</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span>,</span>
 <span class="r-in">    pop <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"A"</span>, <span class="st">"B"</span><span class="op">)</span>,</span>
 <span class="r-in">    group <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"grp3"</span>, <span class="st">"grp1"</span>, <span class="st">"grp3"</span>, <span class="st">"grp2"</span><span class="op">)</span></span>
 <span class="r-in"><span class="op">)</span></span>
@@ -154,7 +155,7 @@ can all, eventually, be accessed easily out of the genotype matrix.</p>
 <span class="r-in"><span class="va">result1</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 52 × 14</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    chrom_f   gpp index chrom ped_sample_id samp_index gamete_index</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> 12          1     1 12    4                      1            1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> 17          1     1 17    4                      1            1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> 18          1     1 18    4                      1            1</span>
@@ -172,7 +173,7 @@ can all, eventually, be accessed easily out of the genotype matrix.</p>
 <span class="r-in"><span class="va">result2</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 48 × 14</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    chrom_f   gpp index chrom ped_sample_id samp_index gamete_index</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> 12          1     1 12    4                      1            1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> 17          1     1 17    4                      1            1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> 18          1     1 18    4                      1            1</span>

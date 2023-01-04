@@ -8,7 +8,7 @@
 A tibble
 }
 \source{
-I just made it up!
+Created by the developers.
 }
 \description{
 This has 4 founders, each one from a different population, and it provides
@@ -16,5 +16,5 @@ four samples that are the product of F1 matings (an A x B F1 crossing with
 a C x D F1.)
 }
 \details{
-Need to document it a little more....
+For details on the columns, see the documentation for \code{\link{GSP}}.
 }

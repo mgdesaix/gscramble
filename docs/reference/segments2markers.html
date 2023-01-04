@@ -32,7 +32,7 @@
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu"><li>
-      <a href="../articles/gscramble-tutorial.html">A WORKING first tutorial for `gscramble`</a>
+      <a href="../articles/gscramble-tutorial.html">A first tutorial for `gscramble`</a>
     </li>
     <li>
       <a href="../articles/about-createGSP.html">Pedigrees Available from create_GSP()</a>
@@ -98,7 +98,7 @@ and L is the number of markers.</p></dd>
 <span class="r-in"><span class="co"># labelled "Pop1", "Pop2", and "Pop3", and we want to create the F1Bs with backcrossing</span></span>
 <span class="r-in"><span class="co"># only to Pop3.</span></span>
 <span class="r-in"><span class="va">reppop</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span></span>
-<span class="r-in">    index <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">2</span><span class="op">)</span>,</span>
+<span class="r-in">    index <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/integer.html" class="external-link">as.integer</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span>,</span>
 <span class="r-in">    pop <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"A"</span>, <span class="st">"B"</span><span class="op">)</span>,</span>
 <span class="r-in">    group <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Pop3"</span>, <span class="st">"Pop1"</span>, <span class="st">"Pop3"</span>, <span class="st">"Pop2"</span><span class="op">)</span></span>
 <span class="r-in"><span class="op">)</span></span>

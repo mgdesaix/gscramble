@@ -64,6 +64,9 @@
     <loc>https://eriqande.github.io/gscramble/reference/check_pedigree_for_inbreeding.html</loc>
   </url>
   <url>
+    <loc>https://eriqande.github.io/gscramble/reference/check_rec_rates_formatting.html</loc>
+  </url>
+  <url>
     <loc>https://eriqande.github.io/gscramble/reference/check_reppop.html</loc>
   </url>
   <url>
@@ -77,6 +80,9 @@
   </url>
   <url>
     <loc>https://eriqande.github.io/gscramble/reference/drop_segs_down_gsp.html</loc>
+  </url>
+  <url>
+    <loc>https://eriqande.github.io/gscramble/reference/example_chrom_lengths.html</loc>
   </url>
   <url>
     <loc>https://eriqande.github.io/gscramble/reference/example_segments.html</loc>
@@ -110,6 +116,9 @@
   </url>
   <url>
     <loc>https://eriqande.github.io/gscramble/reference/plink2gscramble.html</loc>
+  </url>
+  <url>
+    <loc>https://eriqande.github.io/gscramble/reference/plink_map2rec_rates.html</loc>
   </url>
   <url>
     <loc>https://eriqande.github.io/gscramble/reference/plot_simulated_chromomsome_segments.html</loc>

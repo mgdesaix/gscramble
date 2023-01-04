@@ -12,6 +12,6 @@ Written by package authors Rachael and Tim
 }
 \description{
 This is a list that is used by the function \code{createGSP()}.  There are 15
-different genomic permutation pedigrees, specified as tibbles, in this
+different genomic simulation pedigrees, specified as tibbles, in this
 list.
 }

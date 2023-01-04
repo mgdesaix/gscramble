@@ -30,13 +30,13 @@ reference:
 - contents:
   - plink2gscramble
   - gscramble2plink
+  - plink_map2rec_rates
 - title: "Functions for checking the formatting and validity of inputs"
   desc: >
     These functions, some of which are used internally by other functions,
     can let the user check to see if their inputs are OK.
 - contents:
   - check_chrom_lengths
-  - check_sampleID
   - check_gsp_for_validity_and_saturation
   - check_pedigree_for_inbreeding
   - check_reppop
@@ -56,6 +56,7 @@ reference:
   - GSP_opts
   - example_segments
   - gsp3
+  - example_chrom_lengths
 - title: "Low-level functions"
   desc: >
     These are functions that are not intended for use by the general

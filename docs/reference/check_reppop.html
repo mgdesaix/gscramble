@@ -36,7 +36,7 @@ three columns with the names ('index','pop', and 'group'), that the class of eac
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu"><li>
-      <a href="../articles/gscramble-tutorial.html">A WORKING first tutorial for `gscramble`</a>
+      <a href="../articles/gscramble-tutorial.html">A first tutorial for `gscramble`</a>
     </li>
     <li>
       <a href="../articles/about-createGSP.html">Pedigrees Available from create_GSP()</a>
@@ -65,7 +65,7 @@ three columns with the names ('index','pop', and 'group'), that the class of eac
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">check_reppop</span><span class="op">(</span><span class="va">reppop</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">check_reppop</span><span class="op">(</span><span class="va">reppop</span>, <span class="va">request_idx</span><span class="op">)</span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -73,6 +73,10 @@ three columns with the names ('index','pop', and 'group'), that the class of eac
     <dl><dt>reppop</dt>
 <dd><p>a tibble with the information used to define how individuals among groups combine to form
 hybrids. It must consist of the columns (index, pop, group).</p></dd>
+
+
+<dt>request_idx</dt>
+<dd><p>The index of the request</p></dd>
 
 </dl></div>
     <div id="value">
@@ -83,16 +87,6 @@ hybrids. It must consist of the columns (index, pop, group).</p></dd>
 a message will be returned stating that the reppop is formatted properly.</p>
     </div>
 
-    <div id="ref-examples">
-    <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># The example uses the built in dataset RepPop1</span></span>
-<span class="r-in"><span class="co"># to use the check_reppop function</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu">check_reppop</span><span class="op">(</span><span class="va">RepPop1</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Your RepPop is formatted correctly and is ready to go!"</span>
-<span class="r-in"></span>
-</code></pre></div>
-    </div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top"><h2 data-toc-skip>Contents</h2>

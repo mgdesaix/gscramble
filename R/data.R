@@ -89,13 +89,42 @@ NULL
 
 
 
-#' Tibble holding specification for a 13 member genomic simulation pedigree
+#' Example Genomic Simulation Pedigree (GSP) with 13 members
+#'
+#' A GSP is a pedigree with no inbreeding which specifies
+#' This is a relatively complex GSP.  The tibble `GSP` specifies its
+#' structure using the following columns:
+#' - `ind`: the numeric identifier for the individual specific to the row
+#'   (we will call that the "focal individual").
+#' - `par1`: numeric identifier of the first parent of the focal individual.
+#'    Must be NA for pedigree founders.
+#' - `par2`: numeric identifier of the second parent of the focal individual.
+#'    Must be NA for pedigree founders.
+#' - `ipar1`: the number of gametes that will be incoming from the first parent
+#'    to the focal individual. Must be NA for pedigree founders. Note that this
+#'    must be equal to `ipar2`.
+#' - `ipar2`: the number of gametes that will be incoming from the second parent
+#'    to the focal individual. Must be NA for pedigree founders. Note that this
+#'    must be equal to `ipar1`.
+#' - `hap1`: character name for the first haplotype of a founder (if the focal
+#'    individual is a founder).  Must be NA for pedigree non-founders.
+#' - `hap2`: character name for the second haplotype of a founder (if the focal
+#'    individual is a founder).  Must be NA for pedigree non-founders.
+#' - `hpop1`: character ID of the population from which haplotype 1 comes from.
+#'    Must be NA for pedigree non-founders.
+#' - `hpop2`: character ID of the population from which haplotype 2 comes from.
+#'    Must be NA for pedigree non-founders.
+#' - `sample`: character ID for the sample from the focal individual. NA if no samples
+#'    are taken from the focal individual, and must be NA for any pedigree founders.
+#' - `osample`: numeric value giving the number or samples that are taken from this
+#'    individual.  `osample` must be less than or equal to `ipar1` and `ipar2`. If
+#'    `osample` is less than `ipar1` and `ipar2`, then some gametes must get passed
+#'    on to descendants of the focal individual.
 #'
 #' The CSV version of this is in `extdata/13-member-ped.csv`.
 #'
-#' Need to document it a little more....
 #' @format A tibble
-#' @source I just made it up!
+#' @source Created by the developers.
 #' @docType data
 #' @name GSP
 NULL
@@ -107,9 +136,9 @@ NULL
 #' four samples that are the product of F1 matings (an A x B F1 crossing with
 #' a C x D F1.)
 #'
-#' Need to document it a little more....
+#' For details on the columns, see the documentation for \code{\link{GSP}}.
 #' @format A tibble
-#' @source I just made it up!
+#' @source Created by the developers.
 #' @docType data
 #' @name gsp4
 NULL
@@ -118,9 +147,9 @@ NULL
 #'
 #' This has 3 founders
 #'
-#' Need to document it a little more....
+#' For details on the columns, see the documentation for \code{\link{GSP}}.
 #' @format A tibble
-#' @source Tim made it up!
+#' @source Created by the developers.
 #' @docType data
 #' @name gsp3
 NULL
@@ -128,7 +157,7 @@ NULL
 #' A list of tibbles specifying the pedigrees available from `createGSP()`
 #'
 #' This is a list that is used by the function `createGSP()`.  There are 15
-#' different genomic permutation pedigrees, specified as tibbles, in this
+#' different genomic simulation pedigrees, specified as tibbles, in this
 #' list.
 #'
 #' @format A list of 15 tibbles
@@ -139,25 +168,46 @@ NULL
 
 
 
-#' A reppop tibble for an example
+#' A simple example of a reppop table
 #'
-#' Needs more explanation
-#' @format A tibble...
-#' @source eric
+#' A `reppop` table in gscramble is used to define how the founder populations
+#' in a GSP (typically named something like "A", "B", etc.) are mapped to the
+#' groups/populations of individuals, as specified in the individual meta data
+#' (an example of which is found in `I_meta`).
+#'
+#' This particular version shows a situation where individuals from group Pop1 will be
+#' sampled as founders from A and from group Pop2 will be sampled as founders from
+#' B into the GSP.  Since this `RepPop1` example has two values of index: 1 and 2,
+#' it specifies that individuals from the populations will be sampled without replacment,
+#' two times into the founders on the pedigree.
+#' @format A tibble with three columns: `index`, which must be of type integer,
+#' `pop`, and `group` of type character.
+#' @source The developers created this.
 #' @docType data
 #' @name RepPop1
 NULL
 
 
-#' A reppop tibble for an example
+#' Another simple example of a reppop table
 #'
-#' Needs more explanation
-#' @format A tibble...
-#' @source eric
+#' A `reppop` table in gscramble is used to define how the founder populations
+#' in a GSP (typically named something like "A", "B", etc.) are mapped to the
+#' groups/populations of individuals, as specified in the individual meta data
+#' (an example of which is found in `I_meta`).
+#'
+#' This particular version shows a situation where individuals from four different
+#' groups (Pop1, Pop2, Pop3, and Pop4) get mapped to four different founder groups
+#' (A, B, C, D) in the GSP.
+#' Since this `RepPop4` example has three values of index: 1, 2, and 3,
+#' it specifies that there will be three rounds of sampling of individuals
+#' from the populations to be the founders on the pedigree.  That will be done
+#' entirely without replacement (individuals are not replaced after each round!)
+#' @format A tibble with three columns: `index`, which must be of type integer,
+#' `pop`, and `group` of type character.
+#' @source The developers created this.
 #' @docType data
 #' @name RepPop4
 NULL
-
 
 
 

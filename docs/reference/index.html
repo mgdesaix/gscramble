@@ -32,7 +32,7 @@
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu"><li>
-      <a href="../articles/gscramble-tutorial.html">A WORKING first tutorial for `gscramble`</a>
+      <a href="../articles/gscramble-tutorial.html">A first tutorial for `gscramble`</a>
     </li>
     <li>
       <a href="../articles/about-createGSP.html">Pedigrees Available from create_GSP()</a>
@@ -94,6 +94,10 @@
           <p><code><a href="gscramble2plink.html">gscramble2plink()</a></code> </p>
         </td>
         <td><p>Write gscramble I_meta, M_meta, and Geno to a plink file</p></td>
+      </tr><tr><td>
+          <p><code><a href="plink_map2rec_rates.html">plink_map2rec_rates()</a></code> </p>
+        </td>
+        <td><p>Convert a PLINK map file to gscramble RecRates bins in a tibble</p></td>
       </tr></tbody><tbody><tr><th colspan="2">
           <h2 id="functions-for-checking-the-formatting-and-validity-of-inputs">Functions for checking the formatting and validity of inputs <a href="#functions-for-checking-the-formatting-and-validity-of-inputs" class="anchor" aria-hidden="true"></a></h2>
           <p class="section-desc"></p><p>These functions, some of which are used internally by other functions, can let the user check to see if their inputs are OK.</p>
@@ -102,10 +106,6 @@
           <p><code><a href="check_chrom_lengths.html">check_chrom_lengths()</a></code> </p>
         </td>
         <td><p>check that the chromosome lengths are acceptable given recombination rates</p></td>
-      </tr><tr><td>
-          <p><code><a href="check_sampleID.html">check_sampleID()</a></code> </p>
-        </td>
-        <td><p>Check that individual IDs are in the same order in the genotype and the individual metadata tibbles.</p></td>
       </tr><tr><td>
           <p><code><a href="check_gsp_for_validity_and_saturation.html">check_gsp_for_validity_and_saturation()</a></code> </p>
         </td>
@@ -145,15 +145,15 @@
       </tr><tr><td>
           <p><code><a href="GSP.html">GSP</a></code> </p>
         </td>
-        <td><p>Tibble holding specification for a 13 member genomic simulation pedigree</p></td>
+        <td><p>Example Genomic Simulation Pedigree (GSP) with 13 members</p></td>
       </tr><tr><td>
           <p><code><a href="RepPop1.html">RepPop1</a></code> </p>
         </td>
-        <td><p>A reppop tibble for an example</p></td>
+        <td><p>A simple example of a reppop table</p></td>
       </tr><tr><td>
           <p><code><a href="RepPop4.html">RepPop4</a></code> </p>
         </td>
-        <td><p>A reppop tibble for an example</p></td>
+        <td><p>Another simple example of a reppop table</p></td>
       </tr><tr><td>
           <p><code><a href="GSP_opts.html">GSP_opts</a></code> </p>
         </td>
@@ -166,6 +166,10 @@
           <p><code><a href="gsp3.html">gsp3</a></code> </p>
         </td>
         <td><p>Tibble holding specification for a 5 member genomic permutation pedigree.</p></td>
+      </tr><tr><td>
+          <p><code><a href="example_chrom_lengths.html">example_chrom_lengths</a></code> </p>
+        </td>
+        <td><p>Lengths of the three chromosomes used in the example data set</p></td>
       </tr></tbody><tbody><tr><th colspan="2">
           <h2 id="low-level-functions">Low-level functions <a href="#low-level-functions" class="anchor" aria-hidden="true"></a></h2>
           <p class="section-desc"></p><p>These are functions that are not intended for use by the general user, but they are included in the documentation for the interest of developers and they are exported in the package to help with debugging and development.</p>

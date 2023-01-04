@@ -3,13 +3,26 @@
 \docType{data}
 \name{RepPop4}
 \alias{RepPop4}
-\title{A reppop tibble for an example}
+\title{Another simple example of a reppop table}
 \format{
-A tibble...
+A tibble with three columns: \code{index}, which must be of type integer,
+\code{pop}, and \code{group} of type character.
 }
 \source{
-eric
+The developers created this.
 }
 \description{
-Needs more explanation
+A \code{reppop} table in gscramble is used to define how the founder populations
+in a GSP (typically named something like "A", "B", etc.) are mapped to the
+groups/populations of individuals, as specified in the individual meta data
+(an example of which is found in \code{I_meta}).
+}
+\details{
+This particular version shows a situation where individuals from four different
+groups (Pop1, Pop2, Pop3, and Pop4) get mapped to four different founder groups
+(A, B, C, D) in the GSP.
+Since this \code{RepPop4} example has three values of index: 1, 2, and 3,
+it specifies that there will be three rounds of sampling of individuals
+from the populations to be the founders on the pedigree.  That will be done
+entirely without replacement (individuals are not replaced after each round!)
 }
