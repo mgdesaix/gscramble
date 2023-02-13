@@ -9,6 +9,11 @@ gscramble
 
 This is an R package under development.
 
+We are pretty much done with it and just need to update this README.
+
+You can read the documentation for it at:
+<https://eriqande.github.io/gscramble/>
+
 You can install in from GitHub:
 
 ``` r
