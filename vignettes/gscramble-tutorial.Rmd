@@ -222,11 +222,10 @@ To try to explain the GSP concept more fully, we will first draw a picture of th
 most basic pedigree (the simulation of F1s created through the hybridization of 
 individuals from two populations).  We then show the tibble representation of that
 same GSP and discuss the structure of a GSP in light of those two pieces of information.
-```{r, fig.align='center', out.width='50%', echo = FALSE}
+```{r, fig.align='center', out.width='50%', echo = FALSE, fig.cap="**A Simple GSP.** Here we have a pedigree with  diploid founder '1', who is formed by the union of two gametes from Population A, and diploid founder '2' with two gametes from Population B. Founder '1' and founder '2' then pass 2 gametes (red 2's) for the formation of 2 individuals represented by their descendant 'box 3'. The pink hexagon 's3' then represents the samples taken from 'box 3' with the pink 2 used to indicate the number of diploid individuals sampled."}
 knitr::include_graphics("../man/figures/F1-500.png")
 ```
 
-`Figure Description:` Here we have a pedigree with  diploid founder '1', who is formed by the union of two gametes from Population A, and diploid founder '2' with two gametes from Population B. Founder '1' and founder '2' then pass 2 gametes (red 2's) for the formation of 2 individuals represented by their descendant 'box 3'. The pink hexagon 's3' then represents the samples taken from 'box 3' with the pink 2 used to indicate the number of diploid individuals.       
 
 
 Let's develop this basic example of simulating F1 hybrids.  The first step would be to define the GSP in which we are describing sources as ‘p1’ and ‘p2’, and then we will need an associated `RepPop` to represent the two
