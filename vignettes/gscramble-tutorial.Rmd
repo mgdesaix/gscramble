@@ -35,11 +35,11 @@ in the future) into these necessary objects for `gscramble`.
 
 The main required objects (loosely aligning with .bed/.fam/.bim file structure of binary PLINK files) are:
 
-1. A matrix of genotype data (`Geno` as example data included with the package)
-2. A tibble of meta data about the individuals in the genotype data (`I_meta`)
-3. A tibble of meta data about the markers in the genotype data (`M_meta`)
+1. A matrix of genotype data (the `Geno` object included with the package as example data)
+2. A tibble of meta data about the individuals in the genotype data (`I_meta` as example data)
+3. A tibble of meta data about the markers in the genotype data (`M_meta` as example data)
 
-On top of those, if you want to simulate hybrid individuals according to a pedigree, you will need
+In addition to these objects, if you want to simulate hybrid individuals according to a pedigree, you will need
 to provide:
 
 4. A tibble that describes the rates of genetic recombination along the chromosomes (`RecRates`)
@@ -47,9 +47,9 @@ to provide:
 6. A tibble that translates the population specifiers in the pedigree (i.e., `GSP`) with the population/group labels associated with the genetic data (i.e., `I_meta`) for different hybridization replicates (`RepPop`)
 
 Examples of these objects (which have been heavily downsampled to make them small enough to host on CRAN) illustrating 78 individuals genotyped at 100 loci distributed across 3 chromosomes (chr 12, 17, & 18) and sampled from 4 groups (Pop1, 2, 3, 4) from a data set of invasive feral swine, 
-are included as data objects with the package. The full data set, from
+are included as data objects with the package (`Geno`, `I_meta`, and `M_meta`). The full data set, from
 which the package data were downsampled, was used
-in Smyser et al. (2020), and is available at https://datadryad.org/stash/dataset/doi:10.5061%2Fdryad.jsxksn05z
+in Smyser et al. (2020), and is available at https://datadryad.org/stash/dataset/doi:10.5061%2Fdryad.jsxksn05z.
 
 
 
@@ -67,8 +67,8 @@ is the first allele at the second locus for the first individual, and so on.
 The names/IDs of the individuals must be included as the the rownames of the
 matrix of genotypes.
 
-Here is an example of data on the first 6 loci in the first 4 individuals from the
-package data `Geno`:
+Here is an example of the first 6 loci for the first 4 individuals from the
+data included with the package as `Geno`:
 ```{r}
 Geno[1:4, 1:12]
 ```
@@ -84,7 +84,7 @@ storage.mode(IntMat) <- "character"
 ```
 
 Missing genotype data must be denoted by the standard R missing-data
-specifier, `NA`.  Don't go around calling missing data `"-1"` and expect
+specifier, `NA`.  Don't specify missing data as `"-1"` and expect
 it to work properly!  Change those `"-1"`'s to `NA`s, or they will be 
 regarded as an allelic type, rather than as missing data. If you do have missing data
 that are denoted as `"-1"`, for example, then you can change all those `"-1"`'s to `NA`s using the following:
@@ -99,7 +99,7 @@ nothing.
 ### Individual meta data. `I_meta`
 
 This is a tibble that gives information about the individuals whose genotypes
-are in `Geno`.  This can have many different columns if you want to have them,
+are in `Geno`.  This can have as many different columns as you want,
 but there must be at least two columns:
 
 * `group`: a column that gives the character name of the group/cluster/population
@@ -110,7 +110,7 @@ The number of rows of this tibble should be exactly equal to the number
 of rows on `Geno` _and_ the order of individuals in `I_meta` must correspond
 exactly to the order of individuals in `Geno`.
 
-Here is what the first few rows of the example data's `I_meta` look like:
+Here is what the first few rows from the example data `I_meta` look like:
 ```{r}
 head(I_meta)
 ```
@@ -130,7 +130,7 @@ the names of the chromosomes in `RecRates` (see next section).
 (typically in base pairs, but it could be in arbitrary units that correspond to position 
 units in `RecRates`), along the chromosome. These position values must be greater than 0.
 * `variant_id`: a character vector of unique ID names for the markers. These should be
-globally unique, i.e., don't have two markers on different chromosomes that are named the same
+globally unique, i.e., there CANNOT be two or more markers, even on different chromosomes, that are named the same
 thing.
 
 There must be exactly half as many rows in `M_meta` as there are columns in `Geno`, and the 
@@ -155,9 +155,8 @@ example, one megabase or less) bins. `RecRates` is a tibble which is required to
 
 * `chrom`: the chromosome on which the bin occurs. Note that the chromosome nomenclature
 must match exactly that used in `M_meta`.
-* `chrom_len`: the length of the chromosome. Yes, the value for each chromosome will typically
-be duplicated on each 
-row occupied by that `chrom`.
+* `chrom_len`: the length of the chromosome. Yes, the value for each chromosome will be the 
+same for each marker/row associated with a given `chrom`.
 * `start_pos`: the starting position of the bin.  This will typically be a position along the
 chromosome in base pairs, though this position can be in some other units, so long as it corresponds
 to the position used in `M_meta`.
@@ -226,6 +225,9 @@ same GSP and discuss the structure of a GSP in light of those two pieces of info
 ```{r, fig.align='center', out.width='50%', echo = FALSE}
 knitr::include_graphics("../man/figures/F1-500.png")
 ```
+
+`Figure Description:` Here we have a pedigree with  diploid founder '1', who is formed by the union of two gametes from Population A, and diploid founder '2' with two gametes from Population B. Founder '1' and founder '2' then pass 2 gametes (red 2's) for the formation of 2 individuals represented by their descendant 'box 3'. The pink hexagon 's3' then represents the samples taken from 'box 3' with the pink 2 used to indicate the number of diploid individuals.       
+
 
 Let's develop this basic example of simulating F1 hybrids.  The first step would be to define the GSP in which we are describing sources as ‘p1’ and ‘p2’, and then we will need an associated `RepPop` to represent the two
 different populations the founders belong to.    
@@ -342,7 +344,7 @@ The package data object `GSP` shows an example of a genome simulation pedigree w
 knitr::include_graphics("../man/figures/13-member-ped.svg")
 ```
 
-You can produce this type of plot using the `gsp2dot()` function
+Note, you can produce this type of plot using the `gsp2dot()` function
 in the 'gscramble' package, as follows, but it requires the installation of the GraphViz `dot` software.
 
 ```{r eval=FALSE}
@@ -403,7 +405,7 @@ with columns `index`, `pop`, `group`, to indicate which of the founding
 populations ("A", "B", etc.) correspond to the different groups (from the `group` column in, for example,
 `I_meta`) in your genotype data set; thus, the `RepPop` serves to translate/align your `I_meta` with your `GSP`.
 
-Because it is quite likely that you might wish to iterate the segregation procedure multiple
+If you wish to iterate the segregation procedure multiple
 times in a single simulation---each time assigning new genetic material to the founders
 of the pedigree---you can specify that by doing multiple replicates of the
 procedure as defined in the `index` column. The `index` column
@@ -424,9 +426,9 @@ individuals in Pop1 and $20\times 4$ individuals in Pop2).
 An example might help.  Suppose that we wish to do a simulation with the pedigree in `GSP` (13 individuals,
 6 of which are founders: 3 from population "A" and 3 from population "B").  For the first replicate (`index` = 1), we might want
 to map "A" to Pop1 and "B" to Pop2, and in the second replicate (`index` = 2) we might want to map "A" to Pop4, and "B" to
-Pop 3.  (Note, at this point, genetic material from 3 individuals from each of those populations will have
+Pop 3.  Note, at this point, genetic material from 3 individuals from each of those populations will have
 been "consumed" from each of these populations and segregated, without replacement, into the samples from the
-genomic simulation pedigree.)
+genomic simulation pedigree.
 
 
 The `RepPop` tibble that would specify this is given in the package variable `RepPop1`:
@@ -448,7 +450,7 @@ Note that this request will consume one individual from each of populations 1, 2
 
 ## Segregating Chunks of Genome Without Replacement
 
-Now that we have been through all the input data formats, we can
+Now that we have been through all of the input data formats, we can
 use them to segregate chunks of chromosome.  Note that this first part
 does not require genotypes.  We are just simulating the process by which big chunks 
 of chromosomes drop through the pedigrees. The function used for this
@@ -516,7 +518,7 @@ Segments
 ```
 
 The table is a little wide, so we will show the first half of the columns and then 
-the second half here.
+the second half.
 
 First half
 
@@ -540,7 +542,7 @@ Let's glance at the gspComplex (also illustrated above):
 knitr::include_graphics("../man/figures/13.svg")
 ```
 
-We have a convenience function called `plot_simulated_chromosome_segments()` that
+For convenience, we built a function called `plot_simulated_chromosome_segments()` that
 let's you quickly visualize the results. Let's try it here.  By adding the RecRates
 to the function call, we get little sparklines showing us the recombination rates across the
 chromosomes.
@@ -577,9 +579,9 @@ The input to `segments2markers()` is:
 
 * A tibble of segments, like that returned from `segments()`.  We could use the variable
 `Segments` defined above in this vignette example, but we will re-run the `segregate()`
-step, here, explicitly including the marker meta data. (This is helpful because it
+step, here, explicitly including the marker meta data. This is helpful because it
 re-orders chromosomes, if necessary, and checks that all the markers are included
-within the bounds of the recombination rate bins).
+within the bounds of the recombination rate bins.
 * The individual meta data,
 * The marker meta data,
 * The genotype data.
@@ -731,7 +733,7 @@ dim(plinkIN$M_meta)
 ```
 
 Or, if you want to just pass the prefix to the ped and the map files, you
-could do like:
+could use:
 ```{r}
 prefix <- system.file("extdata/example-plink.map.gz", package = "gscramble")
 prefix <- str_replace(prefix, "\\.map\\.gz", "")
@@ -741,7 +743,7 @@ dim(plinkPRE$Geno)
 dim(plinkPRE$I_meta)
 dim(plinkPRE$M_meta)
 ```
-Where, we use the `gz_ext = TRUE` option because here, our files are gzipped with the `.gz` extension.
+Here, we use the `gz_ext = TRUE` option because our files are gzipped with the `.gz` extension.
 
 
 When it is time to write out a set of plink files, you can use
