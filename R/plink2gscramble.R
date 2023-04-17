@@ -68,7 +68,7 @@ plink2gscramble <- function(ped = NULL, map = NULL, prefix = NULL, gz_ext = FALS
 
 
   # read the map file
-  maptib <- readr::read_tsv(
+  maptib <- readr::read_table(
     map,
     col_names = c("chrom", "variant_id", "link_pos", "pos"),
     col_types = "ccnn"
