@@ -92,7 +92,7 @@ plink_map2rec_rates <- function(
       start_pos = lag(bp + 1, default = 1),
       end_pos = bp,
       rec_prob = morgans - lag(morgans, default = 0),
-      chrom_len = max(bp) - 1
+      chrom_len = max(bp)
     ) %>%
     ungroup() %>%
     select(chrom, chrom_len, start_pos, end_pos, rec_prob) %>%
