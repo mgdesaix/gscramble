@@ -4,7 +4,7 @@
 \alias{segments2markers}
 \title{Map alleles from scrambled founders to the sampled segments from a GSP.}
 \usage{
-segments2markers(Segs, Im, Mm, G)
+segments2markers(Segs, Im, Mm, G, initial_scramble)
 }
 \arguments{
 \item{Segs}{the simulated segments. A tibble like that returned from
@@ -20,7 +20,10 @@ with columns \code{chrom}, \code{pos}, and \code{variant_id}.}
 a character matrix.  Each row is an individual, and each pair of columns are the
 alleles at a locus.  Thus it is N x 2L where N is the number of individuals
 and L is the number of markers.}
+
+\item{initial_scramble}{A logical of whether genotypes are initially scrambled prior to running through the pedigree. Default = TRUE}
 }
+
 \description{
 Map alleles from scrambled founders to the sampled segments from a GSP.
 }
