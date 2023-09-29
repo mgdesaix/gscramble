@@ -10,8 +10,8 @@
 #' a character matrix.  Each row is an individual, and each pair of columns are the
 #' alleles at a locus.  Thus it is N x 2L where N is the number of individuals
 #' and L is the number of markers.
-#' @param initial_scramble A logical of whether genotypes are initially
-#' scrambled prior to running through the pedigree. Default = TRUE
+#' @param preserve_haplotypes A logical of whether haplotypes are preserved. Default = FALSE
+#' @param preserve_individuals A logical of whether individuals genotypes are preserved (not scrambled). Default = FALSE
 #' @export
 #' @examples
 #' #### First, get input segments for the function ####
@@ -44,7 +44,7 @@
 #' # this uses several package data objects that are there for examples
 #' # and illustration.
 #' s2m_result <- segments2markers(segs, I_meta, M_meta, Geno)
-segments2markers <- function(Segs, Im, Mm, G, initial_scramble=TRUE) {
+segments2markers <- function(Segs, Im, Mm, G, preserve_haplotypes = FALSE, preserve_individuals = FALSE) {
 
 
   # first off, make sure that the request makes sense in terms of
@@ -74,14 +74,12 @@ segments2markers <- function(Segs, Im, Mm, G, initial_scramble=TRUE) {
   # compute the true Q values for the ped-sampled individuals
   trueQs <- computeQs_from_segments(Segs)
 
-  if(initial_scramble == TRUE){
-    # scramble by pops
-    GS <- perm_gs_by_pops(GS_input)
-  } else{
+  # scramble by pops
+  GS <- perm_gs_by_pops(GS_input, preserve_haplotypes = preserve_haplotypes, preserve_individuals = preserve_individuals)
+
     # do this if TEMPORARILY NOT-SCRAMBLING WHILE TESTING
-    GS <- GS_input
-    GS$G_permed <- list(GS$G[[1]])
-  }
+    # GS <- GS_input
+    # GS$G_permed <- list(GS$G[[1]])
 
   # join so that we have the absolute columns of the founders
   Segs2 <- GS$I[[1]] %>%
